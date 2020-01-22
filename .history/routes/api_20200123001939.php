@@ -24,7 +24,6 @@ Route::post('/register' , 'Api\AuthController@register');
 
 
 Route::middleware('auth:api')->group(function () {
-    
     //Role
     Route::resource('role', 'Api\RoleController');
 });

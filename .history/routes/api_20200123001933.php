@@ -19,12 +19,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Login
 Route::post('/login' , 'Api\AuthController@login');
-//Register
-Route::post('/register' , 'Api\AuthController@register');
 
 
 Route::middleware('auth:api')->group(function () {
     
+
     //Role
     Route::resource('role', 'Api\RoleController');
 });
