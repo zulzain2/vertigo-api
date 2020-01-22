@@ -99,7 +99,7 @@ class RoleController extends Controller
         }
         else
         {
-            return response(['status' => 'OK' , 'message' => 'No role delete']);
+            return response(['status' => 'OK' , 'message' => 'Successfully delete role']);
         }
 
         

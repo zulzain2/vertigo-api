@@ -97,10 +97,6 @@ class RoleController extends Controller
             $role->delete();
             return response(['status' => 'OK' , 'message' => 'Successfully delete role']);
         }
-        else
-        {
-            return response(['status' => 'OK' , 'message' => 'No role delete']);
-        }
 
         
     }
