@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\User;
-use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -20,17 +19,11 @@ class AuthController extends Controller
         ]);
 
         $register = New User;
-        $register->id = Uuid::uuid4()->getHex();
-        $id_user = $register->id;
         $register->name = $request->name;
         $register->email = $request->email;
         $register->password = bcrypt($request->password);
         $register->id_role = $request->id_role;
-        $register->created_by = auth()->user()->id;
-        $register->status = 1;
-        $register->save();
-
-        $user = User::find($id_user);
+        
 
         $accessToken = $user->createToken('authToken')->accessToken;
 

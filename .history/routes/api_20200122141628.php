@@ -17,15 +17,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Login
+
 Route::post('/login' , 'Api\AuthController@login');
 
 
 Route::middleware('auth:api')->group(function () {
-    //Register
     Route::post('/register' , 'Api\AuthController@register');
-
-    //Role
     Route::resource('role', 'Api\RoleController');
 });
 

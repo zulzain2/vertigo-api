@@ -11,8 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
-    protected $table = 'users';
+    protected $table = 'roles';
     public $incrementing = FALSE;
+    
 
     /**
      * The attributes that are mass assignable.

@@ -27,10 +27,10 @@ class AuthController extends Controller
         $register->password = bcrypt($request->password);
         $register->id_role = $request->id_role;
         $register->created_by = auth()->user()->id;
-        $register->status = 1;
+        $register->status = 'Enable';
         $register->save();
 
-        $user = User::find($id_user);
+        $user = User::find();
 
         $accessToken = $user->createToken('authToken')->accessToken;
 
