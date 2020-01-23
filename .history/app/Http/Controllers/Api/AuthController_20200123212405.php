@@ -36,8 +36,6 @@ class AuthController extends Controller
 
         // return response(['user' => $user , 'access_token' => $accessToken]);
 
-        return response(['status' => 'OK' , 'user' => $user]);
-
     }
 
     public function login(Request $request)
