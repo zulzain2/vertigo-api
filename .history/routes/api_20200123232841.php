@@ -28,8 +28,5 @@ Route::middleware('auth:api')->group(function () {
     //Role
     Route::resource('role', 'Api\RoleController');
     //Equipment
-    Route::resource('equipment', 'Api\EquipmentController');
-    //Transport
-    Route::resource('transport', 'Api\TransportController');
 });
 

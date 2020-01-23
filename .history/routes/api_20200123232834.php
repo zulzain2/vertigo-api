@@ -27,9 +27,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/register' , 'Api\AuthController@register');
     //Role
     Route::resource('role', 'Api\RoleController');
-    //Equipment
-    Route::resource('equipment', 'Api\EquipmentController');
-    //Transport
-    Route::resource('transport', 'Api\TransportController');
+    /
 });
 

@@ -30,6 +30,6 @@ Route::middleware('auth:api')->group(function () {
     //Equipment
     Route::resource('equipment', 'Api\EquipmentController');
     //Transport
-    Route::resource('transport', 'Api\TransportController');
+    Route::resource('transport', 'Api\RoleController');
 });
 
