@@ -14,7 +14,7 @@ class EquipmentController extends Controller
      */
     public function index()
     {
-        return response(['status' => 'OK' , 'message' => 'Success']);
+        return response(['status' => 'OK' , 'message' => 'Successfully create role']);
     }
 
     /**
