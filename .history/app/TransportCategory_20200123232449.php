@@ -5,10 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Transport extends Model
+class TransportCategory extends Model
 {
     use Notifiable;
-    protected $table = 'transports';
+    protected $table = 'transport_categories';
     public $incrementing = FALSE;
 
     public function transportcategory() {

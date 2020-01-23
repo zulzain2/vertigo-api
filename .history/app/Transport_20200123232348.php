@@ -11,7 +11,7 @@ class Transport extends Model
     protected $table = 'transports';
     public $incrementing = FALSE;
 
-    public function transportcategory() {
-        return $this->hasOne('App\TransportCategory', 'id', 'id_trans_category');
+    public function user() {
+        return $this->hasMany('App\User', 'id_role', 'id');
     }
 }

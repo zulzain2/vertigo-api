@@ -12,6 +12,6 @@ class Transport extends Model
     public $incrementing = FALSE;
 
     public function transportcategory() {
-        return $this->hasOne('App\TransportCategory', 'id', 'id_trans_category');
+        return $this->hasOne('App\TransportCategory', 'id_role', 'id');
     }
 }
