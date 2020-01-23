@@ -17,7 +17,8 @@ class UserController extends Controller
     {
         $users = User::all();
 
-            return response(['status' => 'OK' , 'users' => $users]);
+        if
+        return response(['status' => 'OK' , 'users' => $users]);
     }
 
     /**
@@ -41,7 +42,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        return response(['status' => 'OK' , 'user' => $user]);  
+        return response(['status' => 'OK' , 'user' => $user]);
     }
 
     /**
@@ -53,11 +54,9 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $update = User::find($id);
-
         $request->validate([
             'name'=>'required',
-            'email'=>'email|required|unique:users,email,'.$update->id,
+            'email'=>'email|required|unique:users',
             'password'=>'required|confirmed',
             'id_role' => 'required',
         ]);

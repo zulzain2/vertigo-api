@@ -18,8 +18,15 @@ class RoleController extends Controller
     {
         $roles = Role::all();
 
-            return response(['status' => 'OK' , 'roles' => $roles]);
-    
+        if()
+        {
+
+        }
+        else
+        {
+            
+        }
+        return response(['roles' => $roles]);
     }
 
     /**

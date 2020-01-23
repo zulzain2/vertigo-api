@@ -19,7 +19,8 @@ class RoleController extends Controller
         $roles = Role::all();
 
             return response(['status' => 'OK' , 'roles' => $roles]);
-    
+        
+        
     }
 
     /**
