@@ -78,9 +78,9 @@ class EquipmentController extends Controller
      */
     public function show($id)
     {
-        $equipment = Equipment::find($id);
+        $equipments = Equipment::all();
 
-        return response(['status' => 'OK' , 'equipment' => $equipment]);
+        return response(['status' => 'OK' , 'equipments' => $equipments]);
     }
 
     /**
