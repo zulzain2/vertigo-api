@@ -32,15 +32,11 @@ class EquipmentController extends Controller
     {
         $request->validate([
             'name'                  => 'required',
-            'img'                   => 'image|max:1999',   
+            'img'                   => 'required|image|max:1999',   
             'tag_number'            => 'required', 
             'description'           => 'required', 
             'id_equip_category'     => 'required',
         ]);
-
-        $equipment = New Equipment;
-        $equipment->id = Uuid::uuid4()->getHex();
-        $equipment->name = $request->name;
 
         // Handle File Upload
         if($request->hasFile('img')){
@@ -51,19 +47,22 @@ class EquipmentController extends Controller
             // Get just ext
             $extension = $request->file('img')->getClientOriginalExtension();
             // Filename to store
-            $fileNameToStore= $equipment->id.'_'.time().'.'.$extension;
+            $fileNameToStore= $filename.'_'.time().'.'.$extension;
             // Upload Image
             $request->file('img')->storeAs('public/equipments', $fileNameToStore);
             
         } else {
-            $fileNameToStore = 'noimage_'.$equipment->id.'_'.time().'.png';
-            $img_path = public_path().'/storage/equipments/noimage_'.$equipment->id.'_'.time().'.png';
+            $fileNameToStore = 'noimage'.time().'.png';
+            $img_path = public_path().'/img/noimage'.time().'.png';
             copy(public_path().'/img/noimage.png' , $img_path);
         }
 
         //path
         $path = '/storage/equipments/'.$fileNameToStore;
-        
+
+        $equipment = New Equipment;
+        $equipment->id = Uuid::uuid4()->getHex();
+        $equipment->name = $request->name;
         $equipment->img = $fileNameToStore;
         $equipment->img_path = $path;
         $equipment->tag_number = $request->tag_number;
@@ -100,7 +99,7 @@ class EquipmentController extends Controller
     {
         $request->validate([
             'name'                  => 'required',
-            'img'                   => 'image|max:1999',   
+            'img'                   => 'required|image|max:1999',   
             'tag_number'            => 'required', 
             'description'           => 'required', 
             'id_equip_category'     => 'required',
@@ -116,7 +115,7 @@ class EquipmentController extends Controller
             // Get just ext
             $extension = $request->file('img')->getClientOriginalExtension();
             // Filename to store
-            $fileNameToStore= $equipment->id.'_'.time().'.'.$extension;
+            $fileNameToStore= $filename.'_'.time().'.'.$extension;
             // Upload Image
             $request->file('img')->storeAs('public/equipments', $fileNameToStore);
             //path
@@ -124,16 +123,6 @@ class EquipmentController extends Controller
             // Delete file if exists
             Storage::delete('public/equipments/'.$equipment->img);
         } 
-        else {
-            // Delete file if exists
-            Storage::delete('public/equipments/'.$equipment->img);
-            
-            $fileNameToStore = 'noimage_'.$equipment->id.'_'.time().'.png';
-            $img_path = public_path().'/storage/equipments/noimage_'.$equipment->id.'_'.time().'.png';
-            copy(public_path().'/img/noimage.png' , $img_path);
-        }
-
-        
 
         // Update Post
         $equipment->name = $request->name;

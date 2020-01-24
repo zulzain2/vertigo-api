@@ -100,7 +100,7 @@ class EquipmentController extends Controller
     {
         $request->validate([
             'name'                  => 'required',
-            'img'                   => 'image|max:1999',   
+            'img'                   => 'required|image|max:1999',   
             'tag_number'            => 'required', 
             'description'           => 'required', 
             'id_equip_category'     => 'required',
@@ -119,21 +119,13 @@ class EquipmentController extends Controller
             $fileNameToStore= $equipment->id.'_'.time().'.'.$extension;
             // Upload Image
             $request->file('img')->storeAs('public/equipments', $fileNameToStore);
-            //path
-            $path = '/storage/equipments/'.$fileNameToStore;
+           
             // Delete file if exists
             Storage::delete('public/equipments/'.$equipment->img);
         } 
-        else {
-            // Delete file if exists
-            Storage::delete('public/equipments/'.$equipment->img);
-            
-            $fileNameToStore = 'noimage_'.$equipment->id.'_'.time().'.png';
-            $img_path = public_path().'/storage/equipments/noimage_'.$equipment->id.'_'.time().'.png';
-            copy(public_path().'/img/noimage.png' , $img_path);
-        }
 
-        
+        //path
+        $path = '/storage/equipments/'.$fileNameToStore;
 
         // Update Post
         $equipment->name = $request->name;

@@ -125,9 +125,6 @@ class EquipmentController extends Controller
             Storage::delete('public/equipments/'.$equipment->img);
         } 
         else {
-            // Delete file if exists
-            Storage::delete('public/equipments/'.$equipment->img);
-            
             $fileNameToStore = 'noimage_'.$equipment->id.'_'.time().'.png';
             $img_path = public_path().'/storage/equipments/noimage_'.$equipment->id.'_'.time().'.png';
             copy(public_path().'/img/noimage.png' , $img_path);
