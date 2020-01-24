@@ -6,7 +6,6 @@ use App\Equipment;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 
 class EquipmentController extends Controller
 {
@@ -53,7 +52,7 @@ class EquipmentController extends Controller
             //path
             $path = '/storage/equipments/'.$fileNameToStore;
         } else {
-            $fileNameToStore = 'noimage.png';
+            $fileNameToStore = 'noimage.jpg';
         }
 
         $equipment = New Equipment;
@@ -117,7 +116,7 @@ class EquipmentController extends Controller
             //path
             $path = '/storage/equipments/'.$fileNameToStore;
             // Delete file if exists
-            Storage::delete('public/equipments/'.$equipment->img);
+            Storage::delete('public/cover_images/'.$equipment->img);
         } 
 
         // Update Post
@@ -144,20 +143,22 @@ class EquipmentController extends Controller
      */
     public function destroy($id)
     {
-        $equipment = Equipment::find($id);
+        $post = Post::find($id);
         
-        //Check if equipment exists before deleting
-        if (!isset($equipment)){
-            return response(['status' => 'OK' , 'message' => 'No equipment found']);
+        //Check if post exists before deleting
+        if (!isset($post)){
+            return redirect('/posts')->with('error', 'No Post Found');
         }
-    
-        if($equipment->img != 'noimage.png'){
+        // Check for correct user
+        if(auth()->user()->id !==$post->user_id){
+            return redirect('/posts')->with('error', 'Unauthorized Page');
+        }
+        if($post->cover_image != 'noimage.jpg'){
             // Delete Image
-            Storage::delete('public/equipments/'.$equipment->img);
+            Storage::delete('public/cover_images/'.$post->cover_image);
         }
         
-        $equipment->delete();
+        $post->delete();
      
-        return response(['status' => 'OK' , 'message' => 'Success delete equipment']);
     }
 }

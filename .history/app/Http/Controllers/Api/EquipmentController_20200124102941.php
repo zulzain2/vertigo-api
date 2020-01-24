@@ -158,6 +158,6 @@ class EquipmentController extends Controller
         
         $equipment->delete();
      
-        return response(['status' => 'OK' , 'message' => 'Success delete equipment']);
+        return response(['status' => 'OK' , 'message' => 'Equipment deleted']);
     }
 }

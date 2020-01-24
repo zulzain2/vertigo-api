@@ -6,7 +6,6 @@ use App\Equipment;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 
 class EquipmentController extends Controller
 {
@@ -53,7 +52,7 @@ class EquipmentController extends Controller
             //path
             $path = '/storage/equipments/'.$fileNameToStore;
         } else {
-            $fileNameToStore = 'noimage.png';
+            $fileNameToStore = 'noimage.jpg';
         }
 
         $equipment = New Equipment;
@@ -117,15 +116,21 @@ class EquipmentController extends Controller
             //path
             $path = '/storage/equipments/'.$fileNameToStore;
             // Delete file if exists
-            Storage::delete('public/equipments/'.$equipment->img);
+            Storage::delete('public/cover_images/'.$equipment->img);
         } 
+// Update Post
+$post->title = $request->input('title');
+$post->body = $request->input('body');
+if($request->hasFile('cover_image')){
+    $post->cover_image = $fileNameToStore;
+}
+$post->save();
 
-        // Update Post
+       
+        $equipment->id = Uuid::uuid4()->getHex();
         $equipment->name = $request->name;
-        if($request->hasFile('img')){
-            $equipment->img = $fileNameToStore;
-            $equipment->img_path = $path;
-        }
+        $equipment->img = $fileNameToStore;
+        $equipment->img_path = $path;
         $equipment->tag_number = $request->tag_number;
         $equipment->description = $request->description;
         $equipment->id_equip_category = $request->id_equip_category;
@@ -133,7 +138,7 @@ class EquipmentController extends Controller
         $equipment->created_by = auth()->user()->id;
         $equipment->save();
 
-        return response(['status' => 'OK' , 'message' => 'Successfully update equipment']);
+        return response(['status' => 'OK' , 'message' => 'Successfully create equipment']);
     }
 
     /**
@@ -144,20 +149,6 @@ class EquipmentController extends Controller
      */
     public function destroy($id)
     {
-        $equipment = Equipment::find($id);
-        
-        //Check if equipment exists before deleting
-        if (!isset($equipment)){
-            return response(['status' => 'OK' , 'message' => 'No equipment found']);
-        }
-    
-        if($equipment->img != 'noimage.png'){
-            // Delete Image
-            Storage::delete('public/equipments/'.$equipment->img);
-        }
-        
-        $equipment->delete();
-     
-        return response(['status' => 'OK' , 'message' => 'Success delete equipment']);
+        //
     }
 }

@@ -117,7 +117,7 @@ class EquipmentController extends Controller
             //path
             $path = '/storage/equipments/'.$fileNameToStore;
             // Delete file if exists
-            Storage::delete('public/equipments/'.$equipment->img);
+            Storage::delete('public/cover_images/'.$equipment->img);
         } 
 
         // Update Post
@@ -158,6 +158,6 @@ class EquipmentController extends Controller
         
         $equipment->delete();
      
-        return response(['status' => 'OK' , 'message' => 'Success delete equipment']);
+        return response(['status' => 'OK' , 'message' => 'Equipment deleted']);
     }
 }
