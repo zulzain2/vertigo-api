@@ -130,7 +130,7 @@ class EquipmentController extends Controller
 
             $fileNameToStore = 'noimage_'.$equipment->id.'_'.time().'.png';
             $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'equipments'.DIRECTORY_SEPARATOR.'noimage_'.$equipment->id.'_'.time().'.png';
-            copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
+            copy(public_path().'/img/noimage.png' , $img_path);
         }
 
         
@@ -168,7 +168,7 @@ class EquipmentController extends Controller
     
         if($equipment->img != 'noimage.png'){
             // Delete Image
-            Storage::delete('public'.DIRECTORY_SEPARATOR.'equipments'.DIRECTORY_SEPARATOR.''.$equipment->img);
+            Storage::delete('public/equipments/'.$equipment->img);
         }
         
         $equipment->delete();

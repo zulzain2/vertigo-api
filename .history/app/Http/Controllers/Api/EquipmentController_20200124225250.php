@@ -168,7 +168,7 @@ class EquipmentController extends Controller
     
         if($equipment->img != 'noimage.png'){
             // Delete Image
-            Storage::delete('public'.DIRECTORY_SEPARATOR.'equipments'.DIRECTORY_SEPARATOR.''.$equipment->img);
+            Storage::delete('public'.DIRECTORY_SEPARATOR.'equipments'''.$equipment->img);
         }
         
         $equipment->delete();

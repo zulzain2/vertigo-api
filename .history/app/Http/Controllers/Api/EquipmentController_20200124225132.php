@@ -118,19 +118,19 @@ class EquipmentController extends Controller
             // Filename to store
             $fileNameToStore= $equipment->id.'_'.time().'.'.$extension;
             // Upload Image
-            $request->file('img')->storeAs('public'.DIRECTORY_SEPARATOR.'equipments', $fileNameToStore);
+            $request->file('img')->storeAs('public''equipments', $fileNameToStore);
             //path
-            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'equipments'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            $path = '/storage/equipments/'.$fileNameToStore;
             // Delete file if exists
-            Storage::delete('public'.DIRECTORY_SEPARATOR.'equipments'.DIRECTORY_SEPARATOR.''.$equipment->img);
+            Storage::delete('public/equipments/'.$equipment->img);
         } 
         else {
             // Delete file if exists
-            Storage::delete('public'.DIRECTORY_SEPARATOR.'equipments'.DIRECTORY_SEPARATOR.''.$equipment->img);
+            Storage::delete('public/equipments/'.$equipment->img);
 
             $fileNameToStore = 'noimage_'.$equipment->id.'_'.time().'.png';
-            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'equipments'.DIRECTORY_SEPARATOR.'noimage_'.$equipment->id.'_'.time().'.png';
-            copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
+            $img_path = public_path().'/storage/equipments/noimage_'.$equipment->id.'_'.time().'.png';
+            copy(public_path().'/img/noimage.png' , $img_path);
         }
 
         
@@ -168,7 +168,7 @@ class EquipmentController extends Controller
     
         if($equipment->img != 'noimage.png'){
             // Delete Image
-            Storage::delete('public'.DIRECTORY_SEPARATOR.'equipments'.DIRECTORY_SEPARATOR.''.$equipment->img);
+            Storage::delete('public/equipments/'.$equipment->img);
         }
         
         $equipment->delete();
