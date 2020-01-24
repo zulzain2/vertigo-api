@@ -80,7 +80,7 @@ class EquipmentController extends Controller
     {
         $equipment = Equipment::find($id);
 
-        return response()->json(['status' => 'OK' , 'equipment' => $equipment]);
+        return response()->(['status' => 'OK' , 'equipment' => $equipment]);
     }
 
     /**
