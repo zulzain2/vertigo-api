@@ -88,7 +88,7 @@ class EquipmentController extends Controller
 
         // return response()->json(['status' => 'OK' , 'equipment' => $equipment]);
 
-        return view('equipment')
+        return view('auditplan.show')
         ->with(compact('equipment'));  
     }
 

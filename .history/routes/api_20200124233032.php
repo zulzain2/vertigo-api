@@ -16,8 +16,7 @@ use Illuminate\Http\Request;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-//Equipment
-Route::resource('equipment', 'Api\EquipmentController');
+
 //Login
 Route::post('/login' , 'Api\AuthController@login');
 
@@ -28,7 +27,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/register' , 'Api\AuthController@register');
     //Role
     Route::resource('role', 'Api\RoleController');
-    
+    //Equipment
+    Route::resource('equipment', 'Api\EquipmentController');
     //Transport
     Route::resource('transport', 'Api\TransportController');
 });

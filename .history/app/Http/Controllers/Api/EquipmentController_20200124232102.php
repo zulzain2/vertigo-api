@@ -87,9 +87,6 @@ class EquipmentController extends Controller
         $equipment = Equipment::find($id);
 
         // return response()->json(['status' => 'OK' , 'equipment' => $equipment]);
-
-        return view('equipment')
-        ->with(compact('equipment'));  
     }
 
     /**
