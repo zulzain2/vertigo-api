@@ -53,12 +53,12 @@ class EquipmentController extends Controller
             // Filename to store
             $fileNameToStore= $equipment->id.'_'.time().'.'.$extension;
             // Upload Image
-            $request->file('img')->storeAs('public'.DIRECTORY_SEPARATOR.'equipments', $fileNameToStore);
+            $request->file('img')->storeAs('public/equipments', $fileNameToStore);
             
         } else {
             $fileNameToStore = 'noimage_'.$equipment->id.'_'.time().'.png';
-            $img_path = public_path().''.DIRECTORY_SEPARATOR.'/storage/equipments/noimage_'.$equipment->id.'_'.time().'.png';
-            copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
+            $img_path = public_path().'/storage/equipments/noimage_'.$equipment->id.'_'.time().'.png';
+            copy(public_path().''.DIREC1TORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
         }
 
         //path

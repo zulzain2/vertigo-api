@@ -53,7 +53,7 @@ class EquipmentController extends Controller
             // Filename to store
             $fileNameToStore= $equipment->id.'_'.time().'.'.$extension;
             // Upload Image
-            $request->file('img')->storeAs('public'.DIRECTORY_SEPARATOR.'equipments', $fileNameToStore);
+            $request->file('img')->storeAs('public''equipments', $fileNameToStore);
             
         } else {
             $fileNameToStore = 'noimage_'.$equipment->id.'_'.time().'.png';
