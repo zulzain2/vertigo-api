@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Role;
-use Ramsey\Uuid\Uuid;
+use App\Equipment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class RoleController extends Controller
+class EquipmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +15,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
+        $equipments = Equipment::all();
 
-        return response(['status' => 'OK' , 'roles' => $roles]);
-    
+        return response(['status' => 'OK' , 'equipments' => $equipments]);
     }
 
     /**
@@ -31,13 +29,16 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'role_name'             => 'required',
-            'role_level'            => 'required',    
+            'name'             => 'required',
+            'img'              => 'required|image',   
+            'tag_number'             => 'required', 
+            'description'             => 'required', 
+            'name'             => 'required',
         ]);
 
         $role = New Role;
         $role->id = Uuid::uuid4()->getHex();
-        $role->name = $request->role_name;
+        $role->name = $request->name;
         $role->level = $request->role_level;
         $role->status = 'enable';
         $role->created_by = auth()->user()->id;
@@ -54,9 +55,7 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        $roles = Role::find($id);
-
-        return response(['status' => 'OK' , 'roles' => $roles]);
+        //
     }
 
     /**
@@ -68,19 +67,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-      
-        $request->validate([
-            'role_name'             => 'required',
-            'role_level'            => 'required',    
-        ]);
-
-        $role = Role::find($id);
-        $role->name = $request->role_name;
-        $role->level = $request->role_level;
-        $role->updated_by = auth()->user()->id;
-        $role->save();
-
-        return response(['status' => 'OK' , 'message' => 'Successfully update role']);
+        //
     }
 
     /**
@@ -91,18 +78,6 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        $role = Role::find($id);
-
-        if($role)
-        {
-            $role->delete();
-            return response(['status' => 'OK' , 'message' => 'Successfully delete role']);
-        }
-        else
-        {
-            return response(['status' => 'OK' , 'message' => 'No role delete']);
-        }
-
-        
+        //
     }
 }

@@ -50,7 +50,7 @@ class EquipmentController extends Controller
             // Upload Image
             $request->file('img')->storeAs('public/equipments', $fileNameToStore);
             //path
-            $path = '/storage/equipments/'.$fileNameToStore;
+            $path = 'storage/equipments/'.$fileNameToStore;
         } else {
             $fileNameToStore = 'noimage.jpg';
         }

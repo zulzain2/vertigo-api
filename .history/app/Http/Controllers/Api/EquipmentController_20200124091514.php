@@ -48,9 +48,8 @@ class EquipmentController extends Controller
             // Filename to store
             $fileNameToStore= $filename.'_'.time().'.'.$extension;
             // Upload Image
-            $request->file('img')->storeAs('public/equipments', $fileNameToStore);
-            //path
-            $path = '/storage/equipments/'.$fileNameToStore;
+            $path = $request->file('img')->storeAs('public/equipments', $fileNameToStore);
+            dd($path);
         } else {
             $fileNameToStore = 'noimage.jpg';
         }
@@ -59,7 +58,6 @@ class EquipmentController extends Controller
         $equipment->id = Uuid::uuid4()->getHex();
         $equipment->name = $request->name;
         $equipment->img = $fileNameToStore;
-        $equipment->img_path = $path;
         $equipment->tag_number = $request->tag_number;
         $equipment->description = $request->description;
         $equipment->id_equip_category = $request->id_equip_category;

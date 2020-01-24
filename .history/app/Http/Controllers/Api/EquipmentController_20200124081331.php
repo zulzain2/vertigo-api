@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Equipment;
-use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -31,35 +30,15 @@ class EquipmentController extends Controller
     {
         $request->validate([
             'name'                  => 'required',
-            'img'                   => 'required|image|max:1999',   
+            'img'                   => 'required|image',   
             'tag_number'            => 'required', 
             'description'           => 'required', 
             'id_equip_category'     => 'required',
         ]);
 
-        // Handle File Upload
-        if($request->hasFile('img')){
-            // Get filename with the extension
-            $filenameWithExt = $request->file('img')->getClientOriginalName();
-            // Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just ext
-            $extension = $request->file('img')->getClientOriginalExtension();
-            // Filename to store
-            $fileNameToStore= $filename.'_'.time().'.'.$extension;
-            // Upload Image
-            $request->file('img')->storeAs('public/equipments', $fileNameToStore);
-            //path
-            $path = '/storage/equipments/'.$fileNameToStore;
-        } else {
-            $fileNameToStore = 'noimage.jpg';
-        }
-
         $equipment = New Equipment;
         $equipment->id = Uuid::uuid4()->getHex();
         $equipment->name = $request->name;
-        $equipment->img = $fileNameToStore;
-        $equipment->img_path = $path;
         $equipment->tag_number = $request->tag_number;
         $equipment->description = $request->description;
         $equipment->id_equip_category = $request->id_equip_category;
@@ -67,7 +46,7 @@ class EquipmentController extends Controller
         $equipment->created_by = auth()->user()->id;
         $equipment->save();
 
-        return response(['status' => 'OK' , 'message' => 'Successfully create equipment']);
+        return response(['status' => 'OK' , 'message' => 'Successfully create role']);
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Equipment;
-use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -48,9 +47,7 @@ class EquipmentController extends Controller
             // Filename to store
             $fileNameToStore= $filename.'_'.time().'.'.$extension;
             // Upload Image
-            $request->file('img')->storeAs('public/equipments', $fileNameToStore);
-            //path
-            $path = '/storage/equipments/'.$fileNameToStore;
+            $path = $request->file('img')->storeAs('public/equipment', $fileNameToStore);
         } else {
             $fileNameToStore = 'noimage.jpg';
         }
@@ -58,11 +55,10 @@ class EquipmentController extends Controller
         $equipment = New Equipment;
         $equipment->id = Uuid::uuid4()->getHex();
         $equipment->name = $request->name;
-        $equipment->img = $fileNameToStore;
-        $equipment->img_path = $path;
         $equipment->tag_number = $request->tag_number;
         $equipment->description = $request->description;
         $equipment->id_equip_category = $request->id_equip_category;
+        $equipment->img = $fileNameToStore;
         $equipment->status = 'enable';
         $equipment->created_by = auth()->user()->id;
         $equipment->save();

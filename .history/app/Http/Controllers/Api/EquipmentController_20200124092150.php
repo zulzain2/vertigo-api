@@ -48,9 +48,7 @@ class EquipmentController extends Controller
             // Filename to store
             $fileNameToStore= $filename.'_'.time().'.'.$extension;
             // Upload Image
-            $request->file('img')->storeAs('public/equipments', $fileNameToStore);
-            //path
-            $path = '/storage/equipments/'.$fileNameToStore;
+            $path = $request->file('img')->storeAs('public/equipments', $fileNameToStore);
         } else {
             $fileNameToStore = 'noimage.jpg';
         }
