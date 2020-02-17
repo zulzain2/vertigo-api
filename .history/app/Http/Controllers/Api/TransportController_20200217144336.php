@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Transport;
-use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 
 class TransportController extends Controller
 {
