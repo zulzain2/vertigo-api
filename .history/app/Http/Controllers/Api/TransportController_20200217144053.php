@@ -16,7 +16,7 @@ class TransportController extends Controller
     {
         $transports = Transport::all();
 
-        return response(['status' => 'OK' , 'transports' => $transports]);
+        return response((['status' => 'OK' , 'transport' => $transports]);
     }
 
     /**
