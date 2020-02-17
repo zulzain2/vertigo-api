@@ -54,7 +54,7 @@ class TransportController extends Controller
             
         } else {
             $fileNameToStore = 'noimage_'.$transport->id.'_'.time().'.png';
-            $img_path = public_path().''.DIRECTORY_SEPARATOR.'/storage/transports/noimage_'.$transport->id.'_'.time().'.png';
+            $img_path = public_path().''.DIRECTORY_SEPARATOR.'/storage/transports/noimage_'.$equipment->id.'_'.time().'.png';
             copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
         }
 
@@ -82,7 +82,7 @@ class TransportController extends Controller
      */
     public function show($id)
     {
-        $transport = Transport::find($id);
+        $transport = Equipment::find($id);
 
         return response()->json(['status' => 'OK' , 'transport' => $transport]);
     }
@@ -138,14 +138,14 @@ class TransportController extends Controller
             $transport->img = $fileNameToStore;
             $transport->img_path = $path;
         }
-        $transport->plate_number = $request->plate_number;
+        $transport->tag_number = $request->tag_number;
         $transport->description = $request->description;
         $transport->id_trans_category = $request->id_trans_category;
         $transport->status = 'enable';
         $transport->created_by = auth()->user()->id;
         $transport->save();
 
-        return response(['status' => 'OK' , 'message' => 'Successfully update transport']);
+        return response(['status' => 'OK' , 'message' => 'Successfully update equipment']);
     }
 
     /**
@@ -156,20 +156,6 @@ class TransportController extends Controller
      */
     public function destroy($id)
     {
-        $transport = Transport::find($id);
-        
-        //Check if transport exists before deleting
-        if (!isset($transport)){
-            return response(['status' => 'OK' , 'message' => 'No transport found']);
-        }
-    
-        if($transport->img != 'noimage.png'){
-            // Delete Image
-            Storage::delete('public'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.''.$transport->img);
-        }
-        
-        $transport->delete();
-     
-        return response(['status' => 'OK' , 'message' => 'Success delete transport']);
+        //
     }
 }

@@ -158,7 +158,7 @@ class TransportController extends Controller
     {
         $transport = Transport::find($id);
         
-        //Check if transport exists before deleting
+        //Check if equipment exists before deleting
         if (!isset($transport)){
             return response(['status' => 'OK' , 'message' => 'No transport found']);
         }

@@ -158,7 +158,7 @@ class TransportController extends Controller
     {
         $transport = Transport::find($id);
         
-        //Check if transport exists before deleting
+        //Check if equipment exists before deleting
         if (!isset($transport)){
             return response(['status' => 'OK' , 'message' => 'No transport found']);
         }
@@ -168,8 +168,8 @@ class TransportController extends Controller
             Storage::delete('public'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.''.$transport->img);
         }
         
-        $transport->delete();
+        $equipment->delete();
      
-        return response(['status' => 'OK' , 'message' => 'Success delete transport']);
+        return response(['status' => 'OK' , 'message' => 'Success delete equipment']);
     }
 }

@@ -156,20 +156,20 @@ class TransportController extends Controller
      */
     public function destroy($id)
     {
-        $transport = Transport::find($id);
+        $equipment = Equipment::find($id);
         
-        //Check if transport exists before deleting
-        if (!isset($transport)){
-            return response(['status' => 'OK' , 'message' => 'No transport found']);
+        //Check if equipment exists before deleting
+        if (!isset($equipment)){
+            return response(['status' => 'OK' , 'message' => 'No equipment found']);
         }
     
-        if($transport->img != 'noimage.png'){
+        if($equipment->img != 'noimage.png'){
             // Delete Image
-            Storage::delete('public'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.''.$transport->img);
+            Storage::delete('public'.DIRECTORY_SEPARATOR.'equipments'.DIRECTORY_SEPARATOR.''.$equipment->img);
         }
         
-        $transport->delete();
+        $equipment->delete();
      
-        return response(['status' => 'OK' , 'message' => 'Success delete transport']);
+        return response(['status' => 'OK' , 'message' => 'Success delete equipment']);
     }
 }
