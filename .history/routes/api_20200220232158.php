@@ -32,7 +32,7 @@ Route::middleware('auth:api')->group(function () {
     //Transport
     Route::resource('transport', 'Api\TransportController');
     //SAS
-    Route::post('/sas/addNewTask', 'Api\SASController@addNewTask')->name('sas.addNewTask');
+    Route::post('/sas/addNewTask', 'SASController@addNewTask')->name('sas.addNewTask');
     Route::resource('sas', 'Api\SASController');
 });
 
