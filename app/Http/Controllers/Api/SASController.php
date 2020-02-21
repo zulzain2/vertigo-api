@@ -19,7 +19,7 @@ class SASController extends Controller
      */
     public function index()
     {
-        $sas = SAS::with('SASStaffAssign.SASComment')->get();
+        $sas = SAS::with('SASStaffAssign')->get();
 
         return response(['status' => 'OK' , 'message' =>  $sas]);
         
