@@ -39,7 +39,7 @@ class SASController extends Controller
     {
         $managers = Role::where('level' , 1)->first();
         
-        $managers = $managers->user;
+      
 
         if(count($managers) != 0)
         {
@@ -163,7 +163,6 @@ class SASController extends Controller
                 $availableUsers[$i][1] = $user->name;
                 $i++;
             }
-         
         } else {
             foreach ($unavailableStaffs as $key => $unavailableStaff) {
                 foreach ($users as $key => $user) {
@@ -181,9 +180,7 @@ class SASController extends Controller
                    
                 }
             } 
-        }
-        
-           
+        }  
 
         return response(['status' => 'OK' , 'users' => $availableUsers]);
     }
