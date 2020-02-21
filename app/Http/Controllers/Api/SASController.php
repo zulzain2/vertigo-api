@@ -158,7 +158,12 @@ class SASController extends Controller
         $i = 1;
         
         if (count($unavailableStaffs) == 0) {
-            $availableUsers = $users;
+            foreach ($users as $key => $user) {
+                $availableUsers[$i][0] = $user->id;
+                $availableUsers[$i][1] = $user->name;
+                $i++;
+            }
+         
         } else {
             foreach ($unavailableStaffs as $key => $unavailableStaff) {
                 foreach ($users as $key => $user) {
