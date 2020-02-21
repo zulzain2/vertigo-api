@@ -94,4 +94,12 @@ class UserController extends Controller
             return response(['status' => 'OK' , 'message' => 'No user delete']);
         }
     }
+
+    public function getAvailableStaff()
+    {
+        $users = User::where('availability' , 1)->get();
+
+            return response(['status' => 'OK' , 'users' => $users]);
+    }
+
 }

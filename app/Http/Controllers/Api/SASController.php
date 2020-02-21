@@ -19,10 +19,9 @@ class SASController extends Controller
      */
     public function index()
     {
-        $sas = SAS::with('SASStaffAssign')->get();
+        $sas = SAS::with('SASStaffAssign.SASComment')->get();
 
-        return response(['status' => 'OK' , 'message' =>  $sas]);
-        
+        return response(['status' => 'OK' , 'message' =>  $sas]); 
     }
 
     /**
@@ -88,7 +87,7 @@ class SASController extends Controller
                     $add2->save();
                }
     
-               return response(['status' => 'OK' , 'message' => 'Successfully add new task']);
+            return response(['status' => 'OK' , 'message' => 'Successfully add new task']);
         }
         else
         {
@@ -130,4 +129,6 @@ class SASController extends Controller
     {
         //
     }
+
+    
 }
