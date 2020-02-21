@@ -22,7 +22,6 @@ Route::post('/login' , 'Api\AuthController@login');
 
 Route::middleware('auth:api')->group(function () {
     //User
-    Route::get('/user/getAvailableStaff', 'Api\UserController@getAvailableStaff')->name('user.getAvailableStaff');
     Route::resource('user', 'Api\UserController');
     //Register
     Route::post('/register' , 'Api\AuthController@register');
@@ -33,6 +32,7 @@ Route::middleware('auth:api')->group(function () {
     //Transport
     Route::resource('transport', 'Api\TransportController');
     //SAS
+    Route::get('/sas/getAvailableStaff/{date_start}/{date_end}', 'Api\SASController@getAvailableStaff')->name('sas.getAvailableStaff');
     Route::post('/sas/addNewTask', 'Api\SASController@addNewTask')->name('sas.addNewTask');
     Route::resource('sas', 'Api\SASController');
 });

@@ -78,14 +78,29 @@ class SASController extends Controller
                     $add2->id = Uuid::uuid4()->getHex();
                     $add2->id_user = $assign_staff;
                     $add2->id_sas = $add->id;
-                    $add2->start_date = date("Y-m-d", strtotime($request->start_date));
-                    $add2->start_time = date("H:i:s", strtotime($request->start_time));
-                    $add2->end_date = date("Y-m-d", strtotime($request->end_date));
-                    $add2->end_time = date("H:i:s", strtotime($request->end_time));
+                    $add2->start_date = ''.date("Y-m-d", strtotime($request->start_date)).' '.date("H:i:s", strtotime($request->start_time)).'';
+                    // $add2->start_time = date("H:i:s", strtotime($request->start_time));
+                    $add2->end_date = ''.date("Y-m-d", strtotime($request->end_date)).' '.date("H:i:s", strtotime($request->end_time)).'';
+                    // $add2->end_time = date("H:i:s", strtotime($request->end_time));
                     $add2->status = "0";
                     $add2->created_by = auth()->user()->id;
-                    $add2->save();
+                    $add2->save();  
                }
+
+            foreach ($managers as $key => $manager) {
+                $noti = New Notification;
+                $noti->id = Uuid::uuid4()->getHex();
+                $noti->to_user = $manager->id;
+                $noti->tiny_img_url = '';
+                $noti->title = '[APPROVAL] SAS : '.$add->job_number.' need approval from you.';
+                $noti->desc = 'SAS : '.$add->job_number.' need approval from you.';
+                $noti->type = 'A';
+                $noti->click_url = '';
+                $noti->send_status = 'P';
+                $noti->status = '';
+                $noti->created_by = auth()->user()->id;
+                $noti->save();
+            }
     
             return response(['status' => 'OK' , 'message' => 'Successfully add new task']);
         }
@@ -128,6 +143,39 @@ class SASController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    
+    public function getAvailableStaff($datefrom, $dateto)
+    {
+        $unavailableStaffs = SASStaffAssign::where('start_date' , $datefrom)
+        ->where('end_date' , $dateto)
+        ->get();
+
+        $availableUsers = array();
+        $users = User::all();
+        
+        $i = 1;
+        $availableUsers[$i][0] == '';
+
+        foreach ($unavailableStaffs as $key => $unavailableStaff) {
+            foreach ($users as $key => $user) {
+               if ($availableUsers[$i][0] == $user->id) {
+
+               } else {
+                        if ($unavailableStaff->id_user == $user->id) {
+                        
+                        } else {
+                            $availableUsers[$i][0] = $user->id;
+                            $availableUsers[$i][1] = $user->name;
+                            $i++;
+                        }
+               }
+               
+            }
+        }    
+
+        return response(['status' => 'OK' , 'users' => $availableUsers]);
     }
 
     

@@ -95,11 +95,5 @@ class UserController extends Controller
         }
     }
 
-    public function getAvailableStaff()
-    {
-        $users = User::where('availability' , 1)->get();
-
-            return response(['status' => 'OK' , 'users' => $users]);
-    }
 
 }
