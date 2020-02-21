@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /vendor
+.history
 .env
 .env.backup
 .phpunit.result.cache
