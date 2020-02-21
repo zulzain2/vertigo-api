@@ -35,11 +35,11 @@ class SASController extends Controller
 
     public function addNewTask(Request $request)
     {
+      
+
         $managers = Role::where('level' , 1)->first();
         
-        $managers = $managers->user;
-
-        if(count($managers) != 0)
+        if($managers)
         {
             $managers = $managers->user;
 

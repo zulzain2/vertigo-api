@@ -39,7 +39,7 @@ class SASController extends Controller
         
         $managers = $managers->user;
 
-        if(count($managers) != 0)
+        if(count($managers))
         {
             $managers = $managers->user;
 
