@@ -148,7 +148,7 @@ class SASController extends Controller
     
     public function getAvailableStaff($datefrom, $dateto)
     {
-        $unavailableStaffs = SASStaffAssign::where('start_date' , '>=' ,$datefrom)
+        $unavailableStaffs = SASStaffAssign::where('start_date' , '>=' , $datefrom)
         ->where('end_date' , '<=' , $dateto)
         ->get();
 
@@ -157,23 +157,28 @@ class SASController extends Controller
         
         $i = 1;
         
-
-        foreach ($unavailableStaffs as $key => $unavailableStaff) {
-            foreach ($users as $key => $user) {
-               if ($availableUsers[$i][0] == $user->id) {
-
-               } else {
-                        if ($unavailableStaff->id_user == $user->id) {
-                        
-                        } else {
-                            $availableUsers[$i][0] = $user->id;
-                            $availableUsers[$i][1] = $user->name;
-                            $i++;
-                        }
-               }
-               
-            }
-        }    
+        if (count($unavailableStaffs) == 0) {
+            $availableUsers = $users;
+        } else {
+            foreach ($unavailableStaffs as $key => $unavailableStaff) {
+                foreach ($users as $key => $user) {
+                   if ($availableUsers[$i][0] == $user->id) {
+    
+                   } else {
+                            if ($unavailableStaff->id_user == $user->id) {
+                            
+                            } else {
+                                $availableUsers[$i][0] = $user->id;
+                                $availableUsers[$i][1] = $user->name;
+                                $i++;
+                            }
+                   }
+                   
+                }
+            } 
+        }
+        
+           
 
         return response(['status' => 'OK' , 'users' => $availableUsers]);
     }
