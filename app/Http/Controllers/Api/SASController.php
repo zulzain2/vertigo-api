@@ -200,8 +200,8 @@ class SASController extends Controller
                 $i = 1;
                 foreach ($availableUsers as $x => $availableUser) {
                     foreach ($unavailableStaffs as $y => $unavailableStaff) {
-                        if ($unavailableStaff->id_user == $availableUser[$x][0]) {//
-                            unset($unavailableStaff[$i]);
+                        if ($unavailableStaff->id_user == $availableUser[$x][0]) {
+                            unset($availableUser[$x]);
                         } else {
                             
                         }
