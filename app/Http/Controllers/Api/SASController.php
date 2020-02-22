@@ -200,14 +200,14 @@ class SASController extends Controller
                 $i = 1;
                 foreach ($availableUsers as $x => $availableUser) {
                     foreach ($unavailableStaffs as $y => $unavailableStaff) {
-                        if(!isEmpty($availableUsers[$x][0]))
-                        {
+                     
                             if ($unavailableStaff->id_user == $availableUsers[$x][0]) {
-                                unset($availableUsers[$x]);
+                                \array_splice($availableUsers, $x, 1);
+                                
                             } else {
                                 
                             }
-                        }
+                        
                     } 
                     $i++;
                 }
