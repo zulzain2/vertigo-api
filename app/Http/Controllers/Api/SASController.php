@@ -262,7 +262,14 @@ class SASController extends Controller
 
     public function reject($id_sas)
     {
+        $sas = SAS::find($id_sas);
 
+        $sas->approval_status = 'Rejected';
+        $sas->rejected_by = auth()->user()->id;
+        $sas->updated_by = auth()->user()->id;
+        $sas->save();
+
+        return response(['status' => 'OK' , 'message' => 'Successfully reject task']);
     }
 
     
