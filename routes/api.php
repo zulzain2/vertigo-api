@@ -32,6 +32,8 @@ Route::middleware('auth:api')->group(function () {
     //Transport
     Route::resource('transport', 'Api\TransportController');
     //SAS
+    Route::get('/sas/approve/{id}', 'Api\SASController@approve')->name('sas.approve');
+    Route::get('/sas/reject/{id}', 'Api\SASController@reject')->name('sas.reject');
     Route::get('/sas/getAvailableStaff/{date_start}/{date_end}', 'Api\SASController@getAvailableStaff')->name('sas.getAvailableStaff');
     Route::post('/sas/addNewTask', 'Api\SASController@addNewTask')->name('sas.addNewTask');
     Route::resource('sas', 'Api\SASController');

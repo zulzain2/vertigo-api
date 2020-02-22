@@ -248,5 +248,22 @@ class SASController extends Controller
         return response(['status' => 'OK' , 'users' => $availableUsers]);
     }
 
+    public function approve($id_sas)
+    {
+        $sas = SAS::find($id_sas);
+
+        $sas->approval_status = 'Approved';
+        $sas->approved_by = auth()->user()->id;
+        $sas->updated_by = auth()->user()->id;
+        $sas->save();
+
+        return response(['status' => 'OK' , 'message' => 'Successfully approve task']);
+    }
+
+    public function reject($id_sas)
+    {
+
+    }
+
     
 }
