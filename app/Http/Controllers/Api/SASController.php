@@ -166,10 +166,11 @@ class SASController extends Controller
         $availableUsers = array();
         $users = User::all();
         
-        $i = 1;
-        $availableUsers[$i][0] = "";
+        
+   
         
         if (count($unavailableStaffs) == 0) {
+            $i = 1;
             foreach ($users as $key => $user) {
                 $availableUsers[$i][0] = $user->id;
                 $availableUsers[$i][1] = $user->name;
@@ -177,10 +178,9 @@ class SASController extends Controller
             }
         } else {
             foreach ($unavailableStaffs as $key => $unavailableStaff) {
+                $i = 1;
                 foreach ($users as $key => $user) {
-                   if ($availableUsers[$i][0] == $user->id) {
-    
-                   } else {
+                  
                             if ($unavailableStaff->id_user == $user->id) {
                             
                             } else {
@@ -188,7 +188,6 @@ class SASController extends Controller
                                 $availableUsers[$i][1] = $user->name;
                                 $i++;
                             }
-                   }
                    
                 }
             } 
