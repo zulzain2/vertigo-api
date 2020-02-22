@@ -166,9 +166,6 @@ class SASController extends Controller
         $availableUsers = array();
         $users = User::all();
         
-        
-   
-        
         if (count($unavailableStaffs) == 0) {
             $i = 1;
             foreach ($users as $key => $user) {
@@ -177,20 +174,44 @@ class SASController extends Controller
                 $i++;
             }
         } else {
-            foreach ($unavailableStaffs as $key => $unavailableStaff) {
+            // foreach ($unavailableStaffs as $key => $unavailableStaff) {
+            //     $i = 1;
+            //     foreach ($users as $key => $user) {
+                  
+            //                 if ($unavailableStaff->id_user == $user->id) {
+                            
+            //                 } else {
+            //                     $availableUsers[$i][0] = $user->id;
+            //                     $availableUsers[$i][1] = $user->name;
+            //                     $i++;
+            //                 }
+                   
+            //     }
+            // } 
+
+            
                 $i = 1;
                 foreach ($users as $key => $user) {
-                  
-                            if ($unavailableStaff->id_user == $user->id) {
+                    $availableUsers[$i][0] = $user->id;
+                    $availableUsers[$i][1] = $user->name;
+                    $i++;
+                } 
+
+                $i = 1;
+                foreach ($availableUsers as $key => $availableUser) {
+                    foreach ($unavailableStaffs as $key => $unavailableStaff) {
+                        if ($unavailableStaff->id_user == $availableUser->id) {
+                            unset($unavailableStaff[$i]);
+                        } else {
                             
-                            } else {
-                                $availableUsers[$i][0] = $user->id;
-                                $availableUsers[$i][1] = $user->name;
-                                $i++;
-                            }
-                   
+                        }
+                    } 
+                    $i++;
                 }
-            } 
+                
+                           
+                
+            
         }  
 
         return response(['status' => 'OK' , 'users' => $availableUsers]);
