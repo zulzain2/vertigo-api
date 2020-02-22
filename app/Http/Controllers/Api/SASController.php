@@ -220,6 +220,8 @@ class SASController extends Controller
                     unset($availableUsers[$key]);
                    }
                 }
+
+                array_values($availableUsers);
                 
                            
                 
