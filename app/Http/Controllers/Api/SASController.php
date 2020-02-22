@@ -203,7 +203,8 @@ class SASController extends Controller
                      
                             if ($unavailableStaff->id_user == $availableUsers[$x][0]) {
                                 // \array_splice($availableUsers, $x, 1);
-                                $availableUsers[$x] = '';
+                                $availableUsers[$x][0] = '';
+                                $availableUsers[$x][1] = '';
                                 
                             } else {
                                 
