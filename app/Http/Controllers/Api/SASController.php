@@ -127,7 +127,9 @@ class SASController extends Controller
      */
     public function show($id)
     {
-        $sas = SAS::with('SASStaffAssign.SASComment')->whereIn('id', $id)->get();
+        $sas = SAS::with('SASStaffAssign.SASComment');
+
+        $sas = $sas->find($id);
 
         return response(['status' => 'OK' , 'message' =>  $sas]); 
     }
