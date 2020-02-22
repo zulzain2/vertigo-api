@@ -167,6 +167,7 @@ class SASController extends Controller
         $users = User::all();
         
         $i = 1;
+        $availableUsers[$i][0] == "";
         
         if (count($unavailableStaffs) == 0) {
             foreach ($users as $key => $user) {
