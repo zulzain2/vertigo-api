@@ -221,7 +221,7 @@ class SASController extends Controller
                    }
                 }
 
-                array_values($availableUsers);
+                $availableUsers = array_values($availableUsers);
                 
                            
                 
