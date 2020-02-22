@@ -156,6 +156,9 @@ class SASController extends Controller
     
     public function getAvailableStaff($datefrom, $dateto)
     {
+
+        return response(['status' => 'OK' , 'users' => $datefrom]);
+
         $unavailableStaffs = SASStaffAssign::where('start_date' , '>=' , date('Y-m-d H:i:s' , $datefrom))
         ->where('end_date' , '<=' , date('Y-m-d H:i:s' , $dateto))
         ->sortBy('start_date')->values();
