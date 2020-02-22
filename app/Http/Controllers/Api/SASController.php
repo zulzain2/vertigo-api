@@ -139,7 +139,45 @@ class SASController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $sas = SAS::find($id);
+
+        $request->validate([
+            'start_date'        => 'required',
+            'start_time'        => 'required',
+            'end_date'          => 'required', 
+            'end_time'          => 'required', 
+            'job_number'        => 'required',
+            'job_title'         => 'required',
+            'job_description'   => 'required', 
+            'assign_staff.*'    => 'required',
+        ]);
+
+
+        $sas->job_number = $request->job_number;
+        $sas->job_title = $request->job_title;
+        $sas->job_description = $request->job_description;
+        $sas->updated_by = auth()->user()->id;
+        $sas->save();
+
+        $sasstaffassigns = $sas->sasstaffassign;
+
+        foreach ($sasstaffassigns as $key => $sasstaffassign) {
+            $sasstaffassign->delete();
+        }
+
+        foreach ($request->assign_staff as $key => $assign_staff) {
+                $add2 = New SASStaffAssign;
+                $add2->id = Uuid::uuid4()->getHex();
+                $add2->id_user = $assign_staff;
+                $add2->id_sas = $sas->id;
+                $add2->start_date = ''.date("Y-m-d", strtotime($request->start_date)).' '.date("H:i:s", strtotime($request->start_time)).'';
+                $add2->end_date = ''.date("Y-m-d", strtotime($request->end_date)).' '.date("H:i:s", strtotime($request->end_time)).'';
+                $add2->created_by = auth()->user()->id;
+                $add2->updated_by = auth()->user()->id;
+                $add2->save();  
+        }
+
+        return response(['status' => 'OK' , 'message' => 'Successfully edit task']);
     }
 
     /**
@@ -157,8 +195,6 @@ class SASController extends Controller
     public function getAvailableStaff($datefrom, $dateto)
     {
 
-        // return response(['status' => 'OK' , 'users' => date('Y-m-d H:i:s' , strtotime($datefrom))]);
-
         $unavailableStaffs = SASStaffAssign::where('start_date' , '>=' , date('Y-m-d H:i:s' , strtotime($datefrom)))
         ->where('end_date' , '<=' , date('Y-m-d H:i:s' , strtotime($dateto)))
         ->get();
@@ -174,21 +210,7 @@ class SASController extends Controller
                 $i++;
             }
         } else {
-            // foreach ($unavailableStaffs as $key => $unavailableStaff) {
-            //     $i = 1;
-            //     foreach ($users as $key => $user) {
-                  
-            //                 if ($unavailableStaff->id_user == $user->id) {
-                            
-            //                 } else {
-            //                     $availableUsers[$i][0] = $user->id;
-            //                     $availableUsers[$i][1] = $user->name;
-            //                     $i++;
-            //                 }
-                   
-            //     }
-            // } 
-
+ 
             
                 $i = 1;
                 foreach ($users as $key => $user) {
@@ -202,10 +224,8 @@ class SASController extends Controller
                     foreach ($unavailableStaffs as $y => $unavailableStaff) {
                      
                             if ($unavailableStaff->id_user == $availableUsers[$x][0]) {
-                                // \array_splice($availableUsers, $x, 1);
                                 $availableUsers[$x][0] = '';
                                 $availableUsers[$x][1] = '';
-                                
                             } else {
                                 
                             }
@@ -222,10 +242,7 @@ class SASController extends Controller
                 }
 
                 $availableUsers = array_values($availableUsers);
-                
-                           
-                
-            
+ 
         }  
 
         return response(['status' => 'OK' , 'users' => $availableUsers]);
