@@ -39,7 +39,7 @@ class SASController extends Controller
     {
         $managers = Role::where('level' , 1)->first();
         
-      
+        $managers = $managers->user;
 
         if(count($managers) != 0)
         {
@@ -79,9 +79,7 @@ class SASController extends Controller
                     $add2->id_user = $assign_staff;
                     $add2->id_sas = $add->id;
                     $add2->start_date = ''.date("Y-m-d", strtotime($request->start_date)).' '.date("H:i:s", strtotime($request->start_time)).'';
-                    // $add2->start_time = date("H:i:s", strtotime($request->start_time));
                     $add2->end_date = ''.date("Y-m-d", strtotime($request->end_date)).' '.date("H:i:s", strtotime($request->end_time)).'';
-                    // $add2->end_time = date("H:i:s", strtotime($request->end_time));
                     $add2->status = "0";
                     $add2->created_by = auth()->user()->id;
                     $add2->save();  
