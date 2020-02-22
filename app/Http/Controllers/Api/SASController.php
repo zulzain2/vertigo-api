@@ -161,7 +161,7 @@ class SASController extends Controller
 
         $unavailableStaffs = SASStaffAssign::where('start_date' , '>=' , date('Y-m-d H:i:s' , strtotime($datefrom)))
         ->where('end_date' , '<=' , date('Y-m-d H:i:s' , strtotime($dateto)))
-        ->sortBy('start_date')->values();
+        ->get();
 
         $availableUsers = array();
         $users = User::all();
