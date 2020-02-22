@@ -213,6 +213,13 @@ class SASController extends Controller
                     } 
                     $i++;
                 }
+
+                foreach ($availableUsers as $key => $availableUser) {
+                   if($availableUsers[$key][0] == '')
+                   {
+                    unset($availableUsers[$key]);
+                   }
+                }
                 
                            
                 
