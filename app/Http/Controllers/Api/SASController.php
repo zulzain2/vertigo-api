@@ -88,7 +88,7 @@ class SASController extends Controller
                         $add2->id_sas = $add->id;
                         $add2->start_date = ''.date("Y-m-d", strtotime($request->start_date)).' '.date("H:i:s", strtotime($request->start_time)).'';
                         $add2->end_date = ''.date("Y-m-d", strtotime($request->end_date)).' '.date("H:i:s", strtotime($request->end_time)).'';
-                        $add2->status = "0";
+                        $add2->status = "Created";
                         $add2->created_by = auth()->user()->id;
                         $add2->save();  
                 }
@@ -264,6 +264,10 @@ class SASController extends Controller
         $sas->save();
 
         foreach ($sas->sasstaffassign as $key => $sasstaffassign) {
+
+            $sasstaffassign->status = "Approved";
+            $sasstaffassign->save();
+
             $noti = New Notification;
             $noti->id = Uuid::uuid4()->getHex();
             $noti->to_user = $sasstaffassign->id_user;
@@ -301,6 +305,7 @@ class SASController extends Controller
     {
         $sasassignstaff = SASStaffAssign::find($id_sas_assign_staff);
 
+        $sasassignstaff->status = "Acknowledge";
         $sasassignstaff->acknowledge_status = '1';
         $sasassignstaff->updated_by = auth()->user()->id;
         $sasassignstaff->save();
@@ -318,6 +323,7 @@ class SASController extends Controller
 
         if ($request->start_task == 'Yes') 
         {
+            $sasassignstaff->status = "Task Start";
             $sasassignstaff->start_task = $request->start_task;
             $sasassignstaff->updated_by = auth()->user()->id;
             $sasassignstaff->save();
@@ -355,6 +361,7 @@ class SASController extends Controller
         $sasassignstaff = SASStaffAssign::find($id_sas_assign_staff);
         $sasassignstaff->task_progress = $request->task_progress;
         $sasassignstaff->justification_update = $request->justification_update;
+        $sasassignstaff->status = $request->task_progress;
 
         // Handle File Upload
         if($request->hasFile('img_update')){
@@ -396,6 +403,7 @@ class SASController extends Controller
 
         if ($request->finish_task == 'Yes') 
         {
+            $sasassignstaff->status = "Task Finish";
             $sasassignstaff->finish_task = $request->finish_task;
             $sasassignstaff->updated_by = auth()->user()->id;
             $sasassignstaff->save();
