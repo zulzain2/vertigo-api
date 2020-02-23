@@ -107,6 +107,8 @@ class SASController extends Controller
                     $noti->created_by = auth()->user()->id;
                     $noti->save();
                 }
+
+                //NOTIFICATION FCM
         
                 return response(['status' => 'OK' , 'message' => 'Successfully add new task']);
             }
@@ -261,6 +263,25 @@ class SASController extends Controller
         $sas->updated_by = auth()->user()->id;
         $sas->save();
 
+        foreach ($sas->sasstaffassign as $key => $sasstaffassign) {
+            $noti = New Notification;
+            $noti->id = Uuid::uuid4()->getHex();
+            $noti->to_user = $sasstaffassign->id_user;
+            $noti->tiny_img_url = '';
+            $noti->title = '[ACKNOWLEDGEMENT] SAS : '.$sas->job_number.' need acknowledgement from you.';
+            $noti->desc = 'SAS : '.$sas->job_number.' need acknowledgement from you.';
+            $noti->type = 'A';
+            $noti->click_url = '';
+            $noti->send_status = 'P';
+            $noti->status = '';
+            $noti->created_by = auth()->user()->id;
+            $noti->save();
+        }
+
+        //NOTIFICATION FCM OTS
+
+        //NOTIFICATION FCM SCHEDULE
+
         return response(['status' => 'OK' , 'message' => 'Successfully approve task']);
     }
 
@@ -285,6 +306,120 @@ class SASController extends Controller
         $sasassignstaff->save();
 
         return response(['status' => 'OK' , 'message' => 'Successfully acknowledge task']);
+    }
+
+    public function startTask(Request $request , $id_sas_assign_staff)
+    {
+        $sasassignstaff = SASStaffAssign::find($id_sas_assign_staff);
+
+        $request->validate([
+            'start_task'        => 'required',
+        ]);
+
+        if ($request->start_task == 'Yes') 
+        {
+            $sasassignstaff->start_task = $request->start_task;
+            $sasassignstaff->updated_by = auth()->user()->id;
+            $sasassignstaff->save();
+
+            return response(['status' => 'OK' , 'message' => 'Successfully start task']);
+        } 
+        elseif ($request->start_task == 'No') 
+        {
+            $request->validate([
+                'justification_start'        => 'required',
+                'start_date'                 => 'required',
+                'start_time'                 => 'required',
+            ]);
+
+            $sasassignstaff->start_task = $request->start_task;
+            $sasassignstaff->start_date = ''.date("Y-m-d", strtotime($request->start_date)).' '.date("H:i:s", strtotime($request->start_time)).'';
+            $sasassignstaff->updated_by = auth()->user()->id;
+            $sasassignstaff->save();
+
+            //NOTIFICATION FCM SCHEDULE
+
+            return response(['status' => 'OK' , 'message' => 'Successfully extend start task']);
+        }
+
+    }
+
+    public function updateProgress(Request $request , $id_sas_assign_staff)
+    {
+        $request->validate([
+            'task_progress'             => 'required',
+            'justification_update'      => 'required',
+            'img_update'                => 'image|max:1999', 
+        ]);
+
+        $sasassignstaff = SASStaffAssign::find($id_sas_assign_staff);
+        $sasassignstaff->task_progress = $request->task_progress;
+        $sasassignstaff->justification_update = $request->justification_update;
+
+        // Handle File Upload
+        if($request->hasFile('img_update')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('img_update')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('img_update')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore= $sasassignstaff->id.'_'.time().'.'.$extension;
+            // Upload Image
+            $request->file('img_update')->storeAs('public'.DIRECTORY_SEPARATOR.'sas', $fileNameToStore);
+            
+        } else {
+            $fileNameToStore = 'noimage_'.$sasassignstaff->id.'_'.time().'.png';
+            $img_path = public_path().''.DIRECTORY_SEPARATOR.'/storage/sas/noimage_'.$sasassignstaff->id.'_'.time().'.png';
+            copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
+        }
+
+        //path
+        $path = '/storage/sas/'.$fileNameToStore;
+        
+        $sasassignstaff->img_update = $fileNameToStore;
+        $sasassignstaff->img_path_update = $path;
+        $sasassignstaff->save();
+
+        return response(['status' => 'OK' , 'message' => 'Successfully update task progress']);
+
+    }
+
+    public function endTask(Request $request , $id_sas_assign_staff)
+    {
+        $sasassignstaff = SASStaffAssign::find($id_sas_assign_staff);
+
+        $request->validate([
+            'finish_task'        => 'required',
+        ]);
+
+        if ($request->finish_task == 'Yes') 
+        {
+            $sasassignstaff->finish_task = $request->finish_task;
+            $sasassignstaff->updated_by = auth()->user()->id;
+            $sasassignstaff->save();
+
+            return response(['status' => 'OK' , 'message' => 'Successfully end task']);
+        } 
+        elseif ($request->finish_task == 'No') 
+        {
+            $request->validate([
+                'justification_finish'        => 'required',
+                'end_date'                    => 'required',
+                'end_time'                    => 'required',
+            ]);
+
+            $sasassignstaff->finish_task = $request->finish_task;
+            $sasassignstaff->end_date = ''.date("Y-m-d", strtotime($request->end_date)).' '.date("H:i:s", strtotime($request->end_time)).'';
+            $sasassignstaff->updated_by = auth()->user()->id;
+            $sasassignstaff->save();
+
+            //NOTIFICATION FCM SCHEDULE
+
+            return response(['status' => 'OK' , 'message' => 'Successfully extend end task']);
+        }
+
     }
 
     

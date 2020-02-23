@@ -32,6 +32,9 @@ Route::middleware('auth:api')->group(function () {
     //Transport
     Route::resource('transport', 'Api\TransportController');
     //SAS
+    Route::post('/sas/endTask/{id}', 'Api\SASController@endTask')->name('sas.endTask');
+    Route::post('/sas/updateProgress/{id}', 'Api\SASController@updateProgress')->name('sas.updateProgress');
+    Route::post('/sas/startTask/{id}', 'Api\SASController@startTask')->name('sas.startTask');
     Route::get('/sas/acknowledge/{id}', 'Api\SASController@acknowledge')->name('sas.acknowledge');
     Route::get('/sas/approve/{id}', 'Api\SASController@approve')->name('sas.approve');
     Route::get('/sas/reject/{id}', 'Api\SASController@reject')->name('sas.reject');
