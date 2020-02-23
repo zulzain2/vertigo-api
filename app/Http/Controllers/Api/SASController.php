@@ -276,5 +276,16 @@ class SASController extends Controller
         return response(['status' => 'OK' , 'message' => 'Successfully reject task']);
     }
 
+    public function acknowledge($id_sas_assign_staff)
+    {
+        $sasassignstaff = SASStaffAssign::find($id_sas_assign_staff);
+
+        $sasassignstaff->acknowledge_status = '1';
+        $sasassignstaff->updated_by = auth()->user()->id;
+        $sasassignstaff->save();
+
+        return response(['status' => 'OK' , 'message' => 'Successfully acknowledge task']);
+    }
+
     
 }
