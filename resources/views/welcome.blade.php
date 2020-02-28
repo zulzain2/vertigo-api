@@ -105,7 +105,7 @@
             </div>
         </div>
 
-        <script src="{{asset('js/firebase.js')}}"></script>
+        <script src="{{secure_asset('js/firebase.js')}}"></script>
         
     </body>
 </html>
