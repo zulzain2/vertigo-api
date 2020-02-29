@@ -109,7 +109,7 @@ class EBSController extends Controller
      */
     public function show($id)
     {
-        $ebs = EBS::with('EBSStaffUse.EBSEquipmentUse');
+        $ebs = EBS::with('EBSStaffUse')->with('EBSEquipmentUse');
 
         $ebs = $ebs->find($id);
 
