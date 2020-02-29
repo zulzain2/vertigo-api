@@ -21,7 +21,7 @@ class EBSController extends Controller
      */
     public function index()
     {
-        $ebs = EBS::with('EBSStaffUse.EBSEquipmentUse')->get();
+        $ebs = EBS::with('EBSStaffUse')->with('EBSEquipmentUse')->get();
 
         return response(['status' => 'OK' , 'message' =>  $ebs]); 
     }
