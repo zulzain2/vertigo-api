@@ -98,8 +98,8 @@ class SASController extends Controller
                     $noti->id = Uuid::uuid4()->getHex();
                     $noti->to_user = $manager->id;
                     $noti->tiny_img_url = '';
-                    $noti->title = '[APPROVAL] SAS : '.$add->job_number.' need approval from you.';
-                    $noti->desc = 'SAS : '.$add->job_number.' need approval from you.';
+                    $noti->title = 'Vertigo [Staff Assignment Management]';
+                    $noti->desc = 'A new created task needs your approval';
                     $noti->type = 'A';
                     $noti->click_url = '';
                     $noti->send_status = 'P';
@@ -107,8 +107,8 @@ class SASController extends Controller
                     $noti->created_by = auth()->user()->id;
                     $noti->save();
 
-                    //NOTIFICATION FCM
-                    $noti->toSingleDevice($manager->device_token, '[APPROVAL] SAS : '.$add->job_number.' need approval from you.' , 'SAS : '.$add->job_number.' need approval from you.' , null , null);
+                    //NOTIFICATION FCM OTS
+                    $noti->toSingleDevice($manager->device_token, $noti->title , $noti->desc , null , null);
                 }
 
 
@@ -274,9 +274,9 @@ class SASController extends Controller
             $noti->id = Uuid::uuid4()->getHex();
             $noti->to_user = $sasstaffassign->id_user;
             $noti->tiny_img_url = '';
-            $noti->title = '[ACKNOWLEDGEMENT] SAS : '.$sas->job_number.' need acknowledgement from you.';
-            $noti->desc = 'SAS : '.$sas->job_number.' need acknowledgement from you.';
-            $noti->type = 'A';
+            $noti->title = 'Vertigo [Staff Assignment Management]';
+            $noti->desc = 'You have been assigned to a new task';
+            $noti->type = 'I';
             $noti->click_url = '';
             $noti->send_status = 'P';
             $noti->status = '';

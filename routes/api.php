@@ -41,5 +41,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/sas/getAvailableStaff/{date_start}/{date_end}', 'Api\SASController@getAvailableStaff')->name('sas.getAvailableStaff');
     Route::post('/sas/addNewTask', 'Api\SASController@addNewTask')->name('sas.addNewTask');
     Route::resource('sas', 'Api\SASController');
+    //EBS
+    Route::resource('ebs', 'Api\EBSController');
 });
 

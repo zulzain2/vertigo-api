@@ -68,6 +68,7 @@ class EquipmentController extends Controller
         $equipment->img_path = $path;
         $equipment->tag_number = $request->tag_number;
         $equipment->description = $request->description;
+        $equipment->availability = "available";
         $equipment->id_equip_category = $request->id_equip_category;
         $equipment->status = 'enable';
         $equipment->created_by = auth()->user()->id;
