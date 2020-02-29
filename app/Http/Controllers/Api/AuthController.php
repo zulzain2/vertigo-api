@@ -49,6 +49,13 @@ class AuthController extends Controller
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
+        if($request->device_token)
+        {
+            $user = User::find(auth()->user()->id);
+            $user->device_token = $request->device_token;
+            $user->save();
+        }
+
         return response(['user' => auth()->user() , 'access_token' => $accessToken]);
     }
 }

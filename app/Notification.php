@@ -54,7 +54,7 @@ class Notification extends Model
 
     }
 
-    public static function toMultiDevice($model, $token,$title=null,$body=null,$icon,$click_action)
+    public static function toMultiDevice($model,$title=null,$body=null,$icon,$click_action)
     {
 
         $optionBuilder = new OptionsBuilder();
@@ -99,6 +99,6 @@ class Notification extends Model
 
     public static function numberAlert() 
     {
-        
+
     }
 }
