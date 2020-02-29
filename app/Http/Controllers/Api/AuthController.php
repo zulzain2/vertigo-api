@@ -56,6 +56,8 @@ class AuthController extends Controller
             $user->save();
         }
 
-        return response(['user' => auth()->user() , 'access_token' => $accessToken]);
+        $user = User::find(auth()->user()->id);
+
+        return response(['user' => $user , 'access_token' => $accessToken]);
     }
 }
