@@ -106,10 +106,12 @@ class SASController extends Controller
                     $noti->status = '';
                     $noti->created_by = auth()->user()->id;
                     $noti->save();
+
+                    //NOTIFICATION FCM
+                    $noti->toSingleDevice($manager->device_token, '[APPROVAL] SAS : '.$add->job_number.' need approval from you.' , 'SAS : '.$add->job_number.' need approval from you.' , null , null);
                 }
 
-                //NOTIFICATION FCM
-        
+
                 return response(['status' => 'OK' , 'message' => 'Successfully add new task']);
             }
             else
