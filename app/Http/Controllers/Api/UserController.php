@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notification;
 
 class UserController extends Controller
 {
@@ -17,7 +18,11 @@ class UserController extends Controller
     {
         $users = User::all();
 
-            return response(['status' => 'OK' , 'users' => $users]);
+        $noti = New Notification;
+        $token = 'c4q0S2tr8C9bvBxdUl9-kB:APA91bH1lH6QA5Y43gTTy9En-nbEwyjCiO2o9gJFptnRnU19799bFUJYEhlm0Lu8DrOPEzfJc1A4_eqZk1aa2-sGEaMfwmDJiP3VSqvD7SF0_bEII50zr6UpD8raOqUR2JSNw1cqCZur';
+        $noti->toSingleDevice($token,'title','body',null,null);
+
+        return response(['status' => 'OK' , 'users' => $users]);
     }
 
     /**
