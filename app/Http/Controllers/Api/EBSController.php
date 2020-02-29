@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\EBS;
+use App\User;
 use App\Equipment;
 use App\EBSStaffUse;
+use App\Notification;
 use Ramsey\Uuid\Uuid;
 use App\EBSEquipmentUse;
 use Illuminate\Http\Request;
