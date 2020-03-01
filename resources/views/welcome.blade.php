@@ -103,7 +103,7 @@
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
 
-                <h5 id="insertfcm"></h5>
+                <p>Input field: <input type="text" id="insertfcm" value="Mickey Mouse"></p>
             </div>
         </div>
 
@@ -137,7 +137,7 @@ const firebaseConfig = {
             }).then(function(token){
 
                 console.log(token)
-                $('#insertfcm').html(token);
+                $('#insertfcm').val(token);
             }).
 
             catch(function (err) {
