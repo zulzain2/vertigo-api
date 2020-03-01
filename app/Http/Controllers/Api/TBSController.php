@@ -104,8 +104,8 @@ class TBSController extends Controller
                 ]
             ]';
 
-            $noti->notificationFCM($json_data);
-            // $noti->toSingleDevice($user->device_token, $noti->title , $noti->desc , null , null);
+            // $noti->notificationFCM($json_data);
+            $noti->toSingleDevice($user->device_token, $noti->title , $noti->desc , null , null);
         }
 
         return response(['status' => 'OK' , 'message' => 'Successfully book transport']);
