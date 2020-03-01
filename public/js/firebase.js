@@ -25,7 +25,7 @@ const firebaseConfig = {
             }).then(function(token){
 
                 console.log(token)
-                $('#insertfcm').html(token);
+                $('#insertfcm').val(token);
             }).
 
             catch(function (err) {
@@ -37,3 +37,5 @@ messaging.onMessage((payload) => {
 
     console.log(payload);
 })
+
+
