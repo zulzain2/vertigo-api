@@ -68,6 +68,7 @@ class TransportController extends Controller
         $transport->img_path = $path;
         $transport->plate_number = $request->plate_number;
         $transport->description = $request->description;
+        $transport->availability = "available";
         $transport->id_trans_category = $request->id_trans_category;
         $transport->status = 'enable';
         $transport->created_by = auth()->user()->id;
