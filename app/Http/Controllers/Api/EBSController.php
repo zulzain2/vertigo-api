@@ -172,7 +172,7 @@ class EBSController extends Controller
                 'start_time'                 => 'required',
             ]);
 
-            $ebs->start_task = "No"; 
+            $ebs->start_status = "No"; 
             $ebs->start_date = ''.date("Y-m-d", strtotime($request->start_date)).' '.date("H:i:s", strtotime($request->start_time)).'';
             $ebs->start_justification = $request->start_justification;
             $ebs->updated_by = auth()->user()->id;
