@@ -93,7 +93,7 @@ class TBSController extends Controller
 
             //NOTIFICATION FCM SCHEDULE
             $json_data = '[
-                "to" => $user->device_token ,
+                "to" => '.$user->device_token.' ,
                 "notification" => [
                     "body" => "SOMETHING",
                     "title" => "SOMETHING",
