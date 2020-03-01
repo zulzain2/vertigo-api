@@ -342,6 +342,7 @@ class SASController extends Controller
 
             $sasassignstaff->start_task = $request->start_task;
             $sasassignstaff->start_date = ''.date("Y-m-d", strtotime($request->start_date)).' '.date("H:i:s", strtotime($request->start_time)).'';
+            $sasassignstaff->justification_start = $request->justification_start;
             $sasassignstaff->updated_by = auth()->user()->id;
             $sasassignstaff->save();
 

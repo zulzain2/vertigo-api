@@ -53,7 +53,7 @@ class EBSController extends Controller
         $add->tag_number = $request->tag_number;
         $add->job_number = $request->job_number;
         $add->job_title = $request->job_title;
-        $add->status = 'In Progress';
+        $add->status = 'Booking Confirmed';
         $add->created_by = auth()->user()->id;
         $add->save();
         
@@ -126,6 +126,206 @@ class EBSController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    public function startBooking(Request $request , $id_ebs)
+    {
+    
+        $request->validate([
+            'start_status'        => 'required',
+        ]);
+
+        $ebs = EBS::find($id_ebs);
+
+        if ($request->start_status == 'Yes') 
+        {
+            $ebs->start_status = "Yes"; 
+            $ebs->status = "Booking Start";
+            $ebs->updated_by = auth()->user()->id;
+            $ebs->save();
+
+            foreach ($ebs->ebsstaffuse as $key => $ebsstaffuse) {
+
+                $noti = New Notification;
+                $noti->id = Uuid::uuid4()->getHex();
+                $noti->to_user = $ebsstaffuse->id_user;
+                $noti->tiny_img_url = '';
+                $noti->title = 'Vertigo [Equipment Booking System]';
+                $noti->desc = 'Have you completed the booking?';
+                $noti->type = 'I';
+                $noti->click_url = '';
+                $noti->send_status = 'P';
+                $noti->status = '';
+                $noti->created_by = auth()->user()->id;
+                $noti->save();
+    
+                //NOTIFICATION FCM SCHEDULE
+            }
+
+            return response(['status' => 'OK' , 'message' => 'Successfully acknowledge & start booking']);
+        } 
+        elseif ($request->start_status == 'No') 
+        {
+            $request->validate([
+                'start_justification'        => 'required',
+                'start_date'                 => 'required',
+                'start_time'                 => 'required',
+            ]);
+
+            $ebs->start_task = "No"; 
+            $ebs->start_date = ''.date("Y-m-d", strtotime($request->start_date)).' '.date("H:i:s", strtotime($request->start_time)).'';
+            $ebs->start_justification = $request->start_justification;
+            $ebs->updated_by = auth()->user()->id;
+            $ebs->save();
+
+            foreach ($ebs->ebsstaffuse as $key => $ebsstaffuse) {
+
+                $noti = New Notification;
+                $noti->id = Uuid::uuid4()->getHex();
+                $noti->to_user = $ebsstaffuse->id_user;
+                $noti->tiny_img_url = '';
+                $noti->title = 'Vertigo [Equipment Booking System]';
+                $noti->desc = 'Have you utilize the equipment?';
+                $noti->type = 'I';
+                $noti->click_url = '';
+                $noti->send_status = 'P';
+                $noti->status = '';
+                $noti->created_by = auth()->user()->id;
+                $noti->save();
+    
+                //NOTIFICATION FCM SCHEDULE
+            }
+            
+
+            return response(['status' => 'OK' , 'message' => 'Successfully extend start booking']);
+        }
+
+
+    }
+
+    public function updateProgress(Request $request , $id_ebs)
+    {
+
+        $request->validate([
+            'booking_progress'             => 'required',
+            'booking_justification'        => 'required',
+        ]);
+
+        $ebs = EBS::find($id_ebs);
+        $ebs->booking_progress = $request->booking_progress;
+        $ebs->booking_justification = $request->booking_justification;
+        $ebs->end_date = date("Y-m-d H:i:s");
+        $ebs->save();
+
+        return response(['status' => 'OK' , 'message' => 'Successfully update booking progress']);
+
+    }
+
+    public function endBooking(Request $request , $id_ebs)
+    {
+
+        $request->validate([
+            'finish_status'        => 'required',
+            'img_update'           => 'image|max:1999', 
+        ]);
+
+        $ebs = EBS::find($id_ebs);
+
+        if ($request->finish_status == 'Yes') 
+        {
+            $ebs->finish_status = "Yes"; 
+            $ebs->status = "Booking Ended";
+            $ebs->updated_by = auth()->user()->id;
+
+            // Handle File Upload
+            if($request->hasFile('img_update')){
+                // Get filename with the extension
+                $filenameWithExt = $request->file('img_update')->getClientOriginalName();
+                // Get just filename
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                // Get just ext
+                $extension = $request->file('img_update')->getClientOriginalExtension();
+                // Filename to store
+                $fileNameToStore= $ebs->id.'_'.time().'.'.$extension;
+                // Upload Image
+                $request->file('img_update')->storeAs('public'.DIRECTORY_SEPARATOR.'ebs', $fileNameToStore);
+                
+            } else {
+                $fileNameToStore = 'noimage_'.$ebs->id.'_'.time().'.png';
+                $img_path = public_path().''.DIRECTORY_SEPARATOR.'/storage/ebs/noimage_'.$ebs->id.'_'.time().'.png';
+                copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
+            }
+
+            //path
+            $path = '/storage/ebs/'.$fileNameToStore;
+            
+            $ebs->img_update = $fileNameToStore;
+            $ebs->img_path_update = $path;
+            $ebs->save();
+
+            return response(['status' => 'OK' , 'message' => 'Successfully end booking']);
+        } 
+        elseif ($request->finish_status == 'No') 
+        {
+            $request->validate([
+                'finish_justification'     => 'required',
+                'end_date'                 => 'required',
+                'end_time'                 => 'required',
+            ]);
+
+            $ebs->finish_status = "No"; 
+            $ebs->end_date = ''.date("Y-m-d", strtotime($request->start_date)).' '.date("H:i:s", strtotime($request->start_time)).'';
+            $ebs->finish_justification = $request->start_justification;
+            $ebs->updated_by = auth()->user()->id;
+            
+            // Handle File Upload
+            if($request->hasFile('img_update')){
+                // Get filename with the extension
+                $filenameWithExt = $request->file('img_update')->getClientOriginalName();
+                // Get just filename
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                // Get just ext
+                $extension = $request->file('img_update')->getClientOriginalExtension();
+                // Filename to store
+                $fileNameToStore= $ebs->id.'_'.time().'.'.$extension;
+                // Upload Image
+                $request->file('img_update')->storeAs('public'.DIRECTORY_SEPARATOR.'ebs', $fileNameToStore);
+                
+            } else {
+                $fileNameToStore = 'noimage_'.$ebs->id.'_'.time().'.png';
+                $img_path = public_path().''.DIRECTORY_SEPARATOR.'/storage/ebs/noimage_'.$ebs->id.'_'.time().'.png';
+                copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
+            }
+
+            //path
+            $path = '/storage/ebs/'.$fileNameToStore;
+            
+            $ebs->img_update = $fileNameToStore;
+            $ebs->img_path_update = $path;
+            $ebs->save();
+
+
+            foreach ($ebs->ebsstaffuse as $key => $ebsstaffuse) {
+
+                $noti = New Notification;
+                $noti->id = Uuid::uuid4()->getHex();
+                $noti->to_user = $ebsstaffuse->id_user;
+                $noti->tiny_img_url = '';
+                $noti->title = 'Vertigo [Equipment Booking System]';
+                $noti->desc = 'Have you completed the booking?';
+                $noti->type = 'I';
+                $noti->click_url = '';
+                $noti->send_status = 'P';
+                $noti->status = '';
+                $noti->created_by = auth()->user()->id;
+                $noti->save();
+    
+                //NOTIFICATION FCM SCHEDULE
+            }
+
+            return response(['status' => 'OK' , 'message' => 'Successfully extend end booking']);
+        }
+
     }
 
     /**

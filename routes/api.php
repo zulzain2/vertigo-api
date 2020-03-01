@@ -42,6 +42,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/sas/addNewTask', 'Api\SASController@addNewTask')->name('sas.addNewTask');
     Route::resource('sas', 'Api\SASController');
     //EBS
+    Route::post('/ebs/startBooking/{id}', 'Api\EBSController@startBooking')->name('ebs.startBooking');
+    Route::post('/ebs/updateProgress/{id}', 'Api\EBSController@updateProgress')->name('ebs.updateProgress');
+    Route::post('/ebs/endBooking/{id}', 'Api\EBSController@endBooking')->name('ebs.endBooking');
     Route::resource('ebs', 'Api\EBSController');
 });
 
