@@ -217,6 +217,12 @@ class EBSController extends Controller
         $ebs->end_date = date("Y-m-d H:i:s");
         $ebs->save();
 
+        foreach ($ebs->ebsequipmentuse as $key => $ebsequipmentuse) {
+            $equipment = Equipment::find($ebsequipmentuse->id_equipment);
+            $equipment->availability = "available";
+            $equipment->save();
+        }
+        
         return response(['status' => 'OK' , 'message' => 'Successfully update booking progress']);
 
     }
@@ -263,6 +269,12 @@ class EBSController extends Controller
             $ebs->img_path_update = $path;
             $ebs->save();
 
+            foreach ($ebs->ebsequipmentuse as $key => $ebsequipmentuse) {
+                $equipment = Equipment::find($ebsequipmentuse->id_equipment);
+                $equipment->availability = "available";
+                $equipment->save();
+            }
+            
             return response(['status' => 'OK' , 'message' => 'Successfully end booking']);
         } 
         elseif ($request->finish_status == 'No') 
