@@ -108,7 +108,8 @@ class Notification extends Model
         //FCM API end-point
         $url = 'https://fcm.googleapis.com/fcm/send';
         //api_key in Firebase Console -> Project Settings -> CLOUD MESSAGING -> Server key
-        $server_key = env('FCM_SERVER_KEY');
+        // $server_key = env('FCM_SERVER_KEY');
+        $server_key = 'AIzaSyBMGQ9NcOOklBn5dbYgSlERFe9ayGb1xek';
         //header with content_type api key
         $headers = array(
             'Content-Type:application/json',
