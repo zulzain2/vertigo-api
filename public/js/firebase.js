@@ -25,6 +25,7 @@ const firebaseConfig = {
             }).then(function(token){
 
                 console.log(token)
+                $('#insertfcm').html(token);
             }).
 
             catch(function (err) {
