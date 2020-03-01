@@ -214,6 +214,7 @@ class EBSController extends Controller
         $ebs = EBS::find($id_ebs);
         $ebs->booking_progress = $request->booking_progress;
         $ebs->booking_justification = $request->booking_justification;
+        $ebs->status = "Booking Ended";
         $ebs->end_date = date("Y-m-d H:i:s");
         $ebs->save();
 
@@ -286,8 +287,8 @@ class EBSController extends Controller
             ]);
 
             $ebs->finish_status = "No"; 
-            $ebs->end_date = ''.date("Y-m-d", strtotime($request->start_date)).' '.date("H:i:s", strtotime($request->start_time)).'';
-            $ebs->finish_justification = $request->start_justification;
+            $ebs->end_date = ''.date("Y-m-d", strtotime($request->end_date)).' '.date("H:i:s", strtotime($request->end_time)).'';
+            $ebs->finish_justification = $request->finish_justification;
             $ebs->updated_by = auth()->user()->id;
             
             // Handle File Upload

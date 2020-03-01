@@ -46,5 +46,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/ebs/updateProgress/{id}', 'Api\EBSController@updateProgress')->name('ebs.updateProgress');
     Route::post('/ebs/endBooking/{id}', 'Api\EBSController@endBooking')->name('ebs.endBooking');
     Route::resource('ebs', 'Api\EBSController');
+    //TBS
+    Route::post('/tbs/startBooking/{id}', 'Api\TBSController@startBooking')->name('tbs.startBooking');
+    Route::post('/tbs/updateProgress/{id}', 'Api\TBSController@updateProgress')->name('tbs.updateProgress');
+    Route::post('/tbs/endBooking/{id}', 'Api\TBSController@endBooking')->name('tbs.endBooking');
+    Route::resource('tbs', 'Api\TBSController');
 });
 
