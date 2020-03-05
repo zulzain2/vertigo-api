@@ -107,11 +107,11 @@ class Notification extends Model
                 "icon" => $icon
             ],
             "data" => [
-                $data
-            ]
+                "click_action"  => $data
+            ] 
         ]);
      
-        dd($data);
+     
 
         $url = 'https://fcm.googleapis.com/fcm/send';
 
