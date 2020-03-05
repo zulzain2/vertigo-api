@@ -104,7 +104,17 @@ class Notification extends Model
 
     public static function notificationFCM($json_data)
     {
-        $data = json_encode($json_data);
+        $data = json_encode([
+            "to" => 'c4q0S2tr8C9bvBxdUl9-kB:APA91bH1lH6QA5Y43gTTy9En-nbEwyjCiO2o9gJFptnRnU19799bFUJYEhlm0Lu8DrOPEzfJc1A4_eqZk1aa2-sGEaMfwmDJiP3VSqvD7SF0_bEII50zr6UpD8raOqUR2JSNw1cqCZur',
+            "notification" => [
+                "body" => "SOMETHING",
+                "title" => "SOMETHING",
+                "icon" => "ic_launcher"
+            ],
+            "data" => [
+                "ANYTHING EXTRA HERE"
+            ]
+        ]);
         //FCM API end-point
         $url = 'https://fcm.googleapis.com/fcm/send';
         //api_key in Firebase Console -> Project Settings -> CLOUD MESSAGING -> Server key
