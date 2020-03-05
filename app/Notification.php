@@ -110,18 +110,19 @@ class Notification extends Model
                 $data
             ]
         ]);
-        
-        //FCM API end-point
+     
+        dd($data);
+
         $url = 'https://fcm.googleapis.com/fcm/send';
-        //api_key in Firebase Console -> Project Settings -> CLOUD MESSAGING -> Server key
+
         // $server_key = env('FCM_SERVER_KEY');
         $server_key = 'AAAAA5HsCAw:APA91bGX1b5j9YnR3U9WTbVfAfG0l9qX3WZPPzqvAG32T8C7OCggurbsbOey3UvafiygMVefuHxg36UA9L8ouISpZZ7I6FuAQWUFUrun323YDXOSrCZwflHM4LYxR4CpM45KloNcCAdB';
-        //header with content_type api key
+  
         $headers = array(
             'Content-Type:application/json',
             'Authorization:key='.$server_key
         );
-        //CURL request to route notification to FCM connection server (provided by Google)
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
