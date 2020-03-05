@@ -91,20 +91,7 @@ class TBSController extends Controller
 
             $user = User::find($driver);
 
-            //NOTIFICATION FCM SCHEDULE
-            $json_data = '[
-                "to" => '.$user->device_token.' ,
-                "notification" => [
-                    "body" => "SOMETHING",
-                    "title" => "SOMETHING",
-                    "icon" => "ic_launcher"
-                ],
-                "data" => [
-                    "ANYTHING EXTRA HERE"
-                ]
-            ]';
-
-            $noti->notificationFCM($json_data);
+            $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , null);
             // $noti->toSingleDevice($user->device_token, $noti->title , $noti->desc , null , null);
         }
 
