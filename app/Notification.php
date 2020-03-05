@@ -110,13 +110,10 @@ class Notification extends Model
                 "click_action"  => $data
             ] 
         ]);
-     
-     
 
         $url = 'https://fcm.googleapis.com/fcm/send';
 
-        // $server_key = env('FCM_SERVER_KEY');
-        $server_key = 'AAAAA5HsCAw:APA91bGX1b5j9YnR3U9WTbVfAfG0l9qX3WZPPzqvAG32T8C7OCggurbsbOey3UvafiygMVefuHxg36UA9L8ouISpZZ7I6FuAQWUFUrun323YDXOSrCZwflHM4LYxR4CpM45KloNcCAdB';
+        $server_key = env('FCM_SERVER_KEY');
   
         $headers = array(
             'Content-Type:application/json',
