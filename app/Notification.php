@@ -19,8 +19,7 @@ class Notification extends Model
         $optionBuilder->setTimeToLive(60*20);
 
         $notificationBuilder = new PayloadNotificationBuilder($token);
-        $notificationBuilder->setTitle($title)
-                            ->setBody($body)
+        $notificationBuilder->setBody($body)
                             ->setSound('default')
                             ->setBadge(1)
                             ->setIcon($icon)
