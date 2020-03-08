@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with('role')->get();
 
         return response(['status' => 'OK' , 'users' => $users]);
     }
@@ -40,7 +40,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
+        $user = User::with('role');
+
+        $user = $user->find($id);
 
         return response(['status' => 'OK' , 'user' => $user]);  
     }
