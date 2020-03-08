@@ -17,7 +17,8 @@ class TransportController extends Controller
      */
     public function index()
     {
-        $transports = Transport::all();
+      
+        $transports = Transport::with('TransportCategory')->get();
 
         return response(['status' => 'OK' , 'transports' => $transports]);
     }

@@ -87,7 +87,7 @@ class EquipmentController extends Controller
      */
     public function show($id)
     {
-        $equipment = Equipment::find($id);
+        $equipment = Equipment::find($id)->with('EquipmentCategory');
 
         return response()->json(['status' => 'OK' , 'equipment' => $equipment]);
     }
