@@ -19,6 +19,6 @@ class Equipment extends Model
     }
 
     public function equipmentcategory() {
-        return $this->hasOne('App\TransportCategory', 'id', 'id_equip_category');
+        return $this->hasOne('App\EquipmentCategory', 'id', 'id_equip_category');
     }
 }

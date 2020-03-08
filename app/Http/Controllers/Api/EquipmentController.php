@@ -7,6 +7,7 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\EquipmentCategory;
 
 class EquipmentController extends Controller
 {
