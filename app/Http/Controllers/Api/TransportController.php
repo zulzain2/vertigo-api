@@ -18,7 +18,7 @@ class TransportController extends Controller
     public function index()
     {
       
-        $transports = Transport::with('TransportCategory')->get();
+        $transports = Transport::with('transportcategory')->get();
 
         return response(['status' => 'OK' , 'transports' => $transports]);
     }
@@ -87,7 +87,9 @@ class TransportController extends Controller
      */
     public function show($id)
     {
-        $transport = Transport::find($id);
+        $transport = Transport::with('transportcategory');
+
+        $transport = $transport->find($id);
 
         return response()->json(['status' => 'OK' , 'transport' => $transport]);
     }
