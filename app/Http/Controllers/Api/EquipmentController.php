@@ -17,7 +17,8 @@ class EquipmentController extends Controller
      */
     public function index()
     {
-        $equipments = Equipment::all();
+
+        $equipments = Equipment::with('EquipmentCategory')->get();
 
         return response(['status' => 'OK' , 'equipments' => $equipments]);
     }
