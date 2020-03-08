@@ -91,6 +91,7 @@ class TBSController extends Controller
 
             $user = User::find($driver);
 
+            //NOTIFICATION FCM SCHEDULE
             $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , null);
             // $noti->toSingleDevice($user->device_token, $noti->title , $noti->desc , null , null);
         }

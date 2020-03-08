@@ -11,6 +11,12 @@ class Equipment extends Model
     protected $table = 'equipments';
     public $incrementing = FALSE;
 
+    public function getImgPathAttribute($value)
+    {
+        $url = URL::to($value);
+        return $url;
+    }
+
     public function equipmentcategory() {
         return $this->hasOne('App\TransportCategory', 'id', 'id_equip_category');
     }

@@ -103,7 +103,7 @@
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
 
-                <p>Input field: <input type="text" id="insertfcm" value="Mickey Mouse"></p>
+                {{-- <p>Input field: <input type="text" id="insertfcm" value="Mickey Mouse"></p> --}}
             </div>
         </div>
 
