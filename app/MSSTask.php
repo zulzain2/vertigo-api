@@ -14,4 +14,9 @@ class MSSTask extends Model
     public function mss() {
         return $this->hasOne('App\MSS', 'id', 'id_mss');
     }
+
+    public function maintenanceTask()
+    {
+        return $this->hasOne('App\MaintenanceTask', 'id', 'id_task');
+    }
 }

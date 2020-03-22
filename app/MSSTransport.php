@@ -14,4 +14,8 @@ class MSSTransport extends Model
     public function mss() {
         return $this->hasOne('App\MSS', 'id', 'id_mss');
     }
+
+    public function transport() {
+        return $this->hasOne('App\Transport', 'id', 'id_transport');
+    }
 }

@@ -14,4 +14,8 @@ class MSSEquipment extends Model
     public function mss() {
         return $this->hasOne('App\MSS', 'id', 'id_mss');
     }
+
+    public function equipment() {
+        return $this->hasOne('App\Equipment', 'id', 'id_equipment');
+    }
 }

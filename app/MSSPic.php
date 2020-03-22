@@ -14,4 +14,8 @@ class MSSPic extends Model
     public function mss() {
         return $this->hasOne('App\MSS', 'id', 'id_mss');
     }
+
+    public function user() {
+        return $this->hasOne('App\User', 'id', 'id_user');
+    }
 }

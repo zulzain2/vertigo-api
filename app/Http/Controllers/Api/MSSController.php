@@ -22,10 +22,10 @@ class MSSController extends Controller
      */
     public function index()
     {
-        $mss = MSS::with('mssequipment')
-                    ->with('msstransport')
-                    ->with('msspic')
-                    ->with('msstask')
+        $mss = MSS::with('mssequipment.equipment')
+                    ->with('msstransport.transport')
+                    ->with('msspic.user')
+                    ->with('msstask.maintenanceTask')
                     ->get();
 
         return response(['status' => 'OK' , 'message' =>  $mss]); 
