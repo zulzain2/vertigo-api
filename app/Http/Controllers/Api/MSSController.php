@@ -191,7 +191,7 @@ class MSSController extends Controller
                 $i = 1;
                 foreach ($availableUsers as $x => $availableUser) { 
                     foreach ($mssUnavailableStaffs as $y => $mssunavailableStaff) {
-                        foreach ($mssunavailableStaff->msspic as $key => $unavailableStaff) {
+                        foreach ($mssunavailableStaff->msspic as $z => $unavailableStaff) {
                             if ($unavailableStaff->id_user == $availableUsers[$x][0]) {
                                 $availableUsers[$x][0] = '';
                                 $availableUsers[$x][1] = '';
