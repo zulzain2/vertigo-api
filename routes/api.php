@@ -54,6 +54,7 @@ Route::middleware('auth:api')->group(function () {
     //MSS
     Route::post('/mss/endMaintenance/{id}', 'Api\MSSController@endMaintenance')->name('mss.endMaintenance');
     Route::post('/mss/updateProgress/{id}', 'Api\MSSController@updateProgress')->name('mss.updateProgress');
+    Route::post('/mss/startMaintenance/{id}', 'Api\MSSController@startMaintenance')->name('mss.startMaintenance');
     Route::get('/mss/acknowledge/{id}', 'Api\MSSController@acknowledge')->name('mss.acknowledge');
     Route::post('/mss/addNewMaintenance', 'Api\MSSController@addNewMaintenance')->name('mss.addNewMaintenance');
     Route::resource('mss', 'Api\MSSController');
