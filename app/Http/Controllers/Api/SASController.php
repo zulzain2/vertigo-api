@@ -425,6 +425,7 @@ class SASController extends Controller
             ]);
 
             $sasassignstaff->finish_task = $request->finish_task;
+            $sasassignstaff->justification_finish = $request->justification_finish;
             $sasassignstaff->end_date = ''.date("Y-m-d", strtotime($request->end_date)).' '.date("H:i:s", strtotime($request->end_time)).'';
             $sasassignstaff->updated_by = auth()->user()->id;
             $sasassignstaff->save();
