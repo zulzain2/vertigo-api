@@ -135,10 +135,10 @@ class MSSController extends Controller
      */
     public function show($id)
     {
-        $mss = MSS::with('mssequipment')
-                    ->with('msstransport')
-                    ->with('msspic')
-                    ->with('msstask');
+        $mss = MSS::with('mssequipment.equipment')
+                    ->with('msstransport.transport')
+                    ->with('msspic.user')
+                    ->with('msstask.maintenanceTask');
     
         $mss = $mss->find($id);
 
