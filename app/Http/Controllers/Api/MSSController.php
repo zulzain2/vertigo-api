@@ -253,6 +253,7 @@ class MSSController extends Controller
             ]);
 
             $mss->finish_task = $request->finish_task;
+            $mss->justification_finish = $request->justification_finish;
             $mss->end_date = ''.date("Y-m-d", strtotime($request->end_date)).' '.date("H:i:s", strtotime($request->end_time)).'';
             $mss->updated_by = auth()->user()->id;
             $mss->save();
