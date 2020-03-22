@@ -188,17 +188,6 @@ class SASController extends Controller
         return response(['status' => 'OK' , 'message' => 'Successfully edit task']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     
     public function getAvailableStaff($datefrom, $dateto)
     {
@@ -435,6 +424,17 @@ class SASController extends Controller
             return response(['status' => 'OK' , 'message' => 'Successfully extend end task']);
         }
 
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 
     

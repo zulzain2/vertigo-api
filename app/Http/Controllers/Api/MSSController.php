@@ -156,6 +156,67 @@ class MSSController extends Controller
     {
         //
     }
+
+    public function getAvailableStaff($datefrom, $dateto)
+    {
+        $mssUnavailableStaffs = MSS::where('start_date' , '>=' , date('Y-m-d H:i:s' , strtotime($datefrom)))
+        ->where('end_date' , '<=' , date('Y-m-d H:i:s' , strtotime($dateto)))
+        ->get();
+
+        $availableUsers = array();
+        $users = User::all();
+        
+        if (count($mssUnavailableStaffs) == 0) 
+        {
+            $i = 1;
+            foreach ($users as $key => $user) 
+            {
+                $availableUsers[$i][0] = $user->id;
+                $availableUsers[$i][1] = $user->name;
+                $i++;
+            }
+
+        } 
+        else 
+        {
+ 
+            
+                $i = 1;
+                foreach ($users as $key => $user) {
+                    $availableUsers[$i][0] = $user->id;
+                    $availableUsers[$i][1] = $user->name;
+                    $i++;
+                } 
+
+                $i = 1;
+                foreach ($availableUsers as $x => $availableUser) { 
+                    foreach ($mssUnavailableStaffs as $y => $mssunavailableStaff) {
+                        foreach ($mssunavailableStaff->msspic as $key => $unavailableStaff) {
+                            if ($unavailableStaff->id_user == $availableUsers[$x][0]) {
+                                $availableUsers[$x][0] = '';
+                                $availableUsers[$x][1] = '';
+                            } else {
+                                
+                            }
+                        } 
+                    } 
+                    $i++;
+                }
+
+                foreach ($availableUsers as $key => $availableUser) {
+                   if($availableUsers[$key][0] == '')
+                   {
+                    unset($availableUsers[$key]);
+                   }
+                }
+
+                $availableUsers = array_values($availableUsers);
+ 
+        }  
+
+        return response(['status' => 'OK' , 'users' => $availableUsers]);
+        
+    }
     
 
     public function acknowledge($id_mss)
