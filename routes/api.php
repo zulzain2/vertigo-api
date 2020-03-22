@@ -51,5 +51,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/tbs/updateProgress/{id}', 'Api\TBSController@updateProgress')->name('tbs.updateProgress');
     Route::post('/tbs/endBooking/{id}', 'Api\TBSController@endBooking')->name('tbs.endBooking');
     Route::resource('tbs', 'Api\TBSController');
+    //MSS
 });
 

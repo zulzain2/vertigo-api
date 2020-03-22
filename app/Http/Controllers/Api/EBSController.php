@@ -94,7 +94,7 @@ class EBSController extends Controller
             $user = User::find($staff_use);
 
             //NOTIFICATION FCM SCHEDULE
-            $noti->toSingleDevice($user->device_token, $noti->title , $noti->desc , null , null);
+            // $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , null);
         }
 
         return response(['status' => 'OK' , 'message' => 'Successfully book equipment']);

@@ -25,4 +25,8 @@ class SASStaffAssign extends Model
     public function sascomment() {
         return $this->hasMany('App\SASComment', 'id_sas_staff_assign', 'id');
     }
+
+    public function user() {
+        return $this->hasOne('App\User', 'id', 'id_user');
+    }
 }

@@ -19,7 +19,7 @@ class SASController extends Controller
      */
     public function index()
     {
-        $sas = SAS::with('SASStaffAssign.SASComment')->get();
+        $sas = SAS::with('sasstaffassign.sascomment')->get();
 
         return response(['status' => 'OK' , 'message' =>  $sas]); 
     }
@@ -108,7 +108,7 @@ class SASController extends Controller
                     $noti->save();
 
                     //NOTIFICATION FCM OTS
-                    $noti->toSingleDevice($manager->device_token, $noti->title , $noti->desc , null , null);
+                    $noti->notificationFCM($manager->device_token , $noti->title , $noti->desc , null , null);
                 }
 
 
@@ -282,11 +282,14 @@ class SASController extends Controller
             $noti->status = '';
             $noti->created_by = auth()->user()->id;
             $noti->save();
+
+            //NOTIFICATION FCM OTS
+            $noti->notificationFCM($sasstaffassign->user->device_token , $noti->title , $noti->desc , null , null);
+            //NOTIFICATION FCM SCHEDULE
+
         }
 
-        //NOTIFICATION FCM OTS
-
-        //NOTIFICATION FCM SCHEDULE
+        
 
         return response(['status' => 'OK' , 'message' => 'Successfully approve task']);
     }
