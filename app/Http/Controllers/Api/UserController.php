@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\User;
+use App\Notification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
