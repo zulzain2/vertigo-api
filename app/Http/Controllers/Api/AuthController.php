@@ -6,6 +6,7 @@ use App\User;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -28,7 +29,8 @@ class AuthController extends Controller
         $id_user = $register->id;
         $register->name = $request->name;
         $register->email = $request->email;
-        $register->password = bcrypt($request->password);
+        // $register->password = bcrypt($request->password);
+        $register->password = Hash::make($request->password);
         $register->id_role = $request->id_role;
         $register->staff_id = $request->staff_id;
         $register->first_name = $request->first_name;
