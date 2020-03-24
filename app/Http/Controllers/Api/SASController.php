@@ -373,12 +373,12 @@ class SASController extends Controller
             
         } else {
             $fileNameToStore = 'noimage_'.$sasassignstaff->id.'_'.time().'.png';
-            $img_path = public_path().''.DIRECTORY_SEPARATOR.'/storage/sas/noimage_'.$sasassignstaff->id.'_'.time().'.png';
+            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.'noimage_'.$sasassignstaff->id.'_'.time().'.png';
             copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
         }
 
         //path
-        $path = '/storage/sas/'.$fileNameToStore;
+        $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
         
         $sasassignstaff->img_update = $fileNameToStore;
         $sasassignstaff->img_path_update = $path;

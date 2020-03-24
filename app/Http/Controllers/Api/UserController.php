@@ -70,6 +70,31 @@ class UserController extends Controller
         $update->email = $request->email;
         $update->password = bcrypt($request->password);
         $update->id_role = $request->id_role;
+
+         // Handle File Upload
+         if($request->hasFile('profile_img')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('profile_img')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('profile_img')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore= $update->id.'_'.time().'.'.$extension;
+            // Upload Image
+            $request->file('profile_img')->storeAs('public'.DIRECTORY_SEPARATOR.'users', $fileNameToStore);
+            //path
+            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            // Delete file if exists
+            Storage::delete('public'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.''.$update->img_name);
+        } 
+       
+
+         if($request->hasFile('profile_img')){
+             $update->img_name = $fileNameToStore;
+             $update->img_path = $path;
+         }
+
         $update->created_by = auth()->user()->id;
         $update->status = 1;
         $update->save();

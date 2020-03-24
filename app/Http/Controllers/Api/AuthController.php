@@ -17,6 +17,7 @@ class AuthController extends Controller
             'email'=>'email|required|unique:users',
             'password'=>'required|confirmed',
             'id_role' => 'required',
+            'profile_img' => 'required',
         ]);
 
         $register = New User;
@@ -26,6 +27,40 @@ class AuthController extends Controller
         $register->email = $request->email;
         $register->password = bcrypt($request->password);
         $register->id_role = $request->id_role;
+
+        // Handle File Upload
+        if($request->hasFile('profile_img')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('profile_img')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('profile_img')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore= $id_user.'_'.time().'.'.$extension;
+            // Upload Image
+            $request->file('profile_img')->storeAs('public'.DIRECTORY_SEPARATOR.'users', $fileNameToStore);
+
+            //path
+            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            
+            $register->img_name = $fileNameToStore;
+            $register->img_path = $path;
+            
+        } else {
+            $fileNameToStore = 'noimage_'.$id_user.'_'.time().'.png';
+            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.'noimage_'.$id_user.'_'.time().'.png';
+            copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
+
+            //path
+            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            
+            $register->img_name = $fileNameToStore;
+            $register->img_path = $path;
+        }
+
+        
+
         $register->created_by = auth()->user()->id;
         $register->status = 1;
         $register->save();
