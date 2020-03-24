@@ -71,6 +71,9 @@ class UserController extends Controller
         $update->email = $request->email;
         $update->password = bcrypt($request->password);
         $update->id_role = $request->id_role;
+        $update->staff_id = $request->staff_id;
+        $update->first_name = $request->first_name;
+        $update->last_name = $request->last_name;
 
          // Handle File Upload
          if($request->hasFile('profile_img')){

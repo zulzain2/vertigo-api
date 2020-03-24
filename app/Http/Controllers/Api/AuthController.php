@@ -18,6 +18,9 @@ class AuthController extends Controller
             'password'=>'required|confirmed',
             'id_role' => 'required',
             'profile_img' => 'required',
+            'staff_id' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
         ]);
 
         $register = New User;
@@ -27,6 +30,9 @@ class AuthController extends Controller
         $register->email = $request->email;
         $register->password = bcrypt($request->password);
         $register->id_role = $request->id_role;
+        $register->staff_id = $request->staff_id;
+        $register->first_name = $request->first_name;
+        $register->last_name = $request->last_name;
 
         // Handle File Upload
         if($request->hasFile('profile_img')){
