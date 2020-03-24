@@ -44,4 +44,10 @@ class User extends Authenticatable
     public function role() {
         return $this->hasOne('App\Role', 'id', 'id_role');
     }
+
+    public function getImgPathAttribute($value)
+    {
+        $url = URL::to($value);
+        return $url;
+    }
 }
