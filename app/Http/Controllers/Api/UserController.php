@@ -59,21 +59,30 @@ class UserController extends Controller
     {
         $update = User::find($id);
 
-        // $request->validate([
-        //     'name'=>'required',
-        //     'email'=>'email|required|unique:users,email,'.$update->id,
-        //     'password'=>'required|confirmed',
-        //     'id_role' => 'required',
-        // ]);
+        
+        $request->validate([
+			'img' 	=> 'mimes:jpg,png',
+            'img' 	=> 'max:8192',
+            'password_curr' 		    => 'required|confirmed|min:6',
+            'password_new' 	            => 'required|string',
+            'id_role' => 'required',
+            'name'=>'required',
+            'email'=>'email|required|unique:users,email,'.$update->id,
+            'staff_id' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+		]); 
 
         $update = User::find($id);
         $update->name = $request->name;
         $update->email = $request->email;
-        $update->password = bcrypt($request->password);
         $update->id_role = $request->id_role;
         $update->staff_id = $request->staff_id;
         $update->first_name = $request->first_name;
         $update->last_name = $request->last_name;
+
+        
+        $update->password = bcrypt($request->password_new);
 
          // Handle File Upload
          if($request->hasFile('profile_img')){

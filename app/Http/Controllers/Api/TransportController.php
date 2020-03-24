@@ -58,12 +58,12 @@ class TransportController extends Controller
             
         } else {
             $fileNameToStore = 'noimage_'.$transport->id.'_'.time().'.png';
-            $img_path = public_path().''.DIRECTORY_SEPARATOR.'/storage/transports/noimage_'.$transport->id.'_'.time().'.png';
+            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.'noimage_'.$transport->id.'_'.time().'.png';
             copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
         }
 
         //path
-        $path = '/storage/transports/'.$fileNameToStore;
+        $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
         
         $transport->img = $fileNameToStore;
         $transport->img_path = $path;
