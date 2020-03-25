@@ -60,6 +60,12 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/mss/addNewMaintenance', 'Api\MSSController@addNewMaintenance')->name('mss.addNewMaintenance');
     Route::resource('mss', 'Api\MSSController');
     //TMS
+    Route::get('/tms/taskVerify/{id_tms}', 'Api\TMSController@taskVerify')->name('tms.taskVerify');
+    Route::post('/tms/taskCompletion/{id_tms}', 'Api\TMSController@taskCompletion')->name('tms.taskCompletion');
+    Route::post('/tms/startVisit/{id_tms}', 'Api\TMSController@startVisit')->name('tms.startVisit');
+    Route::get('/tms/acknowledge/{id_tms}', 'Api\TMSController@acknowledge')->name('tms.acknowledge');
+    Route::post('/tms/addNewSession/{id_tms}', 'Api\TMSController@addNewSession')->name('tms.addNewSession');
+    Route::post('/tms/addNewInquiry', 'Api\TMSController@addNewInquiry')->name('tms.addNewInquiry');
     Route::resource('tms', 'Api\TMSController');
 
 });
