@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\TMS;
+use App\TMSPic;
 use App\InquiryType;
 use App\Notification;
 use Ramsey\Uuid\Uuid;
