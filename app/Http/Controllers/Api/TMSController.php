@@ -222,24 +222,35 @@ class TMSController extends Controller
             $tms->updated_by = auth()->user()->id;
             $tms->save();
 
-            $clerks = Role::find('1b287390939d476f90adb7b2a99a37c9')->user;
+            $clerks = Role::find('143ab4d3742a492db6e3a27083b62da9');
 
-            foreach ($clerks as $key => $clerk) {
-                $noti = New Notification;
-                $noti->id = Uuid::uuid4()->getHex();
-                $noti->to_user = $clerk->id;
-                $noti->tiny_img_url = '';
-                $noti->title = 'Vertigo [Tender Management System]';
-                $noti->desc = 'A task has been completed';
-                $noti->type = 'R';
-                $noti->click_url = '';
-                $noti->send_status = 'P';
-                $noti->status = '';
-                $noti->created_by = auth()->user()->id;
-                $noti->save();
+            if($clerks)
+            {
+                $clerks = $clerks->user;
 
-                //NOTIFICATION FCM OTS
+                foreach ($clerks as $key => $clerk) {
+                    $noti = New Notification;
+                    $noti->id = Uuid::uuid4()->getHex();
+                    $noti->to_user = $clerk->id;
+                    $noti->tiny_img_url = '';
+                    $noti->title = 'Vertigo [Tender Management System]';
+                    $noti->desc = 'A task has been completed';
+                    $noti->type = 'R';
+                    $noti->click_url = '';
+                    $noti->send_status = 'P';
+                    $noti->status = '';
+                    $noti->created_by = auth()->user()->id;
+                    $noti->save();
+    
+                    //NOTIFICATION FCM OTS
+                }
             }
+            else
+            {
+                return response(['fail' => 'OK' , 'message' => 'No Clerk found in system, please register.']);
+            }
+
+           
 
             $managers = $tms->inquiry->user;
 
