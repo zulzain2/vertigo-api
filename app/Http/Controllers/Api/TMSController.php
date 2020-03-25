@@ -291,26 +291,39 @@ class TMSController extends Controller
 
     }
 
-    public function taskVerify($id_tms)
+    public function taskVerifyClerk($id_tms)
     {
         $tms = TMS::find($id_tms);
 
-        if(auth()->user()->role->id == "ac5b1005e5bd425db4abe4409b04d9ee") //Manager
-        {
+       
             $tms->clerk_verify_status = "Verified";
             $tms->clerk_verify_by = auth()->user()->id;
             $tms->save();
-        }
-        elseif (auth()->user()->role->id == "143ab4d3742a492db6e3a27083b62da9") // Technicians / Clerk / Office Support
+     
+       
+
+        $tms = TMS::find($id_tms);
+
+        if($tms->clerk_verify_status == "Verified" &&  $tms->manager_verify_status = "Verified")
         {
+            $tms->status = "Verified";
+            $tms->save();
+        }
+
+        return response(['status' => 'OK' , 'message' => 'Successfully verified task']);
+
+    }
+
+    public function taskVerifyManager($id_tms)
+    {
+        $tms = TMS::find($id_tms);
+
+      
             $tms->manager_verify_status = "Verified";
             $tms->manager_verify_by = auth()->user()->id;
             $tms->save();
-        }
-        else
-        {
-            return response(['fail' => 'OK' , 'message' => 'Invalid Role, You do not have permission to proceed the process.']);
-        }
+        
+        
 
         $tms = TMS::find($id_tms);
 
