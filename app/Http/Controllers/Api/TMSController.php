@@ -100,6 +100,7 @@ class TMSController extends Controller
         $update->save();
 
         foreach ($request->pic as $key => $pic) {
+            dd("lol");
             $pic = New TMSPic;
             $pic->id = Uuid::uuid4()->getHex();
             $pic->id_user = $pic;
