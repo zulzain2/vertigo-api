@@ -125,7 +125,7 @@ class TMSController extends Controller
 
             //NOTIFICATION FCM SCHEDULE
         }
-        dd("lol");
+     
         return response(['status' => 'OK' , 'message' => 'Successfully add new session']);
     }
 
