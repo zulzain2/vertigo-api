@@ -304,7 +304,7 @@ class TMSController extends Controller
 
         $tms = TMS::find($id_tms);
 
-        if($tms->clerk_verify_status == "Verified" &&  $tms->manager_verify_status = "Verified")
+        if($tms->clerk_verify_status == "Verified" &&  $tms->manager_verify_status == "Verified")
         {
             $tms->status = "Verified";
             $tms->save();
@@ -327,7 +327,7 @@ class TMSController extends Controller
 
         $tms = TMS::find($id_tms);
 
-        if($tms->clerk_verify_status == "Verified" &&  $tms->manager_verify_status = "Verified")
+        if($tms->clerk_verify_status == "Verified" &&  $tms->manager_verify_status == "Verified")
         {
             $tms->status = "Verified";
             $tms->save();
