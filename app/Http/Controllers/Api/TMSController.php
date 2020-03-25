@@ -101,12 +101,12 @@ class TMSController extends Controller
 
         foreach ($request->pic as $key => $pic) {
             
-            $pic = New TMSPic;
-            $pic->id = Uuid::uuid4()->getHex();
-            $pic->id_user = $pic;
-            $pic->id_tms = $update->id;
-            $pic->created_by = auth()->user()->id;
-            $pic->save();
+            $picharge = New TMSPic;
+            $picharge->id = Uuid::uuid4()->getHex();
+            $picharge->id_user = $pic;
+            $picharge->id_tms = $update->id;
+            $picharge->created_by = auth()->user()->id;
+            $picharge->save();
 
             $noti = New Notification;
             $noti->id = Uuid::uuid4()->getHex();
