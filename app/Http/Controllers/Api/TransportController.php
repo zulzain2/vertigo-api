@@ -23,6 +23,14 @@ class TransportController extends Controller
         return response(['status' => 'OK' , 'transports' => $transports]);
     }
 
+    public function getAvailableTransport()
+    {
+        $transports = Transport::where('availability', '=' , 'available')->with('transportcategory')->get();
+
+
+        return response(['status' => 'OK' , 'transports' => $transports]);
+    }
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -179,4 +187,6 @@ class TransportController extends Controller
      
         return response(['status' => 'OK' , 'message' => 'Success delete transport']);
     }
+
+   
 }

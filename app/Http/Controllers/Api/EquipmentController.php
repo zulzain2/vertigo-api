@@ -24,6 +24,14 @@ class EquipmentController extends Controller
         return response(['status' => 'OK' , 'equipments' => $equipments]);
     }
 
+    public function getAvailableEquipment()
+    {
+        $equipments = Equipment::where('availability', '=' , 'available')->with('equipmentcategory')->get();
+
+
+        return response(['status' => 'OK' , 'equipments' => $equipments]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

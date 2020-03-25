@@ -28,8 +28,10 @@ Route::middleware('auth:api')->group(function () {
     //Role
     Route::resource('role', 'Api\RoleController');
     //Equipment
+    Route::get('/equipment/getAvailableEquipment', 'Api\EquipmentController@getAvailableEquipment')->name('equipment.getAvailableEquipment');
     Route::resource('equipment', 'Api\EquipmentController');
     //Transport
+    Route::get('/transport/getAvailableTransport', 'Api\TransportController@getAvailableTransport')->name('transport.getAvailableTransport');
     Route::resource('transport', 'Api\TransportController');
     //SAS
     Route::post('/sas/endTask/{id}', 'Api\SASController@endTask')->name('sas.endTask');
