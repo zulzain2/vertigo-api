@@ -51,4 +51,8 @@ class User extends Authenticatable
         $url = URL::to($value);
         return $url;
     }
+
+    public function inquiry() {
+        return $this->hasOne('App\InquiryType', 'id', 'id_inquiry');
+    }
 }

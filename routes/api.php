@@ -59,5 +59,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/mss/getAvailableStaff/{date_start}/{date_end}', 'Api\MSSController@getAvailableStaff')->name('mss.getAvailableStaff');
     Route::post('/mss/addNewMaintenance', 'Api\MSSController@addNewMaintenance')->name('mss.addNewMaintenance');
     Route::resource('mss', 'Api\MSSController');
+    //TMS
+    Route::resource('tms', 'Api\TMSController');
+
 });
 
