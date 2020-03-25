@@ -17,6 +17,6 @@ class InquiryType extends Model
     }
 
     public function tms() {
-        return $this->hasMany('App\TMS', 'id_tms', 'id');
+        return $this->hasMany('App\TMS', 'id_inquiry', 'id');
     }
 }

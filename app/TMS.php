@@ -17,6 +17,6 @@ class TMS extends Model
     }
 
     public function inquiry() {
-        return $this->hasOne('App\InquiryType', 'id', 'id_tms');
+        return $this->hasOne('App\InquiryType', 'id', 'id_inquiry');
     }
 }
