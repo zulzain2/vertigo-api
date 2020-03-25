@@ -250,8 +250,6 @@ class TMSController extends Controller
                 return response(['fail' => 'OK' , 'message' => 'No Clerk found in system, please register.']);
             }
 
-           
-
             $managers = $tms->inquiry->user;
 
             foreach ($managers as $key => $manager) {
@@ -281,7 +279,7 @@ class TMSController extends Controller
             ]);
 
             $tms->finish_task = $request->finish_task;
-            $tms->end_date = ''.date("Y-m-d", strtotime($request->review_end_date)).' '.date("H:i:s", strtotime($request->review_end_time)).'';
+            $tms->review_end_date = ''.date("Y-m-d", strtotime($request->review_end_date)).' '.date("H:i:s", strtotime($request->review_end_time)).'';
             $tms->updated_by = auth()->user()->id;
             $tms->save();
 
