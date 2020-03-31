@@ -28,9 +28,11 @@ Route::middleware('auth:api')->group(function () {
     //Role
     Route::resource('role', 'Api\RoleController');
     //Equipment
+    Route::get('/equipment/getEquimentCategories', 'Api\EquipmentController@getEquimentCategories')->name('equipment.getEquimentCategories');
     Route::get('/equipment/getAvailableEquipment', 'Api\EquipmentController@getAvailableEquipment')->name('equipment.getAvailableEquipment');
     Route::resource('equipment', 'Api\EquipmentController');
     //Transport
+    Route::get('/transport/getTransportCategories', 'Api\TransportController@getTransportCategories')->name('transport.getTransportCategories');
     Route::get('/transport/getAvailableTransport', 'Api\TransportController@getAvailableTransport')->name('transport.getAvailableTransport');
     Route::resource('transport', 'Api\TransportController');
     //SAS
