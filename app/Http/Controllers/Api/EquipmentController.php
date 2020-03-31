@@ -32,6 +32,14 @@ class EquipmentController extends Controller
         return response(['status' => 'OK' , 'equipments' => $equipments]);
     }
 
+    public function getEquimentCategories()
+    {
+        $equipmentCategories = EquipmentCategory::where('status', '=' , '1')->get();
+
+
+        return response(['status' => 'OK' , 'equipmentCategories' => $equipmentCategories]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

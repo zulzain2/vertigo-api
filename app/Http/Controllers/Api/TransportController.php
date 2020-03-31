@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Transport;
 use Ramsey\Uuid\Uuid;
+use App\TransportCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -29,6 +30,14 @@ class TransportController extends Controller
 
 
         return response(['status' => 'OK' , 'transports' => $transports]);
+    }
+
+    public function getTransportCategories()
+    {
+        $transportCategories = TransportCategory::where('status', '=' , '1')->get();
+
+
+        return response(['status' => 'OK' , 'transportCategories' => $transportCategories]);
     }
     
     /**
