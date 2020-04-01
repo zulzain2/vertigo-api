@@ -27,14 +27,19 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/register' , 'Api\AuthController@register');
     //Role
     Route::resource('role', 'Api\RoleController');
+
     //Equipment
     Route::get('/equipment/getEquimentCategories', 'Api\EquipmentController@getEquimentCategories')->name('equipment.getEquimentCategories');
     Route::get('/equipment/getAvailableEquipment', 'Api\EquipmentController@getAvailableEquipment')->name('equipment.getAvailableEquipment');
     Route::resource('equipment', 'Api\EquipmentController');
+
     //Transport
     Route::get('/transport/getTransportCategories', 'Api\TransportController@getTransportCategories')->name('transport.getTransportCategories');
     Route::get('/transport/getAvailableTransport', 'Api\TransportController@getAvailableTransport')->name('transport.getAvailableTransport');
     Route::resource('transport', 'Api\TransportController');
+
+    //DASHBOARD SAS
+    Route::get('/sas/dashDate', 'Api\SASController@dashDate')->name('sas.dashDate');
     //SAS
     Route::post('/sas/endTask/{id}', 'Api\SASController@endTask')->name('sas.endTask');
     Route::post('/sas/updateProgress/{id}', 'Api\SASController@updateProgress')->name('sas.updateProgress');
@@ -45,16 +50,25 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/sas/getAvailableStaff/{date_start}/{date_end}', 'Api\SASController@getAvailableStaff')->name('sas.getAvailableStaff');
     Route::post('/sas/addNewTask', 'Api\SASController@addNewTask')->name('sas.addNewTask');
     Route::resource('sas', 'Api\SASController');
+
+    //DASHBOARD EBS
+    Route::get('/ebs/dashDate', 'Api\EBSController@dashDate')->name('ebs.dashDate');
     //EBS
     Route::post('/ebs/startBooking/{id}', 'Api\EBSController@startBooking')->name('ebs.startBooking');
     Route::post('/ebs/updateProgress/{id}', 'Api\EBSController@updateProgress')->name('ebs.updateProgress');
     Route::post('/ebs/endBooking/{id}', 'Api\EBSController@endBooking')->name('ebs.endBooking');
     Route::resource('ebs', 'Api\EBSController');
+
+    //DASHBOARD TBS
+    Route::get('/tbs/dashDate', 'Api\TBSController@dashDate')->name('tbs.dashDate');
     //TBS
     Route::post('/tbs/startBooking/{id}', 'Api\TBSController@startBooking')->name('tbs.startBooking');
     Route::post('/tbs/updateProgress/{id}', 'Api\TBSController@updateProgress')->name('tbs.updateProgress');
     Route::post('/tbs/endBooking/{id}', 'Api\TBSController@endBooking')->name('tbs.endBooking');
     Route::resource('tbs', 'Api\TBSController');
+    
+    //DASHBOARD MSS
+    Route::get('/mss/dashDate', 'Api\MSSController@dashDate')->name('mss.dashDate');
     //MSS
     Route::post('/mss/endMaintenance/{id}', 'Api\MSSController@endMaintenance')->name('mss.endMaintenance');
     Route::post('/mss/updateProgress/{id}', 'Api\MSSController@updateProgress')->name('mss.updateProgress');
@@ -63,6 +77,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/mss/getAvailableStaff/{date_start}/{date_end}', 'Api\MSSController@getAvailableStaff')->name('mss.getAvailableStaff');
     Route::post('/mss/addNewMaintenance', 'Api\MSSController@addNewMaintenance')->name('mss.addNewMaintenance');
     Route::resource('mss', 'Api\MSSController');
+
+    //DASHBOARD TMS
+    Route::get('/tms/dashDate', 'Api\TMSController@dashDate')->name('tms.dashDate');
     //TMS
     Route::get('/tms/taskVerifyManager/{id_tms}', 'Api\TMSController@taskVerifyManager')->name('tms.taskVerifyManager');
     Route::get('/tms/taskVerifyClerk/{id_tms}', 'Api\TMSController@taskVerifyClerk')->name('tms.taskVerifyClerk');

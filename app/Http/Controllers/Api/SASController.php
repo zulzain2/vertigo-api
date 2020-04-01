@@ -24,6 +24,14 @@ class SASController extends Controller
         return response(['status' => 'OK' , 'message' =>  $sas]); 
     }
 
+    public function dashDate(Request $request)
+    {
+        $dateFrom = $request->date_from;
+        $dateTo = $request->date_to;
+
+        return response(['status' => 'OK' , 'message' => $dateTo]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
