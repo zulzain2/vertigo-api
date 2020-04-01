@@ -30,9 +30,9 @@ class SASController extends Controller
         $dateFrom = date($request->date_from);
         $dateTo = date($request->date_to);
 
-        SAS::whereBetween('created_at', [$dateFrom, $dateTo])->get();
+        $sas = SAS::whereBetween('created_at', [$dateFrom, $dateTo])->get();
 
-        return response(['status' => 'OK' , 'message' => $dateTo]);
+        return response(['status' => 'OK' , 'message' => $sas]);
     }
 
     /**
