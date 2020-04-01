@@ -14,4 +14,10 @@ class TBSTransportUse extends Model
     public function tbs() {
         return $this->hasOne('App\TBS', 'id', 'id_tbs');
     }
+
+    public function transport() {
+        return $this->hasOne('App\Transport', 'id', 'id_transport');
+    }
+
+
 }

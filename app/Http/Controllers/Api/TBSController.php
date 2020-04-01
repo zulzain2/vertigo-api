@@ -21,7 +21,7 @@ class TBSController extends Controller
      */
     public function index()
     {
-        $tbs = TBS::with('TBSDriver')->with('TBSTransportUse')->get();
+        $tbs = TBS::all();
 
         return response(['status' => 'OK' , 'message' =>  $tbs]);
     }
@@ -106,9 +106,7 @@ class TBSController extends Controller
      */
     public function show($id)
     {
-        $tbs = TBS::with('TBSDriver')->with('TBSTransportUse');
-
-        $tbs = $tbs->find($id);
+        $tbs = TBS::find($id);
 
         return response(['status' => 'OK' , 'message' =>  $tbs]); 
     }

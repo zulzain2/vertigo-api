@@ -11,6 +11,7 @@ class TBS extends Model
     use Notifiable;
     protected $table = 'tbs';
     public $incrementing = FALSE;
+    protected $with = ['tbstransportuse.transport', 'tbsdriver.driver'];
 
     public function getImgPathUpdateAttribute($value)
     {

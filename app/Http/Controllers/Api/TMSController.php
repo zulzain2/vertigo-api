@@ -20,9 +20,7 @@ class TMSController extends Controller
      */
     public function index()
     {
-        $tms = TMS::with('pic')
-        ->with('inquiry.user')
-        ->get();
+        $tms = TMS::all();
 
         return response(['status' => 'OK' , 'message' =>  $tms]); 
     }
@@ -138,10 +136,7 @@ class TMSController extends Controller
      */
     public function show($id)
     {
-        $tms = TMS::with('pic')
-        ->with('inquiry.user');
-
-        $tms = $tms->find($id);
+        $tms = TMS::find($id);
 
         return response(['status' => 'OK' , 'message' =>  $tms]); 
 

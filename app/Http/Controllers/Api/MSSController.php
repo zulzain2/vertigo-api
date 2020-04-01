@@ -22,11 +22,7 @@ class MSSController extends Controller
      */
     public function index()
     {
-        $mss = MSS::with('mssequipment.equipment')
-                    ->with('msstransport.transport')
-                    ->with('msspic.user')
-                    ->with('msstask.maintenanceTask')
-                    ->get();
+        $mss = MSS::all();
 
         return response(['status' => 'OK' , 'message' =>  $mss]); 
     }
@@ -135,12 +131,7 @@ class MSSController extends Controller
      */
     public function show($id)
     {
-        $mss = MSS::with('mssequipment.equipment')
-                    ->with('msstransport.transport')
-                    ->with('msspic.user')
-                    ->with('msstask.maintenanceTask');
-    
-        $mss = $mss->find($id);
+        $mss = MSS::find($id);
 
         return response(['status' => 'OK' , 'message' =>  $mss]); 
     }

@@ -10,6 +10,7 @@ class MSS extends Model
     use Notifiable;
     protected $table = 'mss';
     public $incrementing = FALSE;
+    protected $with = ['mssequipment.equipment', 'msstransport.transport', 'msspic.user', 'msstask.maintenanceTask'];
 
     public function mssequipment() {
         return $this->hasMany('App\MSSEquipment', 'id_mss', 'id');

@@ -11,6 +11,7 @@ class TMS extends Model
     use Notifiable;
     protected $table = 'tms';
     public $incrementing = FALSE;
+    protected $with = ['pic.user', 'inquiry.user'];
 
     public function pic() {
         return $this->hasMany('App\TMSPic', 'id_tms', 'id');

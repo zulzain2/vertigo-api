@@ -14,4 +14,8 @@ class TBSDriver extends Model
     public function tbs() {
         return $this->hasOne('App\TBS', 'id', 'id_tbs');
     }
+
+    public function driver() {
+        return $this->hasOne('App\User', 'id', 'id_user');
+    }
 }

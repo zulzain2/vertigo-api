@@ -15,4 +15,10 @@ class TMSPic extends Model
     public function tms() {
         return $this->hasOne('App\TMS', 'id', 'id_tms');
     }
+
+    public function user() {
+        return $this->hasOne('App\User', 'id', 'id_user');
+    }
+
+
 }
