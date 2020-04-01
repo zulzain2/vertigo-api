@@ -25,6 +25,17 @@ class TMSController extends Controller
         return response(['status' => 'OK' , 'message' =>  $tms]); 
     }
 
+    public function dashDate(Request $request)
+    {
+
+        $dateFrom = date($request->date_from);
+        $dateTo = date($request->date_to);
+
+        $tms = TMS::whereBetween('created_at', [$dateFrom, $dateTo])->get();
+
+        return response(['status' => 'OK' , 'message' => $tms]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

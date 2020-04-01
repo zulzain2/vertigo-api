@@ -27,6 +27,17 @@ class MSSController extends Controller
         return response(['status' => 'OK' , 'message' =>  $mss]); 
     }
 
+    public function dashDate(Request $request)
+    {
+
+        $dateFrom = date($request->date_from);
+        $dateTo = date($request->date_to);
+
+        $mss = MSS::whereBetween('created_at', [$dateFrom, $dateTo])->get();
+
+        return response(['status' => 'OK' , 'message' => $mss]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

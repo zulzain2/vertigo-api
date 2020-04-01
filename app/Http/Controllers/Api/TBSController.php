@@ -26,6 +26,17 @@ class TBSController extends Controller
         return response(['status' => 'OK' , 'message' =>  $tbs]);
     }
 
+    public function dashDate(Request $request)
+    {
+
+        $dateFrom = date($request->date_from);
+        $dateTo = date($request->date_to);
+
+        $tbs = TBS::whereBetween('created_at', [$dateFrom, $dateTo])->get();
+
+        return response(['status' => 'OK' , 'message' => $tbs]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -26,6 +26,19 @@ class EBSController extends Controller
         return response(['status' => 'OK' , 'message' =>  $ebs]); 
     }
 
+    public function dashDate(Request $request)
+    {
+
+        $dateFrom = date($request->date_from);
+        $dateTo = date($request->date_to);
+        $category = $request->category;
+
+        $ebs = EBS::whereBetween('created_at', [$dateFrom, $dateTo])
+                    ->get();
+
+        return response(['status' => 'OK' , 'message' => $ebs]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
