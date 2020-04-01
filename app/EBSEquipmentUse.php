@@ -14,4 +14,8 @@ class EBSEquipmentUse extends Model
     public function ebs() {
         return $this->hasOne('App\EBS', 'id', 'id_ebs');
     }
+
+    public function equipment() {
+        return $this->hasOne('App\Equipment', 'id', 'id_equipment');
+    }
 }

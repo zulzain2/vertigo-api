@@ -11,6 +11,7 @@ class EBS extends Model
     use Notifiable;
     protected $table = 'ebs';
     public $incrementing = FALSE;
+    protected $with = ['ebsstaffuse.user', 'ebsequipmentuse.equipment'];
 
     public function getImgPathUpdateAttribute($value)
     {
