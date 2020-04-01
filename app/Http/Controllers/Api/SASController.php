@@ -26,10 +26,11 @@ class SASController extends Controller
 
     public function dashDate(Request $request)
     {
-        $dateFrom = $request->date_from;
-        $dateTo = $request->date_to;
 
-        // $sas = SAS::with('sasstaffassign.sascomment')->get();
+        $dateFrom = date($request->date_from);
+        $dateTo = date($request->date_to);
+
+        SAS::whereBetween('created_at', [$dateFrom, $dateTo])->get();
 
         return response(['status' => 'OK' , 'message' => $dateTo]);
     }
