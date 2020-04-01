@@ -19,9 +19,7 @@ class SASController extends Controller
      */
     public function index()
     {
-        $sas = SAS::with('sasstaffassign.sascomment')
-                    ->with('user')
-                    ->get();
+        $sas = SAS::all();
 
         return response(['status' => 'OK' , 'message' =>  $sas]); 
     }
@@ -31,7 +29,7 @@ class SASController extends Controller
         $dateFrom = $request->date_from;
         $dateTo = $request->date_to;
 
-        $sas = SAS::with('sasstaffassign.sascomment')->get();
+        // $sas = SAS::with('sasstaffassign.sascomment')->get();
 
         return response(['status' => 'OK' , 'message' => $dateTo]);
     }
@@ -143,9 +141,8 @@ class SASController extends Controller
      */
     public function show($id)
     {
-        $sas = SAS::with('SASStaffAssign.SASComment');
 
-        $sas = $sas->find($id);
+        $sas = SAS::find($id);
 
         return response(['status' => 'OK' , 'message' =>  $sas]); 
     }
