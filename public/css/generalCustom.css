@@ -1,0 +1,445 @@
+.mainColor {
+    background: #FF4040;
+}
+
+.mainFontColor {
+    color: white;
+}
+
+.loginFormPosition {
+    position: relative;
+    overflow: hidden;
+}
+
+.customSection {
+    position: relative;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+#customBorderBottomLine {
+    border-bottom: 2px solid black;
+    border-radius: unset;
+}
+
+.customul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: -webkit-fill-available;
+    /* background-color: #f1f1f1;
+    border: 1px solid #555; */
+}
+
+.customli a {
+    display: block;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.customli {
+    /* text-align: center; */
+    /* border-bottom: 1px solid #555; */
+    height: 6%;
+}
+
+.customli:last-child {
+    border-bottom: none;
+}
+
+.customli a.active {
+    background-color: white;
+    color: black;
+    height: -webkit-fill-available;
+
+}
+
+.customli a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+
+.sidebarBox {
+    /* border: 2px solid black; */
+    height: 94%;
+    width: 11.4%;
+    float: left;
+    background: grey;
+}
+
+.iconSidebar {
+    width: 26px;
+    margin-right: 10%;
+    margin-bottom: 5%;
+}
+
+/* custom list for navigation bar */
+.customListul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: -webkit-fill-available;
+}
+
+.customListli {
+    float: left;
+}
+
+.customListli a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.customListli a:hover:not(.active) {
+    background-color: #111;
+}
+
+/* custom list for side bar */
+/* custom dropdown */
+
+.dropDownCustom {
+    text-transform: none;
+    text-align: left;
+    width: 20%;
+    overflow: hidden;
+    position: fixed;
+}
+
+.dropDownCustomLast {
+    text-transform: none;
+    text-align: left;
+    width: 20%;
+    overflow: hidden;
+    position: fixed;
+}
+
+.buttonDownloadBox {
+    background: #C4C4C4;
+}
+
+.customCard {
+    border-radius: 5%;
+    width: 20%;
+    position: absolute;
+    margin-left: 3.5%;
+    background: white;
+}
+
+.customGap {
+    margin-top: 1%;
+}
+
+.customGapLeft1 {
+    margin-left: 25.9%
+}
+
+.customGapLeft2 {
+    margin-left: 48.6%
+}
+
+.gapTopSecondRow {
+    margin-top: 12%;
+}
+
+.gapTopThirdRow {
+    margin-top: 24%;
+}
+
+.cardHeight {
+    height: 20%;
+}
+
+.cardRecentActivity {
+    height: 69%;
+}
+
+
+
+.cardTitle {
+    margin-top: 4%;
+    margin-left: 6%;
+    color: black;
+    font-size: 100%;
+}
+
+.cardTitleHeight {
+    height: 13%;
+}
+
+.customIconImageSize1 {
+    margin-left: 55%;
+}
+
+.customIconImageSize2 {
+    margin-left: 48.7%;
+}
+
+.customIconImageSize3 {
+    margin-left: 49%;
+}
+
+.customIconImageSize4 {
+    margin-left: 52.5%;
+}
+
+.customIconImageSize5 {
+    margin-left: 52.7%;
+}
+
+.customIconImageSize6 {
+    margin-left: 50.5%;
+}
+
+.taskNumberContent {
+    margin-left: 25%;
+    margin-top: 5%;
+}
+
+.taskNumber {
+    font-size: 400%;
+    width: fit-content;
+    float: left;
+}
+
+.taskWord {
+    font-size: 100%;
+    margin-left: 50%;
+    margin-top: 19%;
+}
+
+.contentColor {
+    color: red;
+}
+
+.taskNumberWord {
+    margin-top: 4%;
+    font-size: 150%;
+}
+
+.progressColor {
+    background: red;
+}
+
+.progressBarPosition {
+    margin-top: 5%;
+    width: 93%;
+}
+
+.numberDesc {
+    text-align: right;
+    margin-right: 7%;
+}
+
+.wordDesc {
+    margin-right: 7%;
+    text-align: right;
+}
+
+.contentBox {
+    width: -webkit-fill-available;
+    height: 15%;
+}
+
+.contentName {
+    color: black;
+    margin-left: 5%;
+    width: 50%;
+    float: left;
+}
+
+.contentDesc {
+    width: 50%;
+    overflow: hidden;
+    margin-top: -20%;
+    margin-left: 17%;
+    position: relative;
+}
+
+.contentTime {
+    width: 33%;
+    height: 100%;
+    margin-left: 67%;
+    border-left: 2px solid black;
+    padding-left: 10px;
+}
+
+.contentMainBox {
+    height: 79%;
+    overflow-y: scroll;
+}
+
+.contentMainBox::-webkit-scrollbar {
+    display: none;
+}
+
+/* custom css for sas */
+.sasBgColor {
+    background: white;
+}
+
+.fixBorder {
+    border-radius: 2%;
+
+}
+
+.calendarBox {
+    width: 50%;
+    margin-left: 2%;
+    margin-top: 1%;
+    height: 90%;
+    float: left;
+}
+
+.commentBox {
+    height: 20%;
+    width: 20%;
+    margin-left: 54%;
+    margin-top: 1%;
+}
+
+.recentActivitySASBox {
+    height: 68%;
+    margin-left: 54%;
+    width: 20%;
+    margin-top: 1%;
+}
+
+.boxtitle {
+    margin-top: 1%;
+    margin-left: 6%;
+    color: black;
+    font-size: 100%;
+    height: 15%;
+
+}
+
+.customIconImageSize7 {
+    margin-left: 41%;
+}
+
+.customIconImageSize8 {
+    margin-left: 61%;
+}
+
+.commentTitle {
+    margin-top: 1%;
+    margin-left: 6%;
+    color: black;
+    font-size: 100%;
+}
+
+.commentName {
+    color: black;
+    margin-left: 8%;
+    margin-top: 2%;
+    width: 20%;
+    float: left;
+    overflow: hidden;
+}
+
+.commentDesc {
+    width: 53%;
+    color: black;
+    height: 40%;
+    margin-left: 27%;
+    font-size: 83%;
+    margin-top: 2%;
+}
+
+.commentTime {
+    color: gray;
+    font-size: 80%;
+    width: 30%;
+    margin-left: 50%;
+    padding-top: 3%;
+
+}
+
+/* 
+calendar */
+.borderFix {
+    border: 2px solid black;
+}
+
+.calendarTitle {
+    width: fit-content;
+    float: left;
+    color: black;
+    font-size: 100%;
+    margin-left: 3%;
+}
+
+.calendarul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.calendarli {
+    float: left;
+}
+
+.calendarli a {
+    display: block;
+    color: black;
+    text-align: center;
+    /* padding: 16px; */
+    text-decoration: none;
+}
+
+.calendarTime {
+    width: fit-content;
+    float: left;
+    margin-left: 7%;
+}
+
+.calendarIcon {
+    width: fit-content;
+    float: right;
+
+    margin-right: 4%;
+}
+
+.calendarDropDown {
+    float: left;
+    margin-left: 5%;
+}
+
+.headerBox {
+    /* border: 2px solid black; */
+    margin-top: 1%;
+    height: 9%;
+}
+
+.timeline {
+    /* height: 200%; */
+    width: 10%;
+    float: left;
+}
+
+.timelineSmallBox {
+    border-right: 1px solid black;
+    width: 100%;
+    height: 10%;
+    text-align: center;
+    font-size: 80%;
+    color: black;
+    position: static;
+}
+
+.timelineTask {
+    /* border: 2px solid black; */
+    border-right: 1px solid white;
+    float: left;
+    /* margin-left: 10%; */
+    width: 22.5%;
+    height: 360%;
+
+}
+

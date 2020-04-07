@@ -1,0 +1,11 @@
+.taskCodeMaintenance {
+    background: black;
+    color: white;
+    position: inherit;
+    border-radius: 10%;
+    font-size: small;
+    width: 49%;
+    text-align: center;
+    margin-left: 8%;
+    float: left;
+}

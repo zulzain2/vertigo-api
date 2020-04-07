@@ -1,0 +1,94 @@
+.iconPerson {
+    width: 35px;
+}
+
+.personInUse {
+    width: 100%;
+    padding-bottom: 6%;
+}
+
+.iconPersonBox {
+    float: left;
+    padding-right: 2%;
+    padding-left: 2%;
+    height: fit-content;
+    padding-top: 2%;
+    text-align: center;
+}
+
+.iconPersonName {
+    font-size: x-small;
+}
+
+.contentRecentBookingIcon {
+    float: left;
+    padding-right: 2%;
+    padding-left: 2%;
+    padding-bottom: 5%;
+    padding-top: 2%;
+    height: 100%;
+    width: 15%;
+}
+
+.contentBoxRecentBooking {
+    width: -webkit-fill-available;
+    height: 15%;
+}
+
+.contentSubBox {
+    height: 100%;
+    width: 55%;
+    float: left;
+}
+
+.recentBookingCodeBox {
+    float: left;
+    width: 45%;
+    margin-left: 4%;
+    height: 43%;
+}
+
+.recentBookingCode {
+    background-color: black;
+    text-align: center;
+    color: white;
+    width: 100%;
+    font-size: small;
+    margin-top: 1%;
+    border-radius: 10%;
+}
+
+.contentNameRecentBooking {
+    color: black;
+    margin-left: 5%;
+    width: 40%;
+    height: 31%;
+    float: left;
+    overflow: hidden;
+}
+
+.contentTimeBox {
+    float: left;
+    width: 30%;
+    height: 100%;
+    padding-left: 2%;
+    padding-top: 2%;
+    font-size: smaller;
+    border-left: 2px solid gray;
+}
+
+.contentDescRecentBooking {
+
+    /* width: 50%; */
+    /* margin-top: 4%; */
+    /* width: 40%; */
+    width: 95%;
+    float: left;
+    margin-left: 5%;
+    height: 60%;
+    overflow: hidden;
+    /* margin-top: -20%;
+    margin-left: 17%;
+    position: relative;
+    float: left; */
+}

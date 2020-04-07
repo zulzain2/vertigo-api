@@ -1,0 +1,101 @@
+.navBox {
+    height: 6%;
+    background: red
+}
+
+.vertigoBox {
+    width: 11.3%;
+    height: 100%;
+    float: left;
+    background: white
+}
+
+.dummyBox1 {
+    width: 26%;
+    height: 100%;
+    float: left
+}
+
+.dummyBox2 {
+    width: 20%;
+    height: 100%;
+    float: left
+}
+
+/* start search box section */
+.mainSearchBox {
+    width: 22%;
+    height: 100%;
+    float: left;
+}
+
+.subSearchBox {
+    border-radius: 10px;
+    background: #DF8E8E;
+    margin-top: 2%
+}
+
+.searchIconBox {
+    float: left;
+    width: 10%
+}
+
+.searchIcon {
+    width: 65%;
+    margin-left: 10%
+}
+
+
+/* search box input */
+.placeHolderColor {
+    background-color: #DF8E8E;
+    border: 2px solid #DF8E8E;
+    border-radius: 10px;
+    width: 90%
+}
+
+.placeHolderColor::placeholder {
+    color: white;
+    font-weight: bold;
+}
+
+/* end search box section */
+
+.iconBox {
+    width: 3%;
+    float: left;
+    height: 100%;
+}
+
+.profilePicture {
+    width: 75%;
+    margin-top: 10%;
+    margin-left: 12%;
+}
+
+.namePositionBox {
+    width: 5%;
+    float: left;
+    height: 100%;
+}
+
+.nameBox {
+    width: 100%;
+    height: 50%;
+    color: white
+}
+
+.positionBox {
+    width: 100%;
+    height: 50%;
+    color: white;
+    font-size: smaller
+}
+
+img.displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20%;
+    opacity: 10;
+}

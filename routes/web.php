@@ -12,5 +12,29 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
+});
+
+Route::get('/login', function () {
+    return view('login');
+});
+
+Route::get('/staff', function () {
+    return view('staffAssignmentSystem');
+});
+
+Route::get('/equipment', function () {
+    return view('equipment');
+});
+
+Route::get('/transport', function () {
+    return view('transport');
+});
+
+Route::get('/maintenance', function () {
+    return view('maintenance');
+});
+
+Route::get('/tender', function () {
+    return view('tender');
 });
