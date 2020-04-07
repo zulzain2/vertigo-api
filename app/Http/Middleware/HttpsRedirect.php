@@ -15,10 +15,10 @@ class HttpsRedirect
      */
     public function handle($request, Closure $next)
     {
-        if(!$request->secure() && env('APP_ENV') === 'production') {
-            return redirect()->secure($request->getRequestUri());
+        if(!$request->secure() && env('APP_ENV') === 'local') {
+            return redirect()->secure($request->getRequestUri()); 
         }
-        dd($request->secure());
+     
         return $next($request);
     }
 }
