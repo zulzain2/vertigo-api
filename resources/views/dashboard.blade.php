@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Dashboard')
 @section('content')
-{{dd(url(''))}}
+{{dd(URL::to(''))}}
 <!-- dashboard body -->
 <div style="background:#E5E5E5;height: 94%;overflow:hidden">
     <!-- dashboard header -->
