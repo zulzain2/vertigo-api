@@ -1,10 +1,7 @@
-@php
-    $url = 'https://vertigoapi.herokuapp.com/';
-@endphp
-
 @extends('layouts.app')
 @section('title', 'Dashboard')
 @section('content')
+
 <!-- dashboard body -->
 <div style="background:#E5E5E5;height: 94%;overflow:hidden">
     <!-- dashboard header -->
@@ -30,7 +27,7 @@
             <div class="col-md-3" >
                 <div class="dropdown" style="margin-left: -3%;">
                     <button class="btn btn-secondary dropDownCustom" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="{{ $url.'/img/team2.jpg') }}" alt="Circle image" class="img-fluid rounded-circle shadow" style="width: 20px;float:left">
+                        <img src="{{ url('/img/team2.jpg') }}" alt="Circle image" class="img-fluid rounded-circle shadow" style="width: 20px;float:left">
                         <b style="overflow: hidden;width:40%;margin-left:8%;float:left">John</b>
                         <img src="{{ url('/img/playArrow.svg') }}" alt="" class="" style="width: 30px;float:left;margin-left:30%">
 

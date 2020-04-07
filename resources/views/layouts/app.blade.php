@@ -6,7 +6,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <!-- Nucleo Icons -->
-    <link type="text/css" href="{{ $url.'css/nucleo-icons.css') }}" rel="stylesheet" />
+    <link type="text/css" href="{{ url('css/nucleo-icons.css') }}" rel="stylesheet" />
     <link href="{{ url('/css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <link href="{{ url('/css/font-awesome.css')}}" rel="stylesheet" />
@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    
+
     @include('includes.header')
     @include('includes.sidebar')
     @yield('content')
