@@ -22,6 +22,7 @@
 </head>
 
 <body>
+    {{dd(url(''))}}
     @include('includes.header')
     @include('includes.sidebar')
     @yield('content')
