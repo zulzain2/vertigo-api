@@ -18,7 +18,7 @@ class HttpsRedirect
         if(!$request->secure() && env('APP_ENV') === 'production') {
             return redirect()->secure($request->getRequestUri());
         }
-        dd($request);
+        dd($request->secure());
         return $next($request);
     }
 }
