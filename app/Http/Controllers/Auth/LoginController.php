@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -36,5 +37,35 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function login(Request $request)
+    {
+        $loginData = $request->validate([
+            'email'=>'email|required',
+            'password'=>'required'
+        ]);
+
+        if(!auth()->attempt($loginData)) {
+            return response(['message' => 'Invalid Credentials']);
+        }
+
+        return redirect('dashboard');
+
+    }
+
+    public function logout(Request $request)
+    {
+        if (auth()->user()) {
+            $this->guard()->logout();
+            if ($request->session()->has('password_updated')) {
+                $request->session()->invalidate();
+                $request->session()->flash('success', 'Password Test');
+            } else {
+                $request->session()->invalidate();
+            }
+        }
+
+        return redirect('/');
     }
 }

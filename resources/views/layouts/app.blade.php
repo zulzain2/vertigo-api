@@ -1,7 +1,8 @@
 <html>
 
 <head>
-    <title>@yield('title')</title>
+    {{-- <title>@yield('title')</title> --}}
+    <title>Vertigo</title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
@@ -19,6 +20,30 @@
     <link href="{{( url('/css/equipment.css'))}}" rel="stylesheet" />
     <link href="{{( url('/css/maintenance.css'))}}" rel="stylesheet" />
     <link href="{{( url('/css/tender.css'))}}" rel="stylesheet" />
+
+    <style>
+        <style>
+            .zoom {
+                padding: 0px;
+                transition: transform .1s; /* Animation */
+                margin: 0 auto;
+            }
+            
+            .zoom:hover {
+                transform: scale(1.01); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+            }
+
+            .zoom2 {
+                padding: 0px;
+                transition: transform .1s; /* Animation */
+                margin: 0 auto;
+            }
+            
+            .zoom2:hover {
+                transform: scale(1.07); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+            }
+    </style>
+
 </head>
 
 <body>

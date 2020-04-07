@@ -29,6 +29,7 @@ Coded by www.creative-tim.com
     <!-- CSS Files -->
     <link href="{{( url('/css/argon-design-system.css?v=1.2.0'))}}" rel="stylesheet" />
     <link href="{{( url('/css/generalCustom.css'))}}" rel="stylesheet" />
+
 </head>
 <img src="{{ url('/img/header.png') }}" alt="Avatar" style="width:10%;position:fixed">
 
@@ -47,29 +48,33 @@ Coded by www.creative-tim.com
             <span></span>
             <span></span>
         </div>
+       
         <div class="container pt-lg-7" style="margin-top: 13%;">
             <div class="row justify-content-center">
                 <div class="col-lg-5">
                     <div class="card shadow border-0">
                         <div class="card-body px-lg-5 py-lg-5">
-                            <form role="form">
+                            {!! Form::open(['action' => 'Auth\LoginController@login', 'method' => 'POST','class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+                            @csrf
+
                                 <div class="form-group mb-3">
                                     <div class="input-group input-group-alternative">
-                                        <input class="form-control" id="customBorderBottomLine" placeholder="Username" type="username">
+                                        <input class="form-control" id="customBorderBottomLine" name="email" placeholder="Email" type="email">
                                     </div>
                                 </div>
                                 <div class="form-group focused">
                                     <div class="input-group input-group-alternative">
-                                        <input class="form-control" id="customBorderBottomLine" placeholder="Password" type="password">
+                                        <input class="form-control" id="customBorderBottomLine" name="password" placeholder="Password" type="password">
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                    <button type="button" class="btn btn-icon mainColor mainFontColor my-4" style="text-transform: unset">
+                                    <button type="submit" class="btn btn-icon mainColor mainFontColor my-4" style="text-transform: unset">
                                         <span class="btn-inner--icon"><i class="ni ni-check-bold"></i></span>
                                         <span class="btn-inner--text">Login</span>
                                     </button>
                                 </div>
-                            </form>
+
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>

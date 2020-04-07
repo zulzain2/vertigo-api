@@ -10,31 +10,53 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('login', function () {
+    return view('login');
+})->name('login');;
+
+
+
 
 Route::get('/', function () {
-    return view('dashboard');
+    if(auth()->user())
+    {
+        return view('dashboard');
+    }
+    else
+    {
+        return view('login');
+    }
 });
 
-Route::get('/login', function () {
-    return view('login');
-});
+Route::post('login', 'Auth\LoginController@login');
 
-Route::get('/staff', function () {
-    return view('staffAssignmentSystem');
-});
 
-Route::get('/equipment', function () {
-    return view('equipment');
-});
+Route::middleware('auth')->group(function () {
 
-Route::get('/transport', function () {
-    return view('transport');
-});
+            Route::get('logout', 'Auth\LoginController@logout');
 
-Route::get('/maintenance', function () {
-    return view('maintenance');
-});
+            Route::get('/dashboard', function () {
+                return view('dashboard');
+            });
 
-Route::get('/tender', function () {
-    return view('tender');
+            Route::get('/staff', function () {
+                return view('staffAssignmentSystem');
+            });
+
+            Route::get('/equipment', function () {
+                return view('equipment');
+            });
+
+            Route::get('/transport', function () {
+                return view('transport');
+            });
+
+            Route::get('/maintenance', function () {
+                return view('maintenance');
+            });
+
+            Route::get('/tender', function () {
+                return view('tender');
+            });
+
 });

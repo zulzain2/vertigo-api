@@ -14,7 +14,7 @@
     <link href="{{( url('/css/argon-design-system.css?v=1.2.0'))}}" rel="stylesheet" />
     <link href="{{( url('/css/header.css'))}}" rel="stylesheet" />
 </head>
-<bodd>
+<body>
 
     <div class="navBox">
         <!-- vertigo image -->
@@ -55,6 +55,11 @@
             <div class="positionBox">
                 Director
             </div>
+        </div>
+         <!-- bell icon -->
+         <div class="iconBox">
+            <a href="{{URL::to('logout')}}"><i class="fas fa-sign-out-alt fa-2x zoom2" style="padding-top:14px;color:white"></i></a>
+            
         </div>
     </div>
 
