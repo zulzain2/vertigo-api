@@ -11,7 +11,7 @@ class DashboardController extends Controller
 {
     public function dashboard(Request $request)
     {
-        $documentLogs = DocumentLog::all();
+        $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->get();
 
 
         if($request->id_staff && $request->module && $request->month) 

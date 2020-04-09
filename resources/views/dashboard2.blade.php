@@ -274,10 +274,37 @@
                 </div>
               </div>
              
+
+              
+
               @if (count($documentLogs) > 0)
-                @foreach ($documentLogs as $log)
-                    
-                @endforeach
+
+              <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 ps ps--theme_default ps--active-y" id="slimtest1" style="height: 580px;" data-ps-id="8db3e847-849b-2759-763b-e8592111f38d">
+                        <div class="profiletimeline">
+                            @foreach ($documentLogs as $log)
+                                    <div class="sl-item">
+                                        <div class="sl-left"> <img src="{{$log->user->img_path}}" alt="user" class="img-circle"> </div>
+                                        <div class="sl-right">
+                                            <div><b style="font-weight: bold;">{{$log->user->name}}</b>
+                                                <span class="sl-date" style="float:right;font-weight: bold;">{{ Carbon\Carbon::parse($log->created_at)->diffForHumans()}} </span>
+                                                <p class="m-t-10 text-muted" style="font-weight:500">{{$log->remark}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                            @endforeach
+                        </div>
+                    <div class="ps__scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps__scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__scrollbar-y-rail" style="top: 0px; height: 250px; right: 0px;"><div class="ps__scrollbar-y" tabindex="0" style="top: 0px; height: 83px;"></div></div></div>
+                </div>
+            </div>
+
+
+            
+               
+           
+               
               @else
                             
                         <br><br><br>

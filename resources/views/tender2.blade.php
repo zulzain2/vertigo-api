@@ -73,9 +73,25 @@
             </div>
            
             @if (count($documentLogs) > 0)
-              @foreach ($documentLogs as $log)
+            <div class="card-body">
+              <div class="profiletimeline">
+                  @foreach ($documentLogs as $log)
+
+                          <div class="sl-item">
+                              <div class="sl-left"> <img src="{{$log->user->img_path}}" alt="user" class="img-circle"> </div>
+                              <div class="sl-right">
+                                  <div><b style="font-weight: bold;">{{$log->user->name}}</b>
+                                      <span class="sl-date" style="float:right;font-weight: bold;">{{ Carbon\Carbon::parse($log->created_at)->diffForHumans()}} </span>
+                                      <p class="m-t-10 text-muted" style="font-weight:500">{{$log->remark}}</p>
+                                  </div>
+                              </div>
+                          </div>
+                          <hr>
                   
-              @endforeach
+
+                  @endforeach
+              </div>
+          </div>
             @else
             <br><br><br>
             <div class="row">

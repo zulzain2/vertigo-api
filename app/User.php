@@ -55,4 +55,8 @@ class User extends Authenticatable
     public function inquiry() {
         return $this->hasOne('App\InquiryType', 'id', 'id_inquiry');
     }
+
+    public function document_log() {
+        return $this->hasMany('App\DocumentLog', 'id_user', 'id');
+    }
 }

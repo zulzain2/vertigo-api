@@ -340,6 +340,13 @@
     <!-- ============================================================== -->
     <script src="{{ url('assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script>
 
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="{{ url('js/plugins/perfect-scrollbar.jquery.min.js') }}"></script>
+
+    <script type="text/javascript">
+        $('#slimtest1, #slimtest2, #slimtest3, #slimtest4').perfectScrollbar();
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     
     <script>
