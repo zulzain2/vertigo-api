@@ -91,7 +91,7 @@ a.link:hover, a.link:focus {
   background: #398bf7; }
 
 .sidebar-nav > ul > li.active > a {
-  color: #ffffff;
+  color: black;
   border-color: #ffffff; }
   .sidebar-nav > ul > li.active > a i {
     color: #ffffff; }
