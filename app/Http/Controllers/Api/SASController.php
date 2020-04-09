@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\SAS;
 use App\Role;
 use App\User;
+use App\DocumentLog;
+use App\Notification;
 use Ramsey\Uuid\Uuid;
 use App\SASStaffAssign;
 use Illuminate\Http\Request;
@@ -49,21 +51,15 @@ class SASController extends Controller
     public function addNewTask(Request $request)
     {
         $managers = Role::where('level' , 1)->first();
-        
+
         if($managers)
         {
         
-            return response(['status' => 'OK' , 'message' => 'No managers found in system, please register at least a manager to get their approval.']);
-        
-        }
-        else
-        {
             $managers = $managers->user;
 
             if(count($managers) != 0)
             {
-                $managers = $managers->user;
-
+             
                 $managers_array = [];
             
                 foreach ($managers as $key => $manager) {
@@ -102,6 +98,23 @@ class SASController extends Controller
                         $add2->status = "Created";
                         $add2->created_by = auth()->user()->id;
                         $add2->save();  
+
+                        $assignee = User::find($add2->id_user);
+
+                        $document = New DocumentLog;
+                        $document->id 				= Uuid::uuid4()->getHex();
+                        $document->user_type 		= auth()->user()->role->name;
+                        $document->id_user			= auth()->user()->id;
+                        $document->start_at 		= date('Y-m-d H:i:s');
+                        $document->end_at 			= null;
+                        $document->document_type 	= "SAS";
+                        $document->id_document 		=  $add2->id;
+                        $document->remark 			= 'Create New Task for '.$assignee->name.' in Staff Assignment System';
+                        $document->status 			= "Created";
+                        $document->id_notification 	= "";
+                        $document->created_by 		= auth()->user()->id;
+                        $document->updated_by 		= auth()->user()->id;
+                        $document->save();
                 }
 
                 foreach ($managers as $key => $manager) {
@@ -129,6 +142,13 @@ class SASController extends Controller
             {
                 return response(['status' => 'OK' , 'message' => 'No managers found in system, please register at least a manager to get their approval.']);
             }
+        
+        }
+        else
+        {
+            return response(['status' => 'OK' , 'message' => 'No managers found in system, please register at least a manager to get their approval.']);
+
+            
         }
         
        
@@ -193,6 +213,23 @@ class SASController extends Controller
                 $add2->created_by = auth()->user()->id;
                 $add2->updated_by = auth()->user()->id;
                 $add2->save();  
+
+                $assignee = User::find($add2->id_user);
+                
+                $document = New DocumentLog;
+                $document->id 				= Uuid::uuid4()->getHex();
+                $document->user_type 		= auth()->user()->role->name;
+                $document->id_user			= auth()->user()->id;
+                $document->start_at 		= date('Y-m-d H:i:s');
+                $document->end_at 			= null;
+                $document->document_type 	= "SAS";
+                $document->id_document 		=  $add2->id;
+                $document->remark 			= 'Update Task for '.$assignee->name.' in Staff Assignment System';
+                $document->status 			= "Update";
+                $document->id_notification 	= "";
+                $document->created_by 		= auth()->user()->id;
+                $document->updated_by 		= auth()->user()->id;
+                $document->save();
         }
 
         return response(['status' => 'OK' , 'message' => 'Successfully edit task']);
@@ -202,8 +239,8 @@ class SASController extends Controller
     public function getAvailableStaff($datefrom, $dateto)
     {
 
-        $unavailableStaffs = SASStaffAssign::where('start_date' , '>=' , date('Y-m-d H:i:s' , strtotime($datefrom)))
-        ->where('end_date' , '<=' , date('Y-m-d H:i:s' , strtotime($dateto)))
+        $unavailableStaffs = SASStaffAssign::where('start_date' , '<=' , date('Y-m-d H:i:s' , strtotime($datefrom)))
+        ->where('end_date' , '>=' , date('Y-m-d H:i:s' , strtotime($dateto)))
         ->get();
 
         $availableUsers = array();
@@ -286,6 +323,23 @@ class SASController extends Controller
             $noti->notificationFCM($sasstaffassign->user->device_token , $noti->title , $noti->desc , null , null);
             //NOTIFICATION FCM SCHEDULE
 
+            $assignee = User::find($sasstaffassign->id_user);
+
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "SAS";
+            $document->id_document 		= $sasstaffassign->id;
+            $document->remark 			= 'Approve Task for '.$assignee->name.' with Job Number : '.$sas->job_number.' in Staff Assignment System';
+            $document->status 			= $sasstaffassign->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
         }
 
         
@@ -302,6 +356,31 @@ class SASController extends Controller
         $sas->updated_by = auth()->user()->id;
         $sas->save();
 
+
+        foreach ($sas->sasstaffassign as $key => $sasstaffassign) {
+
+            $sasstaffassign->status = "Rejected";
+            $sasstaffassign->save();
+
+            $assignee = User::find($sasstaffassign->id_user);
+
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "SAS";
+            $document->id_document 		= $sasstaffassign->id;
+            $document->remark 			= 'Reject Task for '.$assignee->name.' with Job Number : '.$sas->job_number.' in Staff Assignment System';
+            $document->status 			= $sasstaffassign->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
+        }
+
         return response(['status' => 'OK' , 'message' => 'Successfully reject task']);
     }
 
@@ -313,6 +392,21 @@ class SASController extends Controller
         $sasassignstaff->acknowledge_status = '1';
         $sasassignstaff->updated_by = auth()->user()->id;
         $sasassignstaff->save();
+
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "SAS";
+        $document->id_document 		= $sasassignstaff->id;
+        $document->remark 			= 'Acknowledge Task in Staff Assignment System';
+        $document->status 			= $sasassignstaff->status;
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
 
         return response(['status' => 'OK' , 'message' => 'Successfully acknowledge task']);
     }
@@ -332,6 +426,21 @@ class SASController extends Controller
             $sasassignstaff->updated_by = auth()->user()->id;
             $sasassignstaff->save();
 
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "SAS";
+            $document->id_document 		= $sasassignstaff->id;
+            $document->remark 			= 'Start Task in Staff Assignment System';
+            $document->status 			= $sasassignstaff->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
             return response(['status' => 'OK' , 'message' => 'Successfully start task']);
         } 
         elseif ($request->start_task == 'No') 
@@ -349,6 +458,21 @@ class SASController extends Controller
             $sasassignstaff->save();
 
             //NOTIFICATION FCM SCHEDULE
+
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "SAS";
+            $document->id_document 		= $sasassignstaff->id;
+            $document->remark 			= 'Set a new Start Date for Task in Staff Assignment System';
+            $document->status 			= $sasassignstaff->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
 
             return response(['status' => 'OK' , 'message' => 'Successfully extend start task']);
         }
@@ -394,6 +518,21 @@ class SASController extends Controller
         $sasassignstaff->img_path_update = $path;
         $sasassignstaff->save();
 
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "SAS";
+        $document->id_document 		= $sasassignstaff->id;
+        $document->remark 			= 'Update Progress in Staff Assignment System';
+        $document->status 			= $sasassignstaff->status;
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+
         return response(['status' => 'OK' , 'message' => 'Successfully update task progress']);
 
     }
@@ -413,6 +552,36 @@ class SASController extends Controller
             $sasassignstaff->updated_by = auth()->user()->id;
             $sasassignstaff->save();
 
+            $sasassignstaff = SASStaffAssign::find($id_sas_assign_staff);
+            $sas = $sasassignstaff->sas;
+            $count = 0;
+
+            foreach ($sas->sasstaffassign as $key => $sasstaffassign) {
+                if ($sasstaffassign->status == 'Task Finish') {
+                    $count++;
+                }
+            }
+            
+            if (count($sas->sasstaffassign) == $count) {
+                $sas->status = 'Task Finish';
+                $sas->save();
+            }
+           
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "SAS";
+            $document->id_document 		= $sasassignstaff->id;
+            $document->remark 			= 'Finish Task in Staff Assignment System';
+            $document->status 			= $sasassignstaff->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
             return response(['status' => 'OK' , 'message' => 'Successfully end task']);
         } 
         elseif ($request->finish_task == 'No') 
@@ -430,6 +599,21 @@ class SASController extends Controller
             $sasassignstaff->save();
 
             //NOTIFICATION FCM SCHEDULE
+
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "SAS";
+            $document->id_document 		= $sasassignstaff->id;
+            $document->remark 			= 'Set a new End Date for Task in Staff Assignment System';
+            $document->status 			= $sasassignstaff->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
 
             return response(['status' => 'OK' , 'message' => 'Successfully extend end task']);
         }

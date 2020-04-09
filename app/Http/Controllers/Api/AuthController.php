@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\User;
+use App\DocumentLog;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,7 +30,6 @@ class AuthController extends Controller
         $id_user = $register->id;
         $register->name = $request->name;
         $register->email = $request->email;
-        // $register->password = bcrypt($request->password);
         $register->password = Hash::make($request->password);
         $register->id_role = $request->id_role;
         $register->staff_id = $request->staff_id;
@@ -67,13 +67,26 @@ class AuthController extends Controller
             $register->img_path = $path;
         }
 
-        
-
-        $register->created_by = auth()->user()->id;
+        $register->created_by = auth()->user() ? auth()->user()->id : 'public';
         $register->status = 1;
         $register->save();
 
         $user = User::find($id_user);
+
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= $user->role->name;
+        $document->id_user			= Auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "User";
+        $document->id_document 		= $user->id;
+        $document->remark 			= 'New staff has been registered into system' ;
+        $document->status 			= "Registered In System";
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
 
         return response(['status' => 'OK' , 'user' => $user]);
 

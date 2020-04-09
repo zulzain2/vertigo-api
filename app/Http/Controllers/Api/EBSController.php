@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\EBS;
 use App\User;
 use App\Equipment;
+use App\DocumentLog;
 use App\EBSStaffUse;
 use App\Notification;
 use Ramsey\Uuid\Uuid;
@@ -113,6 +114,21 @@ class EBSController extends Controller
             // $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , null);
         }
 
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "EBS";
+        $document->id_document 		=  $add->id;
+        $document->remark 			= "Create New Booking for Equipment Booking System";
+        $document->status 			= "Booking Confirm";
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+
         return response(['status' => 'OK', 'message' => 'Successfully book equipment']);
     }
 
@@ -172,10 +188,29 @@ class EBSController extends Controller
                 $noti->save();
 
                 //NOTIFICATION FCM SCHEDULE
+
             }
 
+            
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "EBS";
+            $document->id_document 		=  $ebs->id;
+            $document->remark 			= 'Equipment Booking Start for Job Number : '.$ebs->job_number.'';
+            $document->status 			= "Booking Start";
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
             return response(['status' => 'OK', 'message' => 'Successfully acknowledge & start booking']);
+
         } elseif ($request->start_status == 'No') {
+
             $request->validate([
                 'start_justification'        => 'required',
                 'start_date'                 => 'required',
@@ -206,6 +241,21 @@ class EBSController extends Controller
                 //NOTIFICATION FCM SCHEDULE
             }
 
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "EBS";
+            $document->id_document 		=  $ebs->id;
+            $document->remark 			= 'Equipment Booking for Job Number : '.$ebs->job_number.' has place a new start date to '.date('j F Y, g:i a' , strtotime($ebs->start_date)).' ';
+            $document->status 			= "Booking set a New Start Date";
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
 
             return response(['status' => 'OK', 'message' => 'Successfully extend start booking']);
         }
@@ -231,6 +281,21 @@ class EBSController extends Controller
             $equipment->availability = "available";
             $equipment->save();
         }
+
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "EBS";
+        $document->id_document 		=  $ebs->id;
+        $document->remark 			= 'Equipment Booking for Job Number : '.$ebs->job_number.' has updated the progress to '.$ebs->booking_progress.'';
+        $document->status 			= "Booking Updated Progress";
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
 
         return response(['status' => 'OK', 'message' => 'Successfully update booking progress']);
     }
@@ -281,7 +346,23 @@ class EBSController extends Controller
                 $equipment->save();
             }
 
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "EBS";
+            $document->id_document 		=  $ebs->id;
+            $document->remark 			= 'Equipment Booking for Job Number : '.$ebs->job_number.' has successfully ended.';
+            $document->status 			= "Booking Ended";
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
             return response(['status' => 'OK', 'message' => 'Successfully end booking']);
+
         } elseif ($request->finish_status == 'No') {
             $request->validate([
                 'finish_justification'     => 'required',
@@ -337,6 +418,21 @@ class EBSController extends Controller
 
                 //NOTIFICATION FCM SCHEDULE
             }
+
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "EBS";
+            $document->id_document 		=  $ebs->id;
+            $document->remark 			= 'Equipment Booking for Job Number : '.$ebs->job_number.' has place a new end date to '.date('j F Y, g:i a' , strtotime($ebs->end_date)).' ';
+            $document->status 			= "Booking set a New End Date";
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
 
             return response(['status' => 'OK', 'message' => 'Successfully extend end booking']);
         }

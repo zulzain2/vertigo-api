@@ -63,8 +63,6 @@ class UserController extends Controller
         $request->validate([
 			'img' 	            => 'mimes:jpg,png',
             'img' 	            => 'max:8192',
-            'password_curr' 	=> 'required|string',
-            'password_new' 		=> 'required|confirmed|min:6',
             'id_role'           => 'required',
             'name'              =>'required',
             'email'             =>'email|required|unique:users,email,'.$update->id,
@@ -75,15 +73,6 @@ class UserController extends Controller
 
         $update = User::find($id);
 
-        if(!Hash::check($request->input('password_curr'), $update->password)) {
-
-            return response(['status' => 'FAIL' , 'message' => 'Current Password Not Match']);
-
-        }
-        else {
-            
-            $update->password = Hash::make($request->input('password_new'));
-            // $update->password = bcrypt($request->password_new);
             $update->name = $request->name;
             $update->email = $request->email;
             $update->id_role = $request->id_role;
@@ -115,15 +104,43 @@ class UserController extends Controller
                 $update->img_path = $path;
             }
 
-            $update->created_by = auth()->user()->id;
+            $update->updated_by = auth()->user()->id;
             $update->status = 1;
             $update->save();
 
             return response(['status' => 'OK' , 'message' => 'Successfully update user']);
+
+    }
+
+
+    public function updatePassword(Request $request, $id)
+    {
+     
+
+        $request->validate([
+			
+            'password_curr' 	=> 'required|string',
+            'password_new' 		=> 'required|confirmed|min:6',
+           
+        ]); 
+        
+        $update = User::find($id);
+
+        if(!Hash::check($request->input('password_curr'), $update->password)) {
+
+            return response(['status' => 'FAIL' , 'message' => 'Current Password Not Match']);
+
+        }
+        else {
+            
+            $update->password = Hash::make($request->input('password_new'));
+            $update->updated_by = auth()->user()->id;
+            $update->status = 1;
+            $update->save();
+
+            return response(['status' => 'OK' , 'message' => 'Successfully update password']);
             
         }
-
-   
     }
 
     /**

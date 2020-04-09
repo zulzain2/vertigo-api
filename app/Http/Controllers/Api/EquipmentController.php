@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Equipment;
+use App\DocumentLog;
 use Ramsey\Uuid\Uuid;
+use App\EquipmentCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\EquipmentCategory;
 
 class EquipmentController extends Controller
 {
@@ -92,6 +93,21 @@ class EquipmentController extends Controller
         $equipment->created_by = auth()->user()->id;
         $equipment->save();
 
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "Equipment";
+        $document->id_document 		=  $equipment->id;
+        $document->remark 			= 'New Equipment has been registered into system';
+        $document->status 			= "Equipment Registered";
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+
         return response(['status' => 'OK' , 'message' => 'Successfully create equipment']);
     }
 
@@ -169,6 +185,21 @@ class EquipmentController extends Controller
         $equipment->created_by = auth()->user()->id;
         $equipment->save();
 
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "Equipment";
+        $document->id_document 		=  $equipment->id;
+        $document->remark 			= 'Information on Equipment : '.$equipment->name.' has been updated';
+        $document->status 			= "Equipment Updated";
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+
         return response(['status' => 'OK' , 'message' => 'Successfully update equipment']);
     }
 
@@ -181,7 +212,8 @@ class EquipmentController extends Controller
     public function destroy($id)
     {
         $equipment = Equipment::find($id);
-        
+        $id_eq = $equipment->id;
+        $name_eq = $equipment->name;
         //Check if equipment exists before deleting
         if (!isset($equipment)){
             return response(['status' => 'OK' , 'message' => 'No equipment found']);
@@ -194,6 +226,21 @@ class EquipmentController extends Controller
         
         $equipment->delete();
      
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "Equipment";
+        $document->id_document 		=  $id_eq;
+        $document->remark 			= 'Equipment : '.$name_eq.' has been delete from system';
+        $document->status 			= "Equipment Deleted";
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+
         return response(['status' => 'OK' , 'message' => 'Success delete equipment']);
     }
 }

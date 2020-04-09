@@ -6,6 +6,7 @@ use App\MSS;
 use App\User;
 use App\MSSPic;
 use App\MSSTask;
+use App\DocumentLog;
 use App\MSSEquipment;
 use App\MSSTransport;
 use App\Notification;
@@ -131,6 +132,21 @@ class MSSController extends Controller
     
             }
 
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "MSS";
+            $document->id_document 		=  $add->id;
+            $document->remark 			= "Set New Maintenance Schedule";
+            $document->status 			= "Created";
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
             return response(['status' => 'OK' , 'message' => 'Successfully add new maintenance']);
     }
 
@@ -231,6 +247,21 @@ class MSSController extends Controller
         $mss->updated_by = auth()->user()->id;
         $mss->save();
 
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "MSS";
+        $document->id_document 		=  $mss->id;
+        $document->remark 			= "Acknowledge Maintenance Schedule";
+        $document->status 			= "Acknowledge";
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+
         return response(['status' => 'OK' , 'message' => 'Successfully acknowledge task']);
     }
 
@@ -250,6 +281,21 @@ class MSSController extends Controller
             $mss->updated_by = auth()->user()->id;
             $mss->save();
 
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "MSS";
+            $document->id_document 		=  $mss->id;
+            $document->remark 			= "Start Maintenance Schedule";
+            $document->status 			= "Task Start";
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
             return response(['status' => 'OK' , 'message' => 'Successfully start maintenance task']);
         } 
         elseif ($request->start_task == 'No') 
@@ -268,6 +314,21 @@ class MSSController extends Controller
 
             //NOTIFICATION FCM SCHEDULE
 
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "MSS";
+            $document->id_document 		=  $mss->id;
+            $document->remark 			= "Set a new start date for Maintenance Schedule";
+            $document->status 			= $mss->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
             return response(['status' => 'OK' , 'message' => 'Successfully extend start maintenance task']);
         }
 
@@ -285,6 +346,21 @@ class MSSController extends Controller
         $mss->justification_update = $request->justification_update;
         $mss->status = $request->task_progress;
         $mss->save();
+
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "MSS";
+        $document->id_document 		= $mss->id;
+        $document->remark 			= "Maintenance Schedule Progress Updated";
+        $document->status 			= $mss->status;
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
 
         return response(['status' => 'OK' , 'message' => 'Successfully update maintenance task progress']);
 
@@ -305,6 +381,21 @@ class MSSController extends Controller
             $mss->updated_by = auth()->user()->id;
             $mss->save();
 
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "MSS";
+            $document->id_document 		= $mss->id;
+            $document->remark 			= "Maintenance Schedule Ended";
+            $document->status 			= $mss->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
             return response(['status' => 'OK' , 'message' => 'Successfully end maintenance']);
         } 
         elseif ($request->finish_task == 'No') 
@@ -322,6 +413,21 @@ class MSSController extends Controller
             $mss->save();
 
             //NOTIFICATION FCM SCHEDULE
+
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "MSS";
+            $document->id_document 		= $mss->id;
+            $document->remark 			= "Set a New End Date for Maintenance Schedule";
+            $document->status 			= $mss->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
 
             return response(['status' => 'OK' , 'message' => 'Successfully extend end maintenance task']);
         }

@@ -62,7 +62,7 @@
 
 .sidebarBox {
     /* border: 2px solid black; */
-    height: 94%;
+    height: 100%;
     width: 11.4%;
     float: left;
     background: grey;
@@ -291,7 +291,7 @@
     width: 50%;
     margin-left: 2%;
     margin-top: 1%;
-    height: 90%;
+    height: 100%;
     float: left;
 }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Transport;
+use App\DocumentLog;
 use Ramsey\Uuid\Uuid;
 use App\TransportCategory;
 use Illuminate\Http\Request;
@@ -92,6 +93,21 @@ class TransportController extends Controller
         $transport->created_by = auth()->user()->id;
         $transport->save();
 
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "Transport";
+        $document->id_document 		=  $transport->id;
+        $document->remark 			= 'New Transport has been registered into system';
+        $document->status 			= "Transport Registered";
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+        
         return response(['status' => 'OK' , 'message' => 'Successfully create transport']);
 
     }
@@ -169,6 +185,21 @@ class TransportController extends Controller
         $transport->created_by = auth()->user()->id;
         $transport->save();
 
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "Transport";
+        $document->id_document 		=  $transport->id;
+        $document->remark 			= 'Information on Transport : '.$transport->name.' has been updated';
+        $document->status 			= "Transport Updated";
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+
         return response(['status' => 'OK' , 'message' => 'Successfully update transport']);
     }
 
@@ -181,7 +212,9 @@ class TransportController extends Controller
     public function destroy($id)
     {
         $transport = Transport::find($id);
-        
+        $id_t = $transport->id;
+        $name_t = $transport->name;
+
         //Check if transport exists before deleting
         if (!isset($transport)){
             return response(['status' => 'OK' , 'message' => 'No transport found']);
@@ -194,6 +227,21 @@ class TransportController extends Controller
         
         $transport->delete();
      
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "Transport";
+        $document->id_document 		=  $id_t;
+        $document->remark 			= 'Transport : '.$name_t.' has been delete from system';
+        $document->status 			= "Transport Deleted";
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+
         return response(['status' => 'OK' , 'message' => 'Success delete transport']);
     }
 

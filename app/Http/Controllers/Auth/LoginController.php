@@ -47,10 +47,10 @@ class LoginController extends Controller
         ]);
 
         if(!auth()->attempt($loginData)) {
-            return response(['message' => 'Invalid Credentials']);
+            return redirect('/login')->with('error','Invalid Credentials');
         }
 
-        return redirect('dashboard');
+        return redirect('dashboard2');
 
     }
 

@@ -6,6 +6,7 @@ use App\TBS;
 use App\User;
 use App\TBSDriver;
 use App\Transport;
+use App\DocumentLog;
 use App\Notification;
 use Ramsey\Uuid\Uuid;
 use App\TBSTransportUse;
@@ -106,6 +107,21 @@ class TBSController extends Controller
             // $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , null);
         }
 
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "TBS";
+        $document->id_document 		=  $add->id;
+        $document->remark 			= "Create New Booking for Transport Booking System";
+        $document->status 			= "Booking Confirm";
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+
         return response(['status' => 'OK' , 'message' => 'Successfully book transport']);
     }
 
@@ -167,6 +183,21 @@ class TBSController extends Controller
                 //NOTIFICATION FCM SCHEDULE
             }
 
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "TBS";
+            $document->id_document 		=  $tbs->id;
+            $document->remark 			= 'Transport Booking Start for Job Number : '.$tbs->job_number.'';
+            $document->status 			= "Booking Start";
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
             return response(['status' => 'OK' , 'message' => 'Successfully acknowledge & start booking']);
         } 
         elseif ($request->start_status == 'No') 
@@ -201,6 +232,20 @@ class TBSController extends Controller
                 //NOTIFICATION FCM SCHEDULE
             }
             
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "TBS";
+            $document->id_document 		=  $tbs->id;
+            $document->remark 			= 'Transport Booking for Job Number : '.$tbs->job_number.' has place a new start date to '.date('j F Y, g:i a' , strtotime($tbs->start_date)).' ';
+            $document->status 			= "Booking set a New Start Date";
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
 
             return response(['status' => 'OK' , 'message' => 'Successfully extend start booking']);
         }
@@ -226,6 +271,22 @@ class TBSController extends Controller
             $transport->save();
         }
         
+        
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "TBS";
+        $document->id_document 		=  $tbs->id;
+        $document->remark 			= 'Transport Booking for Job Number : '.$tbs->job_number.' has updated the progress to '.$tbs->booking_progress.'';
+        $document->status 			= "Booking Updated Progress";
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+
         return response(['status' => 'OK' , 'message' => 'Successfully update booking progress']);
     }
 
@@ -276,6 +337,21 @@ class TBSController extends Controller
                 $transport->availability = "available";
                 $transport->save();
             }
+
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "TBS";
+            $document->id_document 		=  $tbs->id;
+            $document->remark 			= 'Transport Booking for Job Number : '.$tbs->job_number.' has successfully ended.';
+            $document->status 			= "Booking Ended";
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
             
             return response(['status' => 'OK' , 'message' => 'Successfully end booking']);
         } 
@@ -336,6 +412,21 @@ class TBSController extends Controller
     
                 //NOTIFICATION FCM SCHEDULE
             }
+
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "TBS";
+            $document->id_document 		=  $tbs->id;
+            $document->remark 			= 'Transport Booking for Job Number : '.$tbs->job_number.' has place a new end date to '.date('j F Y , g:i a' , strtotime($tbs->end_date)).' ';
+            $document->status 			= "Booking set a New End Date";
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
 
             return response(['status' => 'OK' , 'message' => 'Successfully extend end booking']);
         }

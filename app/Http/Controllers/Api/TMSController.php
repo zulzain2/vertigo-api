@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\TMS;
 use App\Role;
 use App\TMSPic;
+use App\DocumentLog;
 use App\InquiryType;
 use App\Notification;
 use Ramsey\Uuid\Uuid;
@@ -89,6 +90,21 @@ class TMSController extends Controller
             //NOTIFICATION FCM OTS
         }
        
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "TMS";
+            $document->id_document 		=  $add->id;
+            $document->remark 			= "Submit New Submission in Tender Management System";
+            $document->status 			= $add->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
         return response(['status' => 'OK' , 'message' => 'Successfully create inquiry']);
     }
 
@@ -135,6 +151,21 @@ class TMSController extends Controller
 
             //NOTIFICATION FCM SCHEDULE
         }
+
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "TMS";
+        $document->id_document 		= $update->id;
+        $document->remark 			= "Add New Session in Tender Management System";
+        $document->status 			= $update->status;
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
      
         return response(['status' => 'OK' , 'message' => 'Successfully add new session']);
     }
@@ -175,6 +206,21 @@ class TMSController extends Controller
         $tms->updated_by = auth()->user()->id;
         $tms->save();
 
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "TMS";
+        $document->id_document 		= $tms->id;
+        $document->remark 			= "Acknowledge Task in Tender Management System";
+        $document->status 			= $tms->status;
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+
         return response(['status' => 'OK' , 'message' => 'Successfully acknowledge task']);
     }
 
@@ -193,6 +239,21 @@ class TMSController extends Controller
             $tms->updated_by = auth()->user()->id;
             $tms->save();
 
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "TMS";
+            $document->id_document 		= $tms->id;
+            $document->remark 			= "Start Site Visit in Tender Management System";
+            $document->status 			= $tms->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
             return response(['status' => 'OK' , 'message' => 'Successfully start site vist']);
         } 
         elseif ($request->start_task == 'No') 
@@ -207,6 +268,21 @@ class TMSController extends Controller
             $tms->save();
 
             //NOTIFICATION FCM SCHEDULE
+
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "TMS";
+            $document->id_document 		= $tms->id;
+            $document->remark 			= "Site Visit not start in Tender Management System";
+            $document->status 			= $tms->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
 
             return response(['status' => 'OK' , 'message' => 'Successfully updated site visit']);
         }
@@ -275,6 +351,21 @@ class TMSController extends Controller
                 //NOTIFICATION FCM OTS
             }
                
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "TMS";
+            $document->id_document 		= $tms->id;
+            $document->remark 			= "Complete Review Session in Tender Management System";
+            $document->status 			= $tms->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
             return response(['status' => 'OK' , 'message' => 'Successfully complete task']);
         } 
         elseif ($request->finish_task == 'No') 
@@ -290,6 +381,21 @@ class TMSController extends Controller
             $tms->save();
 
             //NOTIFICATION FCM SCHEDULE
+
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "TMS";
+            $document->id_document 		= $tms->id;
+            $document->remark 			= "Set a New due date for Review Session in Tender Management System";
+            $document->status 			= $tms->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
 
             return response(['status' => 'OK' , 'message' => 'Successfully extend review session']);
         }
@@ -316,6 +422,21 @@ class TMSController extends Controller
             $tms->save();
         }
 
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "TMS";
+        $document->id_document 		= $tms->id;
+        $document->remark 			= "Verify Task in Tender Management System";
+        $document->status 			= $tms->status;
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+
         return response(['status' => 'OK' , 'message' => 'Successfully verified task']);
 
     }
@@ -339,6 +460,21 @@ class TMSController extends Controller
             $tms->save();
         }
 
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "TMS";
+        $document->id_document 		= $tms->id;
+        $document->remark 			= "Verify Task in Tender Management System";
+        $document->status 			= $tms->status;
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+        
         return response(['status' => 'OK' , 'message' => 'Successfully verified task']);
 
     }

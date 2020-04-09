@@ -29,7 +29,8 @@ Coded by www.creative-tim.com
     <!-- CSS Files -->
     <link href="{{( url('/css/argon-design-system.css?v=1.2.0'))}}" rel="stylesheet" />
     <link href="{{( url('/css/generalCustom.css'))}}" rel="stylesheet" />
-
+    <!-- Toastr style -->
+    <link href="{{ url('/js/plugins/toastr/toastr.min.css') }}" rel="stylesheet">
 </head>
 <img src="{{ url('/img/header.png') }}" alt="Avatar" style="width:10%;position:fixed">
 
@@ -81,6 +82,8 @@ Coded by www.creative-tim.com
             </div>
         </div>
     </section>
+     <!-- Toastr script -->
+     <script src="{{ url('/js/plugins/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('/js/core/jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ url('/js/core/popper.min.js') }}" type="text/javascript"></script>
     <script src="{{ url('/js/core/bootstrap.min.js') }}" type="text/javascript"></script>
@@ -96,6 +99,43 @@ Coded by www.creative-tim.com
     <!--  Google Maps Plugin    -->
     <script src="{{ url('/js/argon-design-system.min.js?v=1.2.0') }}" type="text/javascript"></script>
     <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+
+    <script>
+
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "progressBar": true,
+            "preventDuplicates": false,
+            "positionClass": "toast-top-right",
+            "onclick": null,
+            "showDuration": "400",
+            "hideDuration": "1000",
+            "timeOut": "7000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+            }
+            
+        @if(count($errors) > 0)
+        
+            @foreach($errors->all() as $error)
+            toastr.error('{{$error}}','Attention')
+            @endforeach
+        
+        @endif
+    
+        @if(session('success'))
+            toastr.success('{{session("success")}}','Success')
+        @endif
+    
+        @if(session('error'))
+            toastr.error('{{session("error")}}','Attention')        
+        @endif
+    
+    </script>
 </body>
 
 </html>
