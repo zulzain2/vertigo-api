@@ -50,7 +50,7 @@ class LoginController extends Controller
             return redirect('/login')->with('error','Invalid Credentials');
         }
 
-        return redirect('dashboard2');
+        return redirect('dashboard2')->with('success','<h6 style="color:white;padding-top:10px"><strong>Welcome To VERTIGO</strong></h6>');
 
     }
 

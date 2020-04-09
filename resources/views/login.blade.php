@@ -31,6 +31,7 @@ Coded by www.creative-tim.com
     <link href="{{( url('/css/generalCustom.css'))}}" rel="stylesheet" />
     <!-- Toastr style -->
     <link href="{{ url('/js/plugins/toastr/toastr.min.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 </head>
 <img src="{{ url('/img/header.png') }}" alt="Avatar" style="width:10%;position:fixed">
 
@@ -81,6 +82,7 @@ Coded by www.creative-tim.com
                 </div>
             </div>
         </div>
+       
     </section>
      <!-- Toastr script -->
      <script src="{{ url('/js/plugins/toastr/toastr.min.js') }}"></script>
@@ -100,40 +102,44 @@ Coded by www.creative-tim.com
     <script src="{{ url('/js/argon-design-system.min.js?v=1.2.0') }}" type="text/javascript"></script>
     <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
     <script>
-
-        toastr.options = {
+         toastr.options = {
             "closeButton": true,
             "debug": false,
+            "newestOnTop": false,
             "progressBar": true,
-            "preventDuplicates": false,
             "positionClass": "toast-top-right",
+            "preventDuplicates": false,
             "onclick": null,
-            "showDuration": "400",
+            "showDuration": "300",
             "hideDuration": "1000",
-            "timeOut": "7000",
+            "timeOut": "5000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
             }
-            
-        @if(count($errors) > 0)
-        
+
+        @if($errors->any())
+
             @foreach($errors->all() as $error)
-            toastr.error('{{$error}}','Attention')
+                toastr["error"]('{{$error}}') 
             @endforeach
-        
+
         @endif
-    
+
         @if(session('success'))
-            toastr.success('{{session("success")}}','Success')
+            toastr["success"]('{{session("success")}}');
         @endif
-    
+
         @if(session('error'))
-            toastr.error('{{session("error")}}','Attention')        
+            toastr["error"]('{{session("error")}}')       
         @endif
+
+  
     
     </script>
 </body>

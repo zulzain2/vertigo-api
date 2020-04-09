@@ -370,7 +370,7 @@
         @endif
 
         @if(session('success'))
-            toastr["success"]('{{session("success")}}');
+            toastr["success"]('{!!session("success")!!}');
         @endif
 
         @if(session('error'))
