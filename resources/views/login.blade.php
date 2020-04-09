@@ -17,6 +17,9 @@ Coded by www.creative-tim.com
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('img/logoMain2.png') }}">
+    <title>Vertigo</title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
