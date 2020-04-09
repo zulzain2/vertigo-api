@@ -107,9 +107,9 @@
                         <!-- Logo icon --><b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="{{ url('img/logomain2.png') }}" alt="homepage" class="dark-logo" style="width:40px;height:40px"/>
+                            <img src="{{ url('img/logoMain2.png') }}" alt="homepage" class="dark-logo" style="width:40px;height:40px"/>
                             <!-- Light Logo icon -->
-                            <img src="{{ url('img/logomain2.png') }}" alt="homepage" class="light-logo" style="width:40px;height:40px"/>
+                            <img src="{{ url('img/logoMain2.png') }}" alt="homepage" class="light-logo" style="width:40px;height:40px"/>
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text --><span>
