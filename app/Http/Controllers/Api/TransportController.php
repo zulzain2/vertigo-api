@@ -76,12 +76,15 @@ class TransportController extends Controller
             
         } else {
             $fileNameToStore = 'noimage_'.$transport->id.'_'.time().'.png';
-            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.'noimage_'.$transport->id.'_'.time().'.png';
+
+            // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.'noimage_'.$transport->id.'_'.time().'.png';
+            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.'noimage_'.$transport->id.'_'.time().'.png';
             copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
         }
-
+        
         //path
-        $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+        // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+        $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
         
         $transport->img = $fileNameToStore;
         $transport->img_path = $path;
@@ -158,16 +161,19 @@ class TransportController extends Controller
             // Upload Image
             $request->file('img')->storeAs('public'.DIRECTORY_SEPARATOR.'transports', $fileNameToStore);
             //path
-            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            
+            // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
             // Delete file if exists
             Storage::delete('public'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.''.$transport->img);
         } 
         else {
             // Delete file if exists
             Storage::delete('public'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.''.$transport->img);
-
+            
             $fileNameToStore = 'noimage_'.$transport->id.'_'.time().'.png';
-            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.'noimage_'.$transport->id.'_'.time().'.png';
+            // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.'noimage_'.$transport->id.'_'.time().'.png';
+            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'transports'.DIRECTORY_SEPARATOR.'noimage_'.$transport->id.'_'.time().'.png';
             copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
         }
 

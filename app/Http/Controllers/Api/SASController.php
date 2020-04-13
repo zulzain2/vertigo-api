@@ -507,12 +507,16 @@ class SASController extends Controller
             
         } else {
             $fileNameToStore = 'noimage_'.$sasassignstaff->id.'_'.time().'.png';
-            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.'noimage_'.$sasassignstaff->id.'_'.time().'.png';
+            
+            // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.'noimage_'.$sasassignstaff->id.'_'.time().'.png';
+            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.'noimage_'.$sasassignstaff->id.'_'.time().'.png';
             copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
         }
-
+        
         //path
-        $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+        // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+        $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+
         
         $sasassignstaff->img_update = $fileNameToStore;
         $sasassignstaff->img_path_update = $path;
@@ -629,6 +633,27 @@ class SASController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function commentSas(Request $request , $id)
+    {
+        $request->validate([
+            'comment'        => 'required',
+        ]);
+
+        $sasstaffassign = SASStaffAssign::find($id);
+
+        $cmt = New SASComment;
+        $cmt->id = Uuid::uuid4()->getHex();
+        $cmt->id_sas_staff_assign = $sasstaffassign->id;
+        $cmt->id_user_comment = auth()->user()->id;
+        $cmt->comment = $request->comment;
+        $cmt->created_by = auth()->user()->id;
+        $cmt->save();
+
+        //Noti OTS
+        
+        return response(['status' => 'OK' , 'message' => 'Successfully comment on task']);
     }
 
     

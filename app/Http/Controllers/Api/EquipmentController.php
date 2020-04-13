@@ -76,12 +76,17 @@ class EquipmentController extends Controller
             
         } else {
             $fileNameToStore = 'noimage_'.$equipment->id.'_'.time().'.png';
-            $img_path = public_path().''.DIRECTORY_SEPARATOR.'/storage/equipments/noimage_'.$equipment->id.'_'.time().'.png';
+            
+            // $img_path = public_path().''.DIRECTORY_SEPARATOR.'/storage/equipments/noimage_'.$equipment->id.'_'.time().'.png';
+            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'equipments'.DIRECTORY_SEPARATOR.'noimage_'.$equipment->id.'_'.time().'.png';
+
             copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
         }
 
         //path
-        $path = '/storage/equipments/'.$fileNameToStore;
+        
+        // $path = '/storage/equipments/'.$fileNameToStore;
+        $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'equipments'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
         
         $equipment->img = $fileNameToStore;
         $equipment->img_path = $path;

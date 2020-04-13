@@ -20,10 +20,11 @@ use Illuminate\Http\Request;
 //Login
 Route::post('/login' , 'Api\AuthController@login');
 
-//Register
-Route::post('/register' , 'Api\AuthController@register');
+
 
 Route::middleware('auth:api')->group(function () {
+    //Register
+    Route::post('/register' , 'Api\AuthController@register');
     //User
     Route::put('user/updatePassword/{id}', 'Api\UserController@updatePassword');
     Route::resource('user', 'Api\UserController');

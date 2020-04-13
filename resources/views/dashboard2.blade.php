@@ -15,73 +15,118 @@
 {!! Form::open(['action' => 'DashboardController@searchDashboard', 'method' => 'POST','class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
 @csrf
 
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4><strong>1) Select Staff</strong></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <select id="id_staff" name="id_staff" class="form-control custom-select" style="font-weight: bold;background-color: #ffffff;border-color: #f4f5f7;box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);">
+                            @if(isset($user))
+                                <option value="{{$user->id}}">{{$user->name}}</option>  
+                            @else
+                                <option value="">-- Select Staff --</option>
+                            @endif
+                            @foreach ($users as $user)
+                                <option value="{{$user->id}}">{{$user->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4><strong>2) Select Module</strong></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <select id="module" name="module" class="form-control custom-select" style="font-weight: bold;background-color: #ffffff;border-color: #f4f5f7;box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);">
+                            @if(isset($module) && isset($moduleName))
+                                <option value="{{$module}}">{{$moduleName}}</option>  
+                            @else
+                                <option value="">-- Select Module --</option>
+                            @endif
+                            
+                            <option value="sas">Staff Assignment System</option>
+                            <option value="ebs">Equipment Booking System</option>
+                            <option value="tbs">Transport Booking System</option>
+                            <option value="mss">Maintenance Schedule System</option>
+                            <option value="tms">Tender Management System</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4><strong>3) Select Month</strong></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <select id="month" name="month" class="form-control custom-select" style="font-weight: bold;background-color: #ffffff;border-color: #f4f5f7;box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);">
+                            @if (isset($month) && isset($monthName))
+                                <option value="{{$month}}">{{$monthName}}</option>
+                            @else
+                                <option value="">-- Select Month --</option>
+                            @endif
+                            
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3">
+                        <button type="submit" class="btn waves-effect waves-light btn-danger" style="border-radius: 10px;"><i class="fas fa-search"></i> GO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         <div class="row" >
             <div class="col-lg-4">
-                <h4><strong>1) Select Staff</strong></h4>
+                
             </div>
             <div class="col-lg-4">
-                <h4><strong>2) Select Module</strong></h4>
+                
             </div>
             <div class="col-lg-4">
-                <h4><strong>3) Select Month</strong></h4>
+                
             </div>
         </div>
 
         <div class="row" style="padding-bottom:20px;">
             <div class="col-lg-4">
             
-                <select id="id_staff" name="id_staff" class="form-control custom-select" style="font-weight: bold;background-color: #ffffff;border-color: #f4f5f7;box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);">
-                    @if(isset($user))
-                        <option value="{{$user->id}}">{{$user->name}}</option>  
-                    @else
-                        <option value="">-- Select Staff --</option>
-                    @endif
-                    @foreach ($users as $user)
-                        <option value="{{$user->id}}">{{$user->name}}</option>
-                    @endforeach
-                </select>
+                
             </div>
             
             <div class="col-lg-4">
-                <select id="module" name="module" class="form-control custom-select" style="font-weight: bold;background-color: #ffffff;border-color: #f4f5f7;box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);">
-                    @if(isset($module) && isset($moduleName))
-                        <option value="{{$module}}">{{$moduleName}}</option>  
-                    @else
-                        <option value="">-- Select Module --</option>
-                    @endif
-                    
-                    <option value="sas">Staff Assignment System</option>
-                    <option value="ebs">Equipment Booking System</option>
-                    <option value="tbs">Transport Booking System</option>
-                    <option value="mss">Maintenance Schedule System</option>
-                    <option value="tms">Tender Management System</option>
-            </select>
+                
             </div>
         
             <div class="col-lg-3">
-                <select id="month" name="month" class="form-control custom-select" style="font-weight: bold;background-color: #ffffff;border-color: #f4f5f7;box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);">
-                    @if (isset($month) && isset($monthName))
-                        <option value="{{$month}}">{{$monthName}}</option>
-                    @else
-                        <option value="">-- Select Month --</option>
-                    @endif
-                    
-                    <option value="01">January</option>
-                    <option value="02">February</option>
-                    <option value="03">March</option>
-                    <option value="04">April</option>
-                    <option value="05">May</option>
-                    <option value="06">June</option>
-                    <option value="07">July</option>
-                    <option value="08">August</option>
-                    <option value="09">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
-                </select>
+               
             </div>
             <div class="col-lg-1" style="padding:0px">
-                <button type="submit" class="btn waves-effect waves-light btn-danger" style="border-radius: 10px;"><i class="fas fa-search"></i> GO</button>
+               
             </div>
         </div>
 

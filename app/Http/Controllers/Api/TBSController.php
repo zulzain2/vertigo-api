@@ -321,12 +321,17 @@ class TBSController extends Controller
                 
             } else {
                 $fileNameToStore = 'noimage_'.$tbs->id.'_'.time().'.png';
-                $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
+                
+                // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
+                $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
                 copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
             }
 
             //path
-            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            
+            // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+
             
             $tbs->img_update = $fileNameToStore;
             $tbs->img_path_update = $path;
@@ -383,12 +388,16 @@ class TBSController extends Controller
                 
             } else {
                 $fileNameToStore = 'noimage_'.$tbs->id.'_'.time().'.png';
-                $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
+                
+                // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
+                $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
                 copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
             }
 
             //path
-            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+
             
             $tbs->img_update = $fileNameToStore;
             $tbs->img_path_update = $path;

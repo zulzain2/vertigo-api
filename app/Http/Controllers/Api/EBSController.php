@@ -329,12 +329,15 @@ class EBSController extends Controller
                 $request->file('img_update')->storeAs('public' . DIRECTORY_SEPARATOR . 'ebs', $fileNameToStore);
             } else {
                 $fileNameToStore = 'noimage_' . $ebs->id . '_' . time() . '.png';
-                $img_path = public_path() . '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
+                
+                // $img_path = public_path() . '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
+                $img_path = public_path() .''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
                 copy(public_path() . '' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'noimage.png', $img_path);
             }
-
+            
             //path
-            $path = '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
+            // $path = '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
+            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
 
             $ebs->img_update = $fileNameToStore;
             $ebs->img_path_update = $path;
@@ -389,12 +392,16 @@ class EBSController extends Controller
                 $request->file('img_update')->storeAs('public' . DIRECTORY_SEPARATOR . 'ebs', $fileNameToStore);
             } else {
                 $fileNameToStore = 'noimage_' . $ebs->id . '_' . time() . '.png';
-                $img_path = public_path() . '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
+                
+                // $img_path = public_path() . '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
+                $img_path = public_path() .''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
                 copy(public_path() . '' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'noimage.png', $img_path);
             }
 
             //path
-            $path = '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
+            
+            // $path = '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
+            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
 
             $ebs->img_update = $fileNameToStore;
             $ebs->img_path_update = $path;
