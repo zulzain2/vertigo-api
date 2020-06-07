@@ -88,9 +88,9 @@ class TBSController extends Controller
             $add2->created_by = auth()->user()->id;
             $add2->save(); 
 
-            $noti = New Notification;
-            $noti->id = Uuid::uuid4()->getHex();
-            $noti->to_user = $driver;
+            //NOTIFICATION FCM SCHEDULE
+            $noti = new Notification;
+            $noti->to_user =  $driver;
             $noti->tiny_img_url = '';
             $noti->title = 'Vertigo [Transport Booking System]';
             $noti->desc = 'Have you utilize the transport?';
@@ -99,12 +99,18 @@ class TBSController extends Controller
             $noti->send_status = 'P';
             $noti->status = '';
             $noti->created_by = auth()->user()->id;
-            $noti->save();
+            $json_noti = json_encode($noti);
 
-            $user = User::find($driver);
+            $scheduler = New Scheduler;
+            $scheduler->id = Uuid::uuid4()->getHex();
+            $scheduler->trigger_datetime = $add->start_date;
+            $scheduler->url_to_call = 'triggeredNotification';
+            $scheduler->secret_key = '';
+            $scheduler->params = $json_noti;
+            $scheduler->is_triggered = 0;
+            $scheduler->created_by = auth()->user()->id;
+            $scheduler->save();
 
-            //NOTIFICATION FCM SCHEDULE
-            // $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , null);
         }
 
         $document = New DocumentLog;
@@ -167,9 +173,9 @@ class TBSController extends Controller
 
             foreach ($tbs->tbsdriver as $key => $tbsdriver) {
 
-                $noti = New Notification;
-                $noti->id = Uuid::uuid4()->getHex();
-                $noti->to_user = $tbsdriver->id_user;
+                //NOTIFICATION FCM SCHEDULE
+                $noti = new Notification;
+                $noti->to_user =  $tbsdriver->id_user;
                 $noti->tiny_img_url = '';
                 $noti->title = 'Vertigo [Transport Booking System]';
                 $noti->desc = 'Have you completed the booking?';
@@ -178,9 +184,18 @@ class TBSController extends Controller
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->created_by = auth()->user()->id;
-                $noti->save();
-    
-                //NOTIFICATION FCM SCHEDULE
+                $json_noti = json_encode($noti);
+
+                $scheduler = New Scheduler;
+                $scheduler->id = Uuid::uuid4()->getHex();
+                $scheduler->trigger_datetime = $tbs->end_date;
+                $scheduler->url_to_call = 'triggeredNotification';
+                $scheduler->secret_key = '';
+                $scheduler->params = $json_noti;
+                $scheduler->is_triggered = 0;
+                $scheduler->created_by = auth()->user()->id;
+                $scheduler->save();
+     
             }
 
             $document = New DocumentLog;
@@ -215,10 +230,10 @@ class TBSController extends Controller
             $tbs->save();
 
             foreach ($tbs->tbsdriver as $key => $tbsdriver) {
-
-                $noti = New Notification;
-                $noti->id = Uuid::uuid4()->getHex();
-                $noti->to_user = $tbsdriver->id_user;
+    
+                //NOTIFICATION FCM SCHEDULE
+                $noti = new Notification;
+                $noti->to_user =  $tbsdriver->id_user;
                 $noti->tiny_img_url = '';
                 $noti->title = 'Vertigo [Transport Booking System]';
                 $noti->desc = 'Have you utilize the transport?';
@@ -227,9 +242,19 @@ class TBSController extends Controller
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->created_by = auth()->user()->id;
-                $noti->save();
-    
-                //NOTIFICATION FCM SCHEDULE
+                $json_noti = json_encode($noti);
+
+                $scheduler = New Scheduler;
+                $scheduler->id = Uuid::uuid4()->getHex();
+                $scheduler->trigger_datetime = $tbs->start_date;
+                $scheduler->url_to_call = 'triggeredNotification';
+                $scheduler->secret_key = '';
+                $scheduler->params = $json_noti;
+                $scheduler->is_triggered = 0;
+                $scheduler->created_by = auth()->user()->id;
+                $scheduler->save();
+
+                
             }
             
             $document = New DocumentLog;
@@ -322,15 +347,15 @@ class TBSController extends Controller
             } else {
                 $fileNameToStore = 'noimage_'.$tbs->id.'_'.time().'.png';
                 
-                // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
-                $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
+                $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
+                // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
                 copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
             }
 
             //path
             
-            // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
-            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
 
             
             $tbs->img_update = $fileNameToStore;
@@ -389,14 +414,14 @@ class TBSController extends Controller
             } else {
                 $fileNameToStore = 'noimage_'.$tbs->id.'_'.time().'.png';
                 
-                // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
-                $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
+                $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
+                // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.'noimage_'.$tbs->id.'_'.time().'.png';
                 copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
             }
 
             //path
-            // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
-            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+            // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'tbs'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
 
             
             $tbs->img_update = $fileNameToStore;
@@ -405,10 +430,10 @@ class TBSController extends Controller
 
 
             foreach ($tbs->tbsdriver as $key => $tbsdriver) {
-
-                $noti = New Notification;
-                $noti->id = Uuid::uuid4()->getHex();
-                $noti->to_user = $tbsdriver->id_user;
+    
+                //NOTIFICATION FCM SCHEDULE
+                $noti = new Notification;
+                $noti->to_user =  $tbsdriver->id_user;
                 $noti->tiny_img_url = '';
                 $noti->title = 'Vertigo [Transport Booking System]';
                 $noti->desc = 'Have you completed the booking?';
@@ -417,9 +442,18 @@ class TBSController extends Controller
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->created_by = auth()->user()->id;
-                $noti->save();
-    
-                //NOTIFICATION FCM SCHEDULE
+                $json_noti = json_encode($noti);
+
+                $scheduler = New Scheduler;
+                $scheduler->id = Uuid::uuid4()->getHex();
+                $scheduler->trigger_datetime = $tbs->end_date;
+                $scheduler->url_to_call = 'triggeredNotification';
+                $scheduler->secret_key = '';
+                $scheduler->params = $json_noti;
+                $scheduler->is_triggered = 0;
+                $scheduler->created_by = auth()->user()->id;
+                $scheduler->save();
+
             }
 
             $document = New DocumentLog;

@@ -35,6 +35,14 @@ Coded by www.creative-tim.com
     <!-- Toastr style -->
     <link href="{{ url('/js/plugins/toastr/toastr.min.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-messaging.js"></script>
+
+    <link rel="manifest" href="manifest.json">
+
 </head>
 <img src="{{ url('/img/header.png') }}" alt="Avatar" style="width:10%;position:fixed">
 
@@ -72,6 +80,7 @@ Coded by www.creative-tim.com
                                         <input class="form-control" id="customBorderBottomLine" name="password" placeholder="Password" type="password">
                                     </div>
                                 </div>
+                                <input type="hidden" name="device_token" id="device_token" value="NOTOKEN">
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-icon mainColor mainFontColor my-4" style="text-transform: unset">
                                         <span class="btn-inner--icon"><i class="ni ni-check-bold"></i></span>
@@ -87,6 +96,7 @@ Coded by www.creative-tim.com
         </div>
        
     </section>
+    
      <!-- Toastr script -->
      <script src="{{ url('/js/plugins/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('/js/core/jquery.min.js') }}" type="text/javascript"></script>
@@ -106,7 +116,7 @@ Coded by www.creative-tim.com
     <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    
+    <script src="{{secure_asset('js/firebase.js')}}"></script>
     <script>
          toastr.options = {
             "closeButton": true,
@@ -125,7 +135,7 @@ Coded by www.creative-tim.com
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
             }
-
+            
         @if($errors->any())
 
             @foreach($errors->all() as $error)

@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
@@ -10,7 +12,18 @@ use FCM;
 
 class Notification extends Model
 {
+    use Notifiable;
+    protected $table = 'notifications';
+    public $incrementing = FALSE;
+
     
+    public function touser() {
+        return $this->hasOne('App\User', 'id', 'to_user');
+    }
+
+    public function createduser() {
+        return $this->hasOne('App\User', 'id', 'created_by');
+    }
 
     public static function toSingleDevice($token,$title=null,$body=null,$icon,$click_action)
     {

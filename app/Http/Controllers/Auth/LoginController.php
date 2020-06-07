@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -48,6 +49,13 @@ class LoginController extends Controller
 
         if(!auth()->attempt($loginData)) {
             return redirect('/login')->with('error','Invalid Credentials');
+        }
+
+        if($request->device_token)  //This is for FCM
+        {
+            $user = User::find(auth()->user()->id);
+            $user->device_token = $request->device_token;
+            $user->save();
         }
 
         return redirect('dashboard2')->with('success','<h6 style="color:white;padding-top:10px"><strong>Welcome To VERTIGO</strong></h6>');

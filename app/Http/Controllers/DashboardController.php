@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\SASComment;
 use App\DocumentLog;
+use App\Notification;
 use App\SASStaffAssign;
 use Illuminate\Http\Request;
 
@@ -11,8 +13,7 @@ class DashboardController extends Controller
 {
     public function dashboard(Request $request)
     {
-        $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->get();
-
+        $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->limit(50)->get();  
 
         if($request->id_staff && $request->module && $request->month) 
         {
@@ -171,35 +172,37 @@ class DashboardController extends Controller
 
     public function staff()
     {
-        $documentLogs = DocumentLog::all();
+        $sascomments = SASComment::orderBy('created_at' , 'DESC')->get();
 
-        return view('staffAssignmentSystem2')->with(compact('documentLogs'));
+        $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'SAS')->limit(50)->get();
+
+        return view('staffAssignmentSystem2')->with(compact('documentLogs' , 'sascomments'));
     }
 
     public function equipment()
     {
-        $documentLogs = DocumentLog::all();
+        $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'EBS')->limit(50)->get();
 
         return view('equipment2')->with(compact('documentLogs'));
     }
 
     public function transport()
     {
-        $documentLogs = DocumentLog::all();
+        $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'TBS')->limit(50)->get();
 
         return view('transport2')->with(compact('documentLogs'));
     }
 
     public function maintenance()
     {
-        $documentLogs = DocumentLog::all();
+        $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'MSS')->limit(50)->get();
 
         return view('maintenance2')->with(compact('documentLogs'));
     }
 
     public function tender()
     {
-        $documentLogs = DocumentLog::all();
+        $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'TMS')->limit(50)->get();
         
         return view('tender2')->with(compact('documentLogs'));
     }

@@ -24,8 +24,9 @@ const firebaseConfig = {
 
             }).then(function(token){
 
+                $('#device_token').val(token);
                 console.log(token)
-                $('#insertfcm').val(token);
+              
             }).
 
             catch(function (err) {

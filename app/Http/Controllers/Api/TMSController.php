@@ -74,6 +74,7 @@ class TMSController extends Controller
         $inquiry = InquiryType::find($request->id_inquiry);
 
         foreach ($inquiry->user as $key => $user) {
+            //NOTIFICATION FCM OTS
             $noti = New Notification;
             $noti->id = Uuid::uuid4()->getHex();
             $noti->to_user = $user->id;
@@ -87,7 +88,11 @@ class TMSController extends Controller
             $noti->created_by = auth()->user()->id;
             $noti->save();
 
-            //NOTIFICATION FCM OTS
+            $to_staff = User::find($user->id);
+
+            $noti->notificationFCM($to_staff->device_token , $noti->title , $noti->desc , null , null);
+
+            
         }
        
             $document = New DocumentLog;
@@ -134,6 +139,7 @@ class TMSController extends Controller
             $picharge->created_by = auth()->user()->id;
             $picharge->save();
 
+            //NOTIFICATION FCM OTS
             $noti = New Notification;
             $noti->id = Uuid::uuid4()->getHex();
             $noti->to_user = $pic;
@@ -147,9 +153,31 @@ class TMSController extends Controller
             $noti->created_by = auth()->user()->id;
             $noti->save();
 
-            //NOTIFICATION FCM OTS
+            $to_pic = User::find($pic);
+            $noti->notificationFCM($to_pic->device_token , $noti->title , $noti->desc , null , null);
 
             //NOTIFICATION FCM SCHEDULE
+            $noti = new Notification;
+            $noti->to_user =  $pic;
+            $noti->tiny_img_url = '';
+            $noti->title = 'Vertigo [Tender Management System]';
+            $noti->desc = 'Have you visited the site?';
+            $noti->type = 'I';
+            $noti->click_url = '';
+            $noti->send_status = 'P';
+            $noti->status = '';
+            $noti->created_by = auth()->user()->id;
+            $json_noti = json_encode($noti);
+
+            $scheduler = New Scheduler;
+            $scheduler->id = Uuid::uuid4()->getHex();
+            $scheduler->trigger_datetime = $update->review_start_date;
+            $scheduler->url_to_call = 'triggeredNotification';
+            $scheduler->secret_key = '';
+            $scheduler->params = $json_noti;
+            $scheduler->is_triggered = 0;
+            $scheduler->created_by = auth()->user()->id;
+            $scheduler->save();
         }
 
         $document = New DocumentLog;
@@ -267,7 +295,33 @@ class TMSController extends Controller
             $tms->updated_by = auth()->user()->id;
             $tms->save();
 
-            //NOTIFICATION FCM SCHEDULE
+            // foreach ($tms->pic as $key => $pic) {
+
+            //         //NOTIFICATION FCM SCHEDULE
+            //         $noti = new Notification;
+            //         $noti->to_user =  $pic->id_user;
+            //         $noti->tiny_img_url = '';
+            //         $noti->title = 'Vertigo [Tender Management System]';
+            //         $noti->desc = 'Have you visited the site?';
+            //         $noti->type = 'I';
+            //         $noti->click_url = '';
+            //         $noti->send_status = 'P';
+            //         $noti->status = '';
+            //         $noti->created_by = auth()->user()->id;
+            //         $json_noti = json_encode($noti);
+
+            //         $scheduler = New Scheduler;
+            //         $scheduler->id = Uuid::uuid4()->getHex();
+            //         $scheduler->trigger_datetime = $update->review_start_date;
+            //         $scheduler->url_to_call = 'triggeredNotification';
+            //         $scheduler->secret_key = '';
+            //         $scheduler->params = $json_noti;
+            //         $scheduler->is_triggered = 0;
+            //         $scheduler->created_by = auth()->user()->id;
+            //         $scheduler->save();
+            // }
+
+
 
             $document = New DocumentLog;
             $document->id 				= Uuid::uuid4()->getHex();
@@ -311,6 +365,7 @@ class TMSController extends Controller
                 $clerks = $clerks->user;
 
                 foreach ($clerks as $key => $clerk) {
+                    //NOTIFICATION FCM OTS
                     $noti = New Notification;
                     $noti->id = Uuid::uuid4()->getHex();
                     $noti->to_user = $clerk->id;
@@ -324,7 +379,9 @@ class TMSController extends Controller
                     $noti->created_by = auth()->user()->id;
                     $noti->save();
     
-                    //NOTIFICATION FCM OTS
+                    $to_clerk = User::find($clerk->id);
+                    $noti->notificationFCM($to_clerk->device_token , $noti->title , $noti->desc , null , null);
+                    
                 }
             }
             else
@@ -335,6 +392,8 @@ class TMSController extends Controller
             $managers = $tms->inquiry->user;
 
             foreach ($managers as $key => $manager) {
+                
+                //NOTIFICATION FCM OTS
                 $noti = New Notification;
                 $noti->id = Uuid::uuid4()->getHex();
                 $noti->to_user = $manager->id;
@@ -348,7 +407,9 @@ class TMSController extends Controller
                 $noti->created_by = auth()->user()->id;
                 $noti->save();
 
-                //NOTIFICATION FCM OTS
+                $to_manager = User::find($manager->id);
+                $noti->notificationFCM($to_manager->device_token , $noti->title , $noti->desc , null , null);
+                
             }
                
             $document = New DocumentLog;
@@ -380,7 +441,32 @@ class TMSController extends Controller
             $tms->updated_by = auth()->user()->id;
             $tms->save();
 
-            //NOTIFICATION FCM SCHEDULE
+      
+            foreach ($tms->pic as $key => $pic) {
+
+                    //NOTIFICATION FCM SCHEDULE
+                    $noti = new Notification;
+                    $noti->to_user =  $pic->id_user;
+                    $noti->tiny_img_url = '';
+                    $noti->title = 'Vertigo [Tender Management System]';
+                    $noti->desc = 'Have you completed the assigned task?';
+                    $noti->type = 'I';
+                    $noti->click_url = '';
+                    $noti->send_status = 'P';
+                    $noti->status = '';
+                    $noti->created_by = auth()->user()->id;
+                    $json_noti = json_encode($noti);
+
+                    $scheduler = New Scheduler;
+                    $scheduler->id = Uuid::uuid4()->getHex();
+                    $scheduler->trigger_datetime = $tms->review_end_date;
+                    $scheduler->url_to_call = 'triggeredNotification';
+                    $scheduler->secret_key = '';
+                    $scheduler->params = $json_noti;
+                    $scheduler->is_triggered = 0;
+                    $scheduler->created_by = auth()->user()->id;
+                    $scheduler->save();
+            }
 
             $document = New DocumentLog;
             $document->id 				= Uuid::uuid4()->getHex();

@@ -1094,7 +1094,7 @@ File: scss
       padding: 7px 1.5rem; }
   .topbar ul.dropdown-user {
     padding: 0px;
-    min-width: 270px; }
+    min-width: 340px; }
     .topbar ul.dropdown-user li {
       list-style: none;
       padding: 0px;
@@ -4738,7 +4738,8 @@ File: scss
 /*User mail widgets*/
 /*******************/
 .topbar .top-navbar .mailbox {
-  width: 300px; }
+  width: 450px; 
+  height: 600px;}
   .topbar .top-navbar .mailbox ul {
     padding: 0px; }
     .topbar .top-navbar .mailbox ul li {
@@ -4754,7 +4755,7 @@ File: scss
   padding-top: 15px; }
 
 .mailbox .message-center {
-  height: 200px;
+  height: 490px;
   overflow: auto;
   position: relative; }
   .mailbox .message-center a {

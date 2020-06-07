@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\EBS;
 use App\User;
 use App\Equipment;
+use App\Scheduler;
 use App\DocumentLog;
 use App\EBSStaffUse;
 use App\Notification;
@@ -95,8 +96,8 @@ class EBSController extends Controller
             $add2->created_by = auth()->user()->id;
             $add2->save();
 
+            //NOTIFICATION FCM SCHEDULE
             $noti = new Notification;
-            $noti->id = Uuid::uuid4()->getHex();
             $noti->to_user = $staff_use;
             $noti->tiny_img_url = '';
             $noti->title = 'Vertigo [Equipment Booking System]';
@@ -106,12 +107,18 @@ class EBSController extends Controller
             $noti->send_status = 'P';
             $noti->status = '';
             $noti->created_by = auth()->user()->id;
-            $noti->save();
+            $json_noti = json_encode($noti);
 
-            $user = User::find($staff_use);
+            $scheduler = New Scheduler;
+            $scheduler->id = Uuid::uuid4()->getHex();
+            $scheduler->trigger_datetime = $add->start_date;
+            $scheduler->url_to_call = 'triggeredNotification';
+            $scheduler->secret_key = '';
+            $scheduler->params = $json_noti;
+            $scheduler->is_triggered = 0;
+            $scheduler->created_by = auth()->user()->id;
+            $scheduler->save();
 
-            //NOTIFICATION FCM SCHEDULE
-            // $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , null);
         }
 
         $document = New DocumentLog;
@@ -174,8 +181,8 @@ class EBSController extends Controller
 
             foreach ($ebs->ebsstaffuse as $key => $ebsstaffuse) {
 
+                //NOTIFICATION FCM SCHEDULE
                 $noti = new Notification;
-                $noti->id = Uuid::uuid4()->getHex();
                 $noti->to_user = $ebsstaffuse->id_user;
                 $noti->tiny_img_url = '';
                 $noti->title = 'Vertigo [Equipment Booking System]';
@@ -185,9 +192,17 @@ class EBSController extends Controller
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->created_by = auth()->user()->id;
-                $noti->save();
+                $json_noti = json_encode($noti);
 
-                //NOTIFICATION FCM SCHEDULE
+                $scheduler = New Scheduler;
+                $scheduler->id = Uuid::uuid4()->getHex();
+                $scheduler->trigger_datetime = $ebs->end_date;
+                $scheduler->url_to_call = 'triggeredNotification';
+                $scheduler->secret_key = '';
+                $scheduler->params = $json_noti;
+                $scheduler->is_triggered = 0;
+                $scheduler->created_by = auth()->user()->id;
+                $scheduler->save();
 
             }
 
@@ -225,8 +240,8 @@ class EBSController extends Controller
 
             foreach ($ebs->ebsstaffuse as $key => $ebsstaffuse) {
 
+                //NOTIFICATION FCM SCHEDULE
                 $noti = new Notification;
-                $noti->id = Uuid::uuid4()->getHex();
                 $noti->to_user = $ebsstaffuse->id_user;
                 $noti->tiny_img_url = '';
                 $noti->title = 'Vertigo [Equipment Booking System]';
@@ -236,9 +251,18 @@ class EBSController extends Controller
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->created_by = auth()->user()->id;
-                $noti->save();
+                $json_noti = json_encode($noti);
 
-                //NOTIFICATION FCM SCHEDULE
+                $scheduler = New Scheduler;
+                $scheduler->id = Uuid::uuid4()->getHex();
+                $scheduler->trigger_datetime =  $ebs->start_date;
+                $scheduler->url_to_call = 'triggeredNotification';
+                $scheduler->secret_key = '';
+                $scheduler->params = $json_noti;
+                $scheduler->is_triggered = 0;
+                $scheduler->created_by = auth()->user()->id;
+                $scheduler->save();
+   
             }
 
             $document = New DocumentLog;
@@ -330,14 +354,14 @@ class EBSController extends Controller
             } else {
                 $fileNameToStore = 'noimage_' . $ebs->id . '_' . time() . '.png';
                 
-                // $img_path = public_path() . '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
-                $img_path = public_path() .''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
+                $img_path = public_path() . '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
+                // $img_path = public_path() .''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
                 copy(public_path() . '' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'noimage.png', $img_path);
             }
             
             //path
-            // $path = '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
-            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
+            $path = '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
+            // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
 
             $ebs->img_update = $fileNameToStore;
             $ebs->img_path_update = $path;
@@ -393,15 +417,15 @@ class EBSController extends Controller
             } else {
                 $fileNameToStore = 'noimage_' . $ebs->id . '_' . time() . '.png';
                 
-                // $img_path = public_path() . '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
-                $img_path = public_path() .''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
+                $img_path = public_path() . '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
+                // $img_path = public_path() .''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
                 copy(public_path() . '' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'noimage.png', $img_path);
             }
 
             //path
             
-            // $path = '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
-            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
+            $path = '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
+            // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
 
             $ebs->img_update = $fileNameToStore;
             $ebs->img_path_update = $path;
@@ -410,20 +434,30 @@ class EBSController extends Controller
 
             foreach ($ebs->ebsstaffuse as $key => $ebsstaffuse) {
 
+                //NOTIFICATION FCM SCHEDULE
                 $noti = new Notification;
-                $noti->id = Uuid::uuid4()->getHex();
                 $noti->to_user = $ebsstaffuse->id_user;
                 $noti->tiny_img_url = '';
                 $noti->title = 'Vertigo [Equipment Booking System]';
-                $noti->desc = 'Have you completed the booking?';
+                $noti->desc =  'Have you completed the booking?';
                 $noti->type = 'I';
                 $noti->click_url = '';
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->created_by = auth()->user()->id;
-                $noti->save();
+                $json_noti = json_encode($noti);
 
-                //NOTIFICATION FCM SCHEDULE
+                $scheduler = New Scheduler;
+                $scheduler->id = Uuid::uuid4()->getHex();
+                $scheduler->trigger_datetime =  $ebs->end_date;
+                $scheduler->url_to_call = 'triggeredNotification';
+                $scheduler->secret_key = '';
+                $scheduler->params = $json_noti;
+                $scheduler->is_triggered = 0;
+                $scheduler->created_by = auth()->user()->id;
+                $scheduler->save();
+
+                
             }
 
             $document = New DocumentLog;

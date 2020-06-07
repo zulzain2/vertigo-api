@@ -48,11 +48,35 @@
                 </div>
               </div>
         
-              <div class="row">
-                <div class="col-lg-12">
-                  <h6 class="card-title  text-muted" style="font-weight:bold">No Comment Yet</h6>
+              @if (count($sascomments) > 0)
+                  <div class="card-body">
+                    @foreach ($sascomments as $sascomment)
+                         <!-- Comment item-->
+                        <div class="activity-item" style="margin-bottom: 30px;">
+                          <table width="100%">
+                            <tr>
+                              <td><div class="round m-r-20"><img src="{{$sascomment->usercomment->img_path}}" alt="user" width="50"></div></td>
+                              <td>
+                                  <div class="m-t-10">
+                                    <h5 class="m-b-5 font-medium"><b>{{$sascomment->usercomment->name}}</b><span class="text-muted font-14 m-l-10">| &nbsp; {{ Carbon\Carbon::parse($sascomment->created_at)->diffForHumans()}}</span></h5>
+                                    <h6 class="text-muted">Commented on <strong>{{$sascomment->sasstaffassign->user->name}} Task</strong></h6>
+                                    <p class="m-b-0">{{$sascomment->comment}}</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        </div>
+                        <!-- Comment item-->
+                    @endforeach
                 </div>
-              </div>
+              @else
+                <div class="row">
+                  <div class="col-lg-12">
+                    <h6 class="card-title  text-muted" style="font-weight:bold">No Comment Yet</h6>
+                  </div>
+                </div>
+              @endif
+              
               
           </div>
         </div>
@@ -74,6 +98,8 @@
            
             @if (count($documentLogs) > 0)
             <div class="card-body">
+              <div class="row">
+                <div class="col-lg-12 ps ps--theme_default ps--active-y" id="slimtest1" style="height: 580px;" data-ps-id="8db3e847-849b-2759-763b-e8592111f38d">
               <div class="profiletimeline">
                   @foreach ($documentLogs as $log)
 
@@ -91,6 +117,14 @@
 
                   @endforeach
               </div>
+              <div class="ps__scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                <div class="ps__scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+            </div>
+            <div class="ps__scrollbar-y-rail" style="top: 0px; height: 250px; right: 0px;">
+                <div class="ps__scrollbar-y" tabindex="0" style="top: 0px; height: 83px;"></div>
+            </div>
+            </div>
+          </div>
           </div>
             @else
             <br><br><br>

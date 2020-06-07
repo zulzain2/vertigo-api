@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\SAS;
 use App\Role;
 use App\User;
+use App\SASComment;
 use App\DocumentLog;
 use App\Notification;
 use Ramsey\Uuid\Uuid;
@@ -118,6 +119,8 @@ class SASController extends Controller
                 }
 
                 foreach ($managers as $key => $manager) {
+                    
+                    //NOTIFICATION FCM OTS
                     $noti = New Notification;
                     $noti->id = Uuid::uuid4()->getHex();
                     $noti->to_user = $manager->id;
@@ -131,7 +134,6 @@ class SASController extends Controller
                     $noti->created_by = auth()->user()->id;
                     $noti->save();
 
-                    //NOTIFICATION FCM OTS
                     $noti->notificationFCM($manager->device_token , $noti->title , $noti->desc , null , null);
                 }
 
@@ -306,6 +308,7 @@ class SASController extends Controller
             $sasstaffassign->status = "Approved";
             $sasstaffassign->save();
 
+            //NOTIFICATION FCM OTS
             $noti = New Notification;
             $noti->id = Uuid::uuid4()->getHex();
             $noti->to_user = $sasstaffassign->id_user;
@@ -319,9 +322,30 @@ class SASController extends Controller
             $noti->created_by = auth()->user()->id;
             $noti->save();
 
-            //NOTIFICATION FCM OTS
             $noti->notificationFCM($sasstaffassign->user->device_token , $noti->title , $noti->desc , null , null);
+         
             //NOTIFICATION FCM SCHEDULE
+            $noti = new Notification;
+            $noti->to_user = $sasstaffassign->id_user;
+            $noti->tiny_img_url = '';
+            $noti->title = 'Vertigo [Staff Assignment Management]';
+            $noti->desc =  'Have you started the assigned task?';
+            $noti->type = 'I';
+            $noti->click_url = '';
+            $noti->send_status = 'P';
+            $noti->status = '';
+            $noti->created_by = auth()->user()->id;
+            $json_noti = json_encode($noti);
+
+            $scheduler = New Scheduler;
+            $scheduler->id = Uuid::uuid4()->getHex();
+            $scheduler->trigger_datetime = $sasstaffassign->start_date;
+            $scheduler->url_to_call = 'triggeredNotification';
+            $scheduler->secret_key = '';
+            $scheduler->params = $json_noti;
+            $scheduler->is_triggered = 0;
+            $scheduler->created_by = auth()->user()->id;
+            $scheduler->save();
 
             $assignee = User::find($sasstaffassign->id_user);
 
@@ -457,7 +481,30 @@ class SASController extends Controller
             $sasassignstaff->updated_by = auth()->user()->id;
             $sasassignstaff->save();
 
+
             //NOTIFICATION FCM SCHEDULE
+            $noti = new Notification;
+            $noti->to_user = $sasassignstaff->id_user;
+            $noti->tiny_img_url = '';
+            $noti->title = 'Vertigo [Staff Assignment Management]';
+            $noti->desc =  'Have you started the assigned task?';
+            $noti->type = 'I';
+            $noti->click_url = '';
+            $noti->send_status = 'P';
+            $noti->status = '';
+            $noti->created_by = auth()->user()->id;
+            $json_noti = json_encode($noti);
+
+            $scheduler = New Scheduler;
+            $scheduler->id = Uuid::uuid4()->getHex();
+            $scheduler->trigger_datetime = $sasassignstaff->start_date;
+            $scheduler->url_to_call = 'triggeredNotification';
+            $scheduler->secret_key = '';
+            $scheduler->params = $json_noti;
+            $scheduler->is_triggered = 0;
+            $scheduler->created_by = auth()->user()->id;
+            $scheduler->save();
+            
 
             $document = New DocumentLog;
             $document->id 				= Uuid::uuid4()->getHex();
@@ -508,14 +555,14 @@ class SASController extends Controller
         } else {
             $fileNameToStore = 'noimage_'.$sasassignstaff->id.'_'.time().'.png';
             
-            // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.'noimage_'.$sasassignstaff->id.'_'.time().'.png';
-            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.'noimage_'.$sasassignstaff->id.'_'.time().'.png';
+            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.'noimage_'.$sasassignstaff->id.'_'.time().'.png';
+            // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.'noimage_'.$sasassignstaff->id.'_'.time().'.png';
             copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
         }
         
         //path
-        // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
-        $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+        $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+        // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'sas'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
 
         
         $sasassignstaff->img_update = $fileNameToStore;
@@ -602,7 +649,30 @@ class SASController extends Controller
             $sasassignstaff->updated_by = auth()->user()->id;
             $sasassignstaff->save();
 
+
             //NOTIFICATION FCM SCHEDULE
+            $noti = new Notification;
+            $noti->to_user = $sasassignstaff->id_user;
+            $noti->tiny_img_url = '';
+            $noti->title = 'Vertigo [Staff Assignment Management]';
+            $noti->desc =  'Have you finished the assigned task?';
+            $noti->type = 'I';
+            $noti->click_url = '';
+            $noti->send_status = 'P';
+            $noti->status = '';
+            $noti->created_by = auth()->user()->id;
+            $json_noti = json_encode($noti);
+
+            $scheduler = New Scheduler;
+            $scheduler->id = Uuid::uuid4()->getHex();
+            $scheduler->trigger_datetime = $sasassignstaff->end_date;
+            $scheduler->url_to_call = 'triggeredNotification';
+            $scheduler->secret_key = '';
+            $scheduler->params = $json_noti;
+            $scheduler->is_triggered = 0;
+            $scheduler->created_by = auth()->user()->id;
+            $scheduler->save();
+
 
             $document = New DocumentLog;
             $document->id 				= Uuid::uuid4()->getHex();
@@ -651,7 +721,21 @@ class SASController extends Controller
         $cmt->created_by = auth()->user()->id;
         $cmt->save();
 
-        //Noti OTS
+        //Notification OTS
+        $noti = New Notification;
+        $noti->id = Uuid::uuid4()->getHex();
+        $noti->to_user =  $sasstaffassign->id_user;
+        $noti->tiny_img_url = '';
+        $noti->title = 'Vertigo [Staff Assignment Management]';
+        $noti->desc = ''.auth()->user()->name.' comment on your task.';
+        $noti->type = 'I';
+        $noti->click_url = '';
+        $noti->send_status = 'P';
+        $noti->status = '';
+        $noti->created_by = auth()->user()->id;
+        $noti->save();
+        
+        $noti->notificationFCM($sasstaffassign->user->device_token , $noti->title , $noti->desc , null , null);
         
         return response(['status' => 'OK' , 'message' => 'Successfully comment on task']);
     }

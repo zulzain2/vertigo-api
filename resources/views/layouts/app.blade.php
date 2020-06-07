@@ -36,6 +36,12 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
  
+     <!-- The core Firebase JS SDK is always required and must be listed first -->
+     <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-app.js"></script>
+
+     <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-messaging.js"></script>
+ 
+     <link rel="manifest" href="manifest.json">
     
 
     <link href='{{ asset('js/plugins/fullcalendar/core/main.css') }}' rel='stylesheet' />
@@ -160,13 +166,44 @@
                         <!-- ============================================================== -->
                         <!-- Notification -->
                         <!-- ============================================================== -->
+                      
+                       
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                                 <i class="mdi mdi-bell-outline"></i>
-                        
                             </a>
-                           
+                            <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown">
+                                <ul>
+                                    <li>
+                                        <div class="drop-title">Notifications</div>
+                                    </li>
+                                    <li>
+                                        <div class="message-center">
+
+                                            @php
+                                            use App\Notification;
+
+                                            $notis = Notification::orderBy('created_at','DESC')->where('to_user' , '=' , auth()->user()->id)->limit(50)->get();
+                                            @endphp
+                                            @foreach ($notis as $noti)
+                                            <a href="#">
+                                                <div class="user-img"> <img src="{{URL::to($noti->createduser->img_path)}}" alt="user" class="img-circle"> </div>
+                                                <div class="mail-contnet">
+                                                    <h5>{{$noti->title}}</h5> 
+                                                    <span class="mail-desc">{{$noti->desc}}</span> 
+                                                    <span class="time">{{ Carbon\Carbon::parse($noti->created_at)->diffForHumans()}} </span> 
+                                                </div>
+                                            </a>
+                                            @endforeach
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-center" style="color:#455a64" href="javascript:void(0);"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
+                     
                         <!-- ============================================================== -->
                         <!-- End Notification -->
                         <!-- ============================================================== -->
@@ -307,7 +344,7 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-
+    <script src="{{secure_asset('js/firebase.js')}}"></script>
     <script src="{{ url('assets/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap popper Core JavaScript -->
     <script src="{{ url('assets/plugins/bootstrap/js/popper.min.js') }}"></script>

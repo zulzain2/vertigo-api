@@ -341,7 +341,13 @@
                                     <hr>
                             @endforeach
                         </div>
-                    <div class="ps__scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps__scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__scrollbar-y-rail" style="top: 0px; height: 250px; right: 0px;"><div class="ps__scrollbar-y" tabindex="0" style="top: 0px; height: 83px;"></div></div></div>
+                        <div class="ps__scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                            <div class="ps__scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                        </div>
+                        <div class="ps__scrollbar-y-rail" style="top: 0px; height: 250px; right: 0px;">
+                            <div class="ps__scrollbar-y" tabindex="0" style="top: 0px; height: 83px;"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

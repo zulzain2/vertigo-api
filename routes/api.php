@@ -45,6 +45,7 @@ Route::middleware('auth:api')->group(function () {
     //DASHBOARD SAS
     Route::get('/sas/dashDate', 'Api\SASController@dashDate')->name('sas.dashDate');
     //SAS
+    Route::post('/sas/commentSas/{id}', 'Api\SASController@commentSas')->name('sas.commentSas');
     Route::post('/sas/endTask/{id}', 'Api\SASController@endTask')->name('sas.endTask');
     Route::post('/sas/updateProgress/{id}', 'Api\SASController@updateProgress')->name('sas.updateProgress');
     Route::post('/sas/startTask/{id}', 'Api\SASController@startTask')->name('sas.startTask');
