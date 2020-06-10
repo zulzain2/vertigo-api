@@ -95,5 +95,13 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/tms/addNewInquiry', 'Api\TMSController@addNewInquiry')->name('tms.addNewInquiry');
     Route::resource('tms', 'Api\TMSController');
 
+    //NOTIFICATIONS
+    Route::get('/notification/getPending', 'Api\NotificationController@getPending')->name('notification.getPending');
+    Route::get('/notification/getSend', 'Api\NotificationController@getSend')->name('notification.getSend');
+    Route::get('/notification/getReceived', 'Api\NotificationController@getReceived')->name('notification.getReceived');
+    Route::get('/notification/getRead', 'Api\NotificationController@getRead')->name('notification.getRead');
+    Route::get('/notification/getFailed', 'Api\NotificationController@getFailed')->name('notification.getFailed');
+    Route::resource('notification', 'Api\NotificationController');
+
 });
 

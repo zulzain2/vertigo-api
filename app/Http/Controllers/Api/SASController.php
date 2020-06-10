@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\SAS;
 use App\Role;
 use App\User;
+use App\Scheduler;
 use App\SASComment;
 use App\DocumentLog;
 use App\Notification;

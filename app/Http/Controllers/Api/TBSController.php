@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\TBS;
 use App\User;
+use App\Scheduler;
 use App\TBSDriver;
 use App\Transport;
 use App\DocumentLog;

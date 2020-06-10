@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\EBS;
+use App\TBS;
 use App\User;
 use App\SASComment;
 use App\DocumentLog;
@@ -176,21 +178,48 @@ class DashboardController extends Controller
 
         $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'SAS')->limit(50)->get();
 
-        return view('staffAssignmentSystem2')->with(compact('documentLogs' , 'sascomments'));
+        $event = SASStaffAssign::with('sas')->orderBy('start_date' , 'DESC')->get();
+
+        return view('staffAssignmentSystem2')->with(compact('documentLogs' , 'sascomments' , 'event'));
+    }
+
+    public function showSAS($id_sasstaffassign)
+    {
+        $sasas = SASStaffAssign::find($id_sasstaffassign);
+
+        return view('sas.showModal' , compact('sasas'));
     }
 
     public function equipment()
     {
         $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'EBS')->limit(50)->get();
 
-        return view('equipment2')->with(compact('documentLogs'));
+        $event = EBS::orderBy('start_date' , 'DESC')->get();
+
+        return view('equipment2')->with(compact('documentLogs' , 'event'));
+    }
+
+    public function showEBS($id_ebs)
+    {
+        $ebs = EBS::find($id_ebs);
+
+        return view('ebs.showModal' , compact('ebs'));
     }
 
     public function transport()
     {
         $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'TBS')->limit(50)->get();
 
-        return view('transport2')->with(compact('documentLogs'));
+        $event = TBS::orderBy('start_date' , 'DESC')->get();
+
+        return view('transport2')->with(compact('documentLogs' , 'event'));
+    }
+
+    public function showTBS($id_tbs)
+    {
+        $tbs = TBS::find($id_tbs);
+
+        return view('tbs.showModal' , compact('tbs'));
     }
 
     public function maintenance()

@@ -15,6 +15,7 @@ class Notification extends Model
     use Notifiable;
     protected $table = 'notifications';
     public $incrementing = FALSE;
+    protected $with = ['touser', 'createduser'];
 
     
     public function touser() {

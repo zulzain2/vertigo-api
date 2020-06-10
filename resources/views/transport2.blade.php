@@ -74,6 +74,8 @@
            
             @if (count($documentLogs) > 0)
             <div class="card-body">
+              <div class="row">
+                <div class="col-lg-12 ps ps--theme_default ps--active-y" id="slimtest1" style="height: 580px;" data-ps-id="8db3e847-849b-2759-763b-e8592111f38d">
               <div class="profiletimeline">
                   @foreach ($documentLogs as $log)
 
@@ -91,7 +93,15 @@
 
                   @endforeach
               </div>
+              <div class="ps__scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                <div class="ps__scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+            </div>
+            <div class="ps__scrollbar-y-rail" style="top: 0px; height: 250px; right: 0px;">
+                <div class="ps__scrollbar-y" tabindex="0" style="top: 0px; height: 83px;"></div>
+            </div>
           </div>
+        </div>
+      </div>
             @else
             <br><br><br>
             <div class="row">
@@ -120,13 +130,49 @@
     
   </div>
 </div>
+
+<!-- Event Modal -->
+<div id="eventModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel" style="font-weight:bold">Transport Booking System (TBS) - Booking Detail</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          </div>
+          <div class="modal-body">
+             
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+      <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
 @endsection
 
 @push('scripts')
 <script>
 
   document.addEventListener('DOMContentLoaded', function() {
+
+    const events = @json($event);
+
     var calendarEl = document.getElementById('calendar');
+
+    const tbsEvent = events.map(({
+            start_date: start, 
+            end_date: end, 
+            job_title: title,
+            id
+    }, index)=>({
+        start,
+        end,
+        title,
+        id
+    }))
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'dayGrid', 'timeGrid', 'list', 'interaction' ],
@@ -135,67 +181,18 @@
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
       },
-      defaultDate: '2020-02-12',
       navLinks: true, // can click day/week names to navigate views
-      editable: true,
+      editable: false,
       eventLimit: true, // allow "more" link when too many events
       eventColor: '#ef5350',
-      events: [
-        {
-          title: 'All Day Event',
-          start: '2020-02-01',
+      events: tbsEvent,
+      eventClick: function({event: {start, end, title, id}, el}) {
+            const eventModal = $('#eventModal')
+            eventModal.modal('show')
+            const modalbody = eventModal.find('.modal-body')
+            modalbody.load(`/tbs/${id}`, () => el.style.borderColor = 'green')
         },
-        {
-          title: 'Long Event',
-          start: '2020-02-07',
-          end: '2020-02-10'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2020-02-09T16:00:00'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2020-02-16T16:00:00'
-        },
-        {
-          title: 'Conference',
-          start: '2020-02-11',
-          end: '2020-02-13'
-        },
-        {
-          title: 'Meeting',
-          start: '2020-02-12T10:30:00',
-          end: '2020-02-12T12:30:00'
-        },
-        {
-          title: 'Lunch',
-          start: '2020-02-12T12:00:00'
-        },
-        {
-          title: 'Meeting',
-          start: '2020-02-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-          start: '2020-02-12T17:30:00'
-        },
-        {
-          title: 'Dinner',
-          start: '2020-02-12T20:00:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2020-02-13T07:00:00'
-        },
-        {
-          title: 'Click for Google',
-          url: 'http://google.com/',
-          start: '2020-02-28'
-        }
-      ]
+
     });
 
     calendar.render();
