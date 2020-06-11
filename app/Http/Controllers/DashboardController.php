@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\EBS;
+use App\MSS;
 use App\TBS;
 use App\User;
 use App\SASComment;
@@ -226,7 +227,16 @@ class DashboardController extends Controller
     {
         $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'MSS')->limit(50)->get();
 
-        return view('maintenance2')->with(compact('documentLogs'));
+        $event = MSS::orderBy('start_date' , 'DESC')->get();
+
+        return view('maintenance2')->with(compact('documentLogs' , 'event'));
+    }
+
+    public function showMSS($id_mss)
+    {
+        $mss = MSS::find($id_mss);
+
+        return view('mss.showModal' , compact('mss'));
     }
 
     public function tender()

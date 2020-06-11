@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
             Route::get('tbs/{id}', 'DashboardController@showTBS');   
 
             Route::get('maintenance2', 'DashboardController@maintenance');
+            Route::get('mss/{id}', 'DashboardController@showMSS');   
+
             Route::get('tender2', 'DashboardController@tender');
 
     

@@ -6,11 +6,13 @@ use App\MSS;
 use App\User;
 use App\MSSPic;
 use App\MSSTask;
+use App\Scheduler;
 use App\DocumentLog;
 use App\MSSEquipment;
 use App\MSSTransport;
 use App\Notification;
 use Ramsey\Uuid\Uuid;
+use App\MaintenanceTask;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -26,6 +28,13 @@ class MSSController extends Controller
         $mss = MSS::all();
 
         return response(['status' => 'OK' , 'message' =>  $mss]); 
+    }
+
+    public function getMaintenanceTask()
+    {
+        $mt = MaintenanceTask::where('status' , '1')->get();
+
+        return response(['status' => 'OK' , 'message' =>  $mt]); 
     }
 
     public function dashDate(Request $request)

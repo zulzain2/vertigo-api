@@ -75,6 +75,7 @@ Route::middleware('auth:api')->group(function () {
     //DASHBOARD MSS
     Route::get('/mss/dashDate', 'Api\MSSController@dashDate')->name('mss.dashDate');
     //MSS
+    Route::get('/mss/getMaintenanceTask', 'Api\MSSController@getMaintenanceTask')->name('mss.getMaintenanceTask');
     Route::post('/mss/endMaintenance/{id}', 'Api\MSSController@endMaintenance')->name('mss.endMaintenance');
     Route::post('/mss/updateProgress/{id}', 'Api\MSSController@updateProgress')->name('mss.updateProgress');
     Route::post('/mss/startMaintenance/{id}', 'Api\MSSController@startMaintenance')->name('mss.startMaintenance');
