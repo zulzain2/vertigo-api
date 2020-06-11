@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\TMS;
 use App\Role;
+use App\User;
 use App\TMSPic;
 use App\DocumentLog;
 use App\InquiryType;

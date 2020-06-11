@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
             Route::get('mss/{id}', 'DashboardController@showMSS');   
 
             Route::get('tender2', 'DashboardController@tender');
+            Route::get('tms/{id}', 'DashboardController@showTMS');   
 
     
 

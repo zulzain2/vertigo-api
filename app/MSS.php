@@ -27,4 +27,8 @@ class MSS extends Model
     public function msstask() {
         return $this->hasMany('App\MSSTask', 'id_mss', 'id');
     }
+    
+    public function createdby() {
+        return $this->hasOne('App\User', 'id', 'created_by');
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\EBS;
 use App\MSS;
 use App\TBS;
+use App\TMS;
 use App\User;
 use App\SASComment;
 use App\DocumentLog;
@@ -242,7 +243,16 @@ class DashboardController extends Controller
     public function tender()
     {
         $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'TMS')->limit(50)->get();
+
+        $event = TMS::orderBy('sitevisit_start_date' , 'DESC')->get();
         
-        return view('tender2')->with(compact('documentLogs'));
+        return view('tender2')->with(compact('documentLogs' , 'event'));
+    }
+
+    public function showTMS($id_tms)
+    {
+        $tms = TMS::find($id_tms);
+
+        return view('tms.showModal' , compact('tms'));
     }
 }
