@@ -208,17 +208,30 @@
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
       },
-  
+      
+      meridiem: 'short',
       navLinks: true, // can click day/week names to navigate views
       editable: false,
       eventLimit: true, // allow "more" link when too many events
       eventColor: '#ef5350',
       events: sasEvent,
+      eventTimeFormat: { // like '14:30:00'
+        hour: 'numeric',
+        minute: '2-digit',
+        meridiem: 'short'
+      },
       eventClick: function({event: {start, end, title, id}, el}) {
             const eventModal = $('#eventModal')
             eventModal.modal('show')
             const modalbody = eventModal.find('.modal-body')
-            modalbody.load(`/sasstaffassign/${id}`, () => el.style.borderColor = 'green')
+            modalbody.html('');
+            modalbody.load(`/sasstaffassign/${id}`, function( response, status, xhr ) {
+              if ( status == "error" ) {
+                var msg = "Sorry but there was an error: ";
+                modalbody.html( msg + xhr.status + " " + xhr.statusText );
+              }
+            });
+            // modalbody.load(`/sasstaffassign/${id}`, () => el.style.borderColor = 'green')
         },
     });
 

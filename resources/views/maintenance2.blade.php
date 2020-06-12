@@ -186,6 +186,11 @@
       eventLimit: true, // allow "more" link when too many events
       eventColor: '#ef5350',
       events: mssEvent,
+      eventTimeFormat: { // like '14:30:00'
+        hour: 'numeric',
+        minute: '2-digit',
+        meridiem: 'short'
+      },
       eventClick: function({event: {start, end, title, id}, el}) {
             const eventModal = $('#eventModal')
             eventModal.modal('show')
