@@ -2,6 +2,8 @@
 
 @push('styles')
     
+
+
 @endpush
 
 @section('content')
@@ -27,7 +29,37 @@
               <img src="{{URL::to('vector/calendar.svg')}}">
             </div>
           </div>
-        
+
+          {!! Form::open(['action' => 'DashboardController@searchSAS', 'method' => 'POST','class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+          @csrf
+
+          <div class="row">
+            <div class="col-lg-6">
+              <table style="width:100%">
+                <tr>
+                  <td>
+                    <select class="select2 form-control custom-select" style="width: 100%; height:36px;" id="staff" name="staff">
+                      @if (isset($curr_user))
+                        <option value="{{$curr_user->id}}">{{$curr_user->name}}</option>
+                      @else
+                        <option value="">Select Staff</option>
+                      @endif
+                      
+                      @foreach ($users as $user)
+                        <option value="{{$user->id}}">{{$user->name}}</option>
+                      @endforeach
+                    </select>
+                  </td>
+                  <td>
+                    <button type="submit" class="btn waves-effect waves-light btn-danger" style="border-radius: 10px;"><i class="fas fa-search"></i> GO</button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          {!! Form::close() !!}
+
           <div id='calendar' style="padding:20px"></div>
 
       </div>
@@ -224,14 +256,15 @@
             const eventModal = $('#eventModal')
             eventModal.modal('show')
             const modalbody = eventModal.find('.modal-body')
-            modalbody.html('');
+            modalbody.html("<div><div class='row'><div class='col-lg-12 text-center'><div class='lds-facebook'><div></div><div></div><div></div></div></div></div><div class='row'><div class='col-lg-12 text-center'><strong>Loading...</strong></div></div></div>");
             modalbody.load(`/sasstaffassign/${id}`, function( response, status, xhr ) {
               if ( status == "error" ) {
                 var msg = "Sorry but there was an error: ";
                 modalbody.html( msg + xhr.status + " " + xhr.statusText );
               }
+
             });
-            // modalbody.load(`/sasstaffassign/${id}`, () => el.style.borderColor = 'green')
+ 
         },
     });
 

@@ -7,10 +7,13 @@ use App\MSS;
 use App\TBS;
 use App\TMS;
 use App\User;
+use App\Equipment;
+use App\Transport;
 use App\SASComment;
 use App\DocumentLog;
 use App\Notification;
 use App\SASStaffAssign;
+use App\MaintenanceTask;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -170,19 +173,34 @@ class DashboardController extends Controller
         ]);
         
         return redirect('dashboard2?id_staff='.$request->id_staff.'&module='.$request->module.'&month='.$request->month.'');
-
        
     }
 
-    public function staff()
+    public function staff(Request $request)
     {
+
         $sascomments = SASComment::orderBy('created_at' , 'DESC')->get();
 
         $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'SAS')->limit(50)->get();
 
-        $event = SASStaffAssign::with('sas')->orderBy('start_date' , 'DESC')->get();
+        $users = User::where('status' , '=' , 1)->get();
 
-        return view('staffAssignmentSystem2')->with(compact('documentLogs' , 'sascomments' , 'event'));
+        if($request->staff)
+        {
+            $event = SASStaffAssign::where('id_user' , '=' , $request->staff)->with('sas')->orderBy('start_date' , 'DESC')->get();  
+
+            $curr_user = User::find($request->staff);
+
+            return view('staffAssignmentSystem2')->with(compact('documentLogs' , 'sascomments' , 'event' , 'users' , 'curr_user'));
+        }
+        else
+        {
+            $event = SASStaffAssign::with('sas')->orderBy('start_date' , 'DESC')->get();
+
+            return view('staffAssignmentSystem2')->with(compact('documentLogs' , 'sascomments' , 'event' , 'users' ));
+        }
+
+        
     }
 
     public function showSAS($id_sasstaffassign)
@@ -192,13 +210,41 @@ class DashboardController extends Controller
         return view('sas.showModal' , compact('sasas'));
     }
 
-    public function equipment()
+    public function searchSAS(Request $request)
+    {
+        $request->validate([
+            'staff'           => 'required'
+        ]);
+
+        return redirect('staff2?staff='.$request->staff.'');
+    }
+
+    public function equipment(Request $request)
     {
         $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'EBS')->limit(50)->get();
 
-        $event = EBS::orderBy('start_date' , 'DESC')->get();
+        $equipments = Equipment::where('status' , 'enable')->get();
 
-        return view('equipment2')->with(compact('documentLogs' , 'event'));
+        if ($request->equipment) {
+
+            $event = EBS::whereHas('ebsequipmentuse' , function ($query) use ($request) {
+                $query->where('id_equipment' , $request->equipment);
+            })->orderBy('start_date' , 'DESC')->get();
+
+         
+
+            $curr_equipment = Equipment::find($request->equipment);
+
+            return view('equipment2')->with(compact('documentLogs' , 'event' , 'equipments' , 'curr_equipment'));
+
+        } else {
+
+            $event = EBS::orderBy('start_date' , 'DESC')->get();
+
+            return view('equipment2')->with(compact('documentLogs' , 'event' , 'equipments'));
+
+        }
+        
     }
 
     public function showEBS($id_ebs)
@@ -208,13 +254,40 @@ class DashboardController extends Controller
         return view('ebs.showModal' , compact('ebs'));
     }
 
-    public function transport()
+    public function searchEBS(Request $request)
     {
+        $request->validate([
+            'equipment'           => 'required'
+        ]);
+
+        return redirect('equipment2?equipment='.$request->equipment.'');
+    }
+
+    public function transport(Request $request)
+    {
+
         $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'TBS')->limit(50)->get();
 
-        $event = TBS::orderBy('start_date' , 'DESC')->get();
+        $transports = Transport::where('status' , 'enable')->get();
 
-        return view('transport2')->with(compact('documentLogs' , 'event'));
+        if($request->transport)
+        {
+            $curr_transport = Transport::find($request->transport);
+
+            $event = TBS::whereHas('tbstransportuse' , function ($query) use ($request) {
+                $query->where('id_transport' , $request->transport);
+            })->orderBy('start_date' , 'DESC')->get();
+
+
+            return view('transport2')->with(compact('documentLogs' , 'event' , 'transports' , 'curr_transport'));
+        }
+        else
+        {
+            $event = TBS::orderBy('start_date' , 'DESC')->get();
+
+            return view('transport2')->with(compact('documentLogs' , 'event' , 'transports'));
+        }
+        
     }
 
     public function showTBS($id_tbs)
@@ -224,13 +297,41 @@ class DashboardController extends Controller
         return view('tbs.showModal' , compact('tbs'));
     }
 
-    public function maintenance()
+    public function searchTBS(Request $request)
     {
+        $request->validate([
+            'transport'           => 'required'
+        ]);
+
+        return redirect('transport2?transport='.$request->transport.'');
+    }
+
+    public function maintenance(Request $request)
+    {
+
         $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'MSS')->limit(50)->get();
 
-        $event = MSS::orderBy('start_date' , 'DESC')->get();
+        
 
-        return view('maintenance2')->with(compact('documentLogs' , 'event'));
+        $tasks = MaintenanceTask::where('status' , '1')->get();
+
+        if ($request->maintenance) 
+        {
+            $event = MSS::whereHas('msstask' , function ($query) use ($request) {
+                $query->where('id_task' , $request->maintenance);
+            })->orderBy('start_date' , 'DESC')->get();
+
+            $curr_task = MaintenanceTask::find($request->maintenance);
+
+            return view('maintenance2')->with(compact('documentLogs' , 'event' , 'tasks' , 'curr_task'));
+        } 
+        else 
+        {
+            $event = MSS::orderBy('start_date' , 'DESC')->get();
+
+            return view('maintenance2')->with(compact('documentLogs' , 'event' , 'tasks'));
+        }
+  
     }
 
     public function showMSS($id_mss)
@@ -240,13 +341,34 @@ class DashboardController extends Controller
         return view('mss.showModal' , compact('mss'));
     }
 
-    public function tender()
+    public function searchMSS(Request $request)
+    {
+        $request->validate([
+            'maintenance'           => 'required'
+        ]);
+
+        return redirect('maintenance2?maintenance='.$request->maintenance.'');
+    }
+
+    public function tender(Request $request)
     {
         $documentLogs = DocumentLog::orderBy('created_at' , 'DESC')->where('document_type' , '=' , 'TMS')->limit(50)->get();
 
-        $event = TMS::orderBy('sitevisit_start_date' , 'DESC')->get();
+        $tms = TMS::orderBy('sitevisit_start_date' , 'DESC')->get();
+
+        if ($request->tender) {
+            $event = TMS::where('id' , '=' , $request->tender)->orderBy('sitevisit_start_date' , 'DESC')->get();
+
+            $curr_tender = TMS::find($request->tender);
+
+            return view('tender2')->with(compact('documentLogs' , 'event' , 'tms' , 'curr_tender'));
+        } else {
+            $event = TMS::orderBy('sitevisit_start_date' , 'DESC')->get();
+
+            return view('tender2')->with(compact('documentLogs' , 'event' , 'tms'));
+        }
         
-        return view('tender2')->with(compact('documentLogs' , 'event'));
+        
     }
 
     public function showTMS($id_tms)
@@ -254,5 +376,14 @@ class DashboardController extends Controller
         $tms = TMS::find($id_tms);
 
         return view('tms.showModal' , compact('tms'));
+    }
+
+    public function searchTMS(Request $request)
+    {
+        $request->validate([
+            'tender'           => 'required'
+        ]);
+
+        return redirect('tender2?tender='.$request->tender.'');
     }
 }

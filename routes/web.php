@@ -40,18 +40,23 @@ Route::middleware('auth')->group(function () {
 
             Route::get('staff2', 'DashboardController@staff');
             Route::get('sasstaffassign/{id}', 'DashboardController@showSAS');
+            Route::post('searchSAS', 'DashboardController@searchSAS');
 
             Route::get('equipment2', 'DashboardController@equipment');
             Route::get('ebs/{id}', 'DashboardController@showEBS');    
+            Route::post('searchEBS', 'DashboardController@searchEBS');
 
             Route::get('transport2', 'DashboardController@transport');
-            Route::get('tbs/{id}', 'DashboardController@showTBS');   
+            Route::get('tbs/{id}', 'DashboardController@showTBS');  
+            Route::post('searchTBS', 'DashboardController@searchTBS'); 
 
             Route::get('maintenance2', 'DashboardController@maintenance');
             Route::get('mss/{id}', 'DashboardController@showMSS');   
+            Route::post('searchMSS', 'DashboardController@searchMSS'); 
 
             Route::get('tender2', 'DashboardController@tender');
             Route::get('tms/{id}', 'DashboardController@showTMS');   
+            Route::post('searchTMS', 'DashboardController@searchTMS'); 
 
     
 

@@ -28,6 +28,36 @@
             </div>
           </div>
         
+          {!! Form::open(['action' => 'DashboardController@searchTMS', 'method' => 'POST','class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+          @csrf
+
+          <div class="row">
+            <div class="col-lg-6">
+              <table style="width:100%">
+                <tr>
+                  <td>
+                    <select class="select2 form-control custom-select" style="width: 100%; height:36px;" id="tender" name="tender">
+                      @if (isset($curr_tender))
+                          <option value="{{$curr_tender->id}}">{{$curr_tender->vtsb_num}}</option>
+                      @else
+                          <option value="">Select VTSB Job Num</option>   
+                      @endif
+                      
+                      @foreach ($tms as $item)
+                          <option value="{{$item->id}}">{{$item->vtsb_num}}</option>
+                      @endforeach
+                    </select>
+                  </td>
+                  <td>
+                    <button type="submit" class="btn waves-effect waves-light btn-danger" style="border-radius: 10px;"><i class="fas fa-search"></i> GO</button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          {!! Form::close() !!}
+
           <div id='calendar' style="padding:20px"></div>
 
       </div>
@@ -193,7 +223,18 @@
             const eventModal = $('#eventModal')
             eventModal.modal('show')
             const modalbody = eventModal.find('.modal-body')
-            modalbody.load(`/tms/${id}`, () => el.style.borderColor = 'green')
+
+            modalbody.html("<div><div class='row'><div class='col-lg-12 text-center'><div class='lds-facebook'><div></div><div></div><div></div></div></div></div><div class='row'><div class='col-lg-12 text-center'><strong>Loading...</strong></div></div></div>");
+
+            modalbody.load(`/tms/${id}`, function( response, status, xhr ) {
+              if ( status == "error" ) {
+                var msg = "Sorry but there was an error: ";
+                modalbody.html( msg + xhr.status + " " + xhr.statusText );
+              }
+
+            });
+
+      
         },
     });
 

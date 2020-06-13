@@ -33,6 +33,8 @@
     <link href="{{ url('assets/plugins/fontawesome/css/all.css') }}" rel="stylesheet"> <!--load all styles -->
     <!-- page css -->
     <link href="{{ url('css/plugins/pages/progressbar-page.css') }}" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="{{ url('assets/plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
  
@@ -82,6 +84,48 @@
             .mdi.md-36 { font-size: 36px; }
             .mdi.md-48 { font-size: 48px; }
     </style>
+
+<style>
+        .lds-facebook {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+        }
+        .lds-facebook div {
+        display: inline-block;
+        position: absolute;
+        left: 8px;
+        width: 16px;
+        background: red;
+        animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+        }
+        .lds-facebook div:nth-child(1) {
+        left: 8px;
+        animation-delay: -0.24s;
+        }
+        .lds-facebook div:nth-child(2) {
+        left: 32px;
+        animation-delay: -0.12s;
+        }
+        .lds-facebook div:nth-child(3) {
+        left: 56px;
+        animation-delay: 0;
+        }
+        @keyframes lds-facebook {
+        0% {
+            top: 8px;
+            height: 64px;
+        }
+        50%, 100% {
+            top: 24px;
+            height: 32px;
+        }
+        }
+  
+
+  
+  </style>
 
     @stack('styles')
 </head>
@@ -380,6 +424,10 @@
     <!-- slimscrollbar scrollbar JavaScript -->
     <script src="{{ url('js/plugins/perfect-scrollbar.jquery.min.js') }}"></script>
 
+    <!-- Select2 -->
+    <script src="{{ url('assets/plugins/select2/dist/js/select2.full.min.js') }}" type="text/javascript"></script>
+
+    
     <script type="text/javascript">
         $('#slimtest1, #slimtest2, #slimtest3, #slimtest4').perfectScrollbar();
     </script>
@@ -429,6 +477,10 @@
             $( "#dash_activate" ).addClass( "active" );
         }
         });
+
+        // For select 2
+        $(".select2").select2();
+        $('.selectpicker').selectpicker();
     </script>
 
     @stack('scripts')
