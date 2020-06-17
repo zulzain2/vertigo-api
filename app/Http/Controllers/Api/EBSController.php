@@ -36,7 +36,7 @@ class EBSController extends Controller
         $category = $request->category;
 
         $ebs = EBS::whereBetween('created_at', [$dateFrom, $dateTo])
-            ->whereHas('ebsequipmentuse.equipment', function($query) use ($category) {
+            ->whereHas('ebsequipmentuse.equipment', function ($query) use ($category) {
                 $query->where('id_equip_category', $category);
             })
             ->get();
@@ -109,7 +109,7 @@ class EBSController extends Controller
             $noti->created_by = auth()->user()->id;
             $json_noti = json_encode($noti);
 
-            $scheduler = New Scheduler;
+            $scheduler = new Scheduler;
             $scheduler->id = Uuid::uuid4()->getHex();
             $scheduler->trigger_datetime = $add->start_date;
             $scheduler->url_to_call = 'triggeredNotification';
@@ -118,22 +118,21 @@ class EBSController extends Controller
             $scheduler->is_triggered = 0;
             $scheduler->created_by = auth()->user()->id;
             $scheduler->save();
-
         }
 
-        $document = New DocumentLog;
-        $document->id 				= Uuid::uuid4()->getHex();
-        $document->user_type 		= auth()->user()->role->name;
-        $document->id_user			= auth()->user()->id;
-        $document->start_at 		= date('Y-m-d H:i:s');
-        $document->end_at 			= null;
-        $document->document_type 	= "EBS";
-        $document->id_document 		=  $add->id;
-        $document->remark 			= "Create New Booking for Equipment Booking System";
-        $document->status 			= "Booking Confirm";
-        $document->id_notification 	= "";
-        $document->created_by 		= auth()->user()->id;
-        $document->updated_by 		= auth()->user()->id;
+        $document = new DocumentLog;
+        $document->id                 = Uuid::uuid4()->getHex();
+        $document->user_type         = auth()->user()->role->name;
+        $document->id_user            = auth()->user()->id;
+        $document->start_at         = date('Y-m-d H:i:s');
+        $document->end_at             = null;
+        $document->document_type     = "EBS";
+        $document->id_document         =  $add->id;
+        $document->remark             = "Create New Booking for Equipment Booking System";
+        $document->status             = "Booking Confirm";
+        $document->id_notification     = "";
+        $document->created_by         = auth()->user()->id;
+        $document->updated_by         = auth()->user()->id;
         $document->save();
 
         return response(['status' => 'OK', 'message' => 'Successfully book equipment']);
@@ -194,7 +193,7 @@ class EBSController extends Controller
                 $noti->created_by = auth()->user()->id;
                 $json_noti = json_encode($noti);
 
-                $scheduler = New Scheduler;
+                $scheduler = new Scheduler;
                 $scheduler->id = Uuid::uuid4()->getHex();
                 $scheduler->trigger_datetime = $ebs->end_date;
                 $scheduler->url_to_call = 'triggeredNotification';
@@ -203,27 +202,25 @@ class EBSController extends Controller
                 $scheduler->is_triggered = 0;
                 $scheduler->created_by = auth()->user()->id;
                 $scheduler->save();
-
             }
 
-            
-            $document = New DocumentLog;
-            $document->id 				= Uuid::uuid4()->getHex();
-            $document->user_type 		= auth()->user()->role->name;
-            $document->id_user			= auth()->user()->id;
-            $document->start_at 		= date('Y-m-d H:i:s');
-            $document->end_at 			= null;
-            $document->document_type 	= "EBS";
-            $document->id_document 		=  $ebs->id;
-            $document->remark 			= 'Equipment Booking Start for Job Number : '.$ebs->job_number.'';
-            $document->status 			= "Booking Start";
-            $document->id_notification 	= "";
-            $document->created_by 		= auth()->user()->id;
-            $document->updated_by 		= auth()->user()->id;
+
+            $document = new DocumentLog;
+            $document->id                 = Uuid::uuid4()->getHex();
+            $document->user_type         = auth()->user()->role->name;
+            $document->id_user            = auth()->user()->id;
+            $document->start_at         = date('Y-m-d H:i:s');
+            $document->end_at             = null;
+            $document->document_type     = "EBS";
+            $document->id_document         =  $ebs->id;
+            $document->remark             = 'Equipment Booking Start for Job Number : ' . $ebs->job_number . '';
+            $document->status             = "Booking Start";
+            $document->id_notification     = "";
+            $document->created_by         = auth()->user()->id;
+            $document->updated_by         = auth()->user()->id;
             $document->save();
 
             return response(['status' => 'OK', 'message' => 'Successfully acknowledge & start booking']);
-
         } elseif ($request->start_status == 'No') {
 
             $request->validate([
@@ -253,7 +250,7 @@ class EBSController extends Controller
                 $noti->created_by = auth()->user()->id;
                 $json_noti = json_encode($noti);
 
-                $scheduler = New Scheduler;
+                $scheduler = new Scheduler;
                 $scheduler->id = Uuid::uuid4()->getHex();
                 $scheduler->trigger_datetime =  $ebs->start_date;
                 $scheduler->url_to_call = 'triggeredNotification';
@@ -262,22 +259,21 @@ class EBSController extends Controller
                 $scheduler->is_triggered = 0;
                 $scheduler->created_by = auth()->user()->id;
                 $scheduler->save();
-   
             }
 
-            $document = New DocumentLog;
-            $document->id 				= Uuid::uuid4()->getHex();
-            $document->user_type 		= auth()->user()->role->name;
-            $document->id_user			= auth()->user()->id;
-            $document->start_at 		= date('Y-m-d H:i:s');
-            $document->end_at 			= null;
-            $document->document_type 	= "EBS";
-            $document->id_document 		=  $ebs->id;
-            $document->remark 			= 'Equipment Booking for Job Number : '.$ebs->job_number.' has place a new start date to '.date('j F Y, g:i a' , strtotime($ebs->start_date)).' ';
-            $document->status 			= "Booking set a New Start Date";
-            $document->id_notification 	= "";
-            $document->created_by 		= auth()->user()->id;
-            $document->updated_by 		= auth()->user()->id;
+            $document = new DocumentLog;
+            $document->id                 = Uuid::uuid4()->getHex();
+            $document->user_type         = auth()->user()->role->name;
+            $document->id_user            = auth()->user()->id;
+            $document->start_at         = date('Y-m-d H:i:s');
+            $document->end_at             = null;
+            $document->document_type     = "EBS";
+            $document->id_document         =  $ebs->id;
+            $document->remark             = 'Equipment Booking for Job Number : ' . $ebs->job_number . ' has place a new start date to ' . date('j F Y, g:i a', strtotime($ebs->start_date)) . ' ';
+            $document->status             = "Booking set a New Start Date";
+            $document->id_notification     = "";
+            $document->created_by         = auth()->user()->id;
+            $document->updated_by         = auth()->user()->id;
             $document->save();
 
 
@@ -306,19 +302,19 @@ class EBSController extends Controller
             $equipment->save();
         }
 
-        $document = New DocumentLog;
-        $document->id 				= Uuid::uuid4()->getHex();
-        $document->user_type 		= auth()->user()->role->name;
-        $document->id_user			= auth()->user()->id;
-        $document->start_at 		= date('Y-m-d H:i:s');
-        $document->end_at 			= null;
-        $document->document_type 	= "EBS";
-        $document->id_document 		=  $ebs->id;
-        $document->remark 			= 'Equipment Booking for Job Number : '.$ebs->job_number.' has updated the progress to '.$ebs->booking_progress.'';
-        $document->status 			= "Booking Updated Progress";
-        $document->id_notification 	= "";
-        $document->created_by 		= auth()->user()->id;
-        $document->updated_by 		= auth()->user()->id;
+        $document = new DocumentLog;
+        $document->id                 = Uuid::uuid4()->getHex();
+        $document->user_type         = auth()->user()->role->name;
+        $document->id_user            = auth()->user()->id;
+        $document->start_at         = date('Y-m-d H:i:s');
+        $document->end_at             = null;
+        $document->document_type     = "EBS";
+        $document->id_document         =  $ebs->id;
+        $document->remark             = 'Equipment Booking for Job Number : ' . $ebs->job_number . ' has updated the progress to ' . $ebs->booking_progress . '';
+        $document->status             = "Booking Updated Progress";
+        $document->id_notification     = "";
+        $document->created_by         = auth()->user()->id;
+        $document->updated_by         = auth()->user()->id;
         $document->save();
 
         return response(['status' => 'OK', 'message' => 'Successfully update booking progress']);
@@ -353,12 +349,12 @@ class EBSController extends Controller
                 $request->file('img_update')->storeAs('public' . DIRECTORY_SEPARATOR . 'ebs', $fileNameToStore);
             } else {
                 $fileNameToStore = 'noimage_' . $ebs->id . '_' . time() . '.png';
-                
+
                 $img_path = public_path() . '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
                 // $img_path = public_path() .''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
                 copy(public_path() . '' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'noimage.png', $img_path);
             }
-            
+
             //path
             $path = '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
             // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
@@ -373,23 +369,22 @@ class EBSController extends Controller
                 $equipment->save();
             }
 
-            $document = New DocumentLog;
-            $document->id 				= Uuid::uuid4()->getHex();
-            $document->user_type 		= auth()->user()->role->name;
-            $document->id_user			= auth()->user()->id;
-            $document->start_at 		= date('Y-m-d H:i:s');
-            $document->end_at 			= null;
-            $document->document_type 	= "EBS";
-            $document->id_document 		=  $ebs->id;
-            $document->remark 			= 'Equipment Booking for Job Number : '.$ebs->job_number.' has successfully ended.';
-            $document->status 			= "Booking Ended";
-            $document->id_notification 	= "";
-            $document->created_by 		= auth()->user()->id;
-            $document->updated_by 		= auth()->user()->id;
+            $document = new DocumentLog;
+            $document->id                 = Uuid::uuid4()->getHex();
+            $document->user_type         = auth()->user()->role->name;
+            $document->id_user            = auth()->user()->id;
+            $document->start_at         = date('Y-m-d H:i:s');
+            $document->end_at             = null;
+            $document->document_type     = "EBS";
+            $document->id_document         =  $ebs->id;
+            $document->remark             = 'Equipment Booking for Job Number : ' . $ebs->job_number . ' has successfully ended.';
+            $document->status             = "Booking Ended";
+            $document->id_notification     = "";
+            $document->created_by         = auth()->user()->id;
+            $document->updated_by         = auth()->user()->id;
             $document->save();
 
             return response(['status' => 'OK', 'message' => 'Successfully end booking']);
-
         } elseif ($request->finish_status == 'No') {
             $request->validate([
                 'finish_justification'     => 'required',
@@ -416,14 +411,14 @@ class EBSController extends Controller
                 $request->file('img_update')->storeAs('public' . DIRECTORY_SEPARATOR . 'ebs', $fileNameToStore);
             } else {
                 $fileNameToStore = 'noimage_' . $ebs->id . '_' . time() . '.png';
-                
+
                 $img_path = public_path() . '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
                 // $img_path = public_path() .''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . 'noimage_' . $ebs->id . '_' . time() . '.png';
                 copy(public_path() . '' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'noimage.png', $img_path);
             }
 
             //path
-            
+
             $path = '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
             // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR . 'ebs' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
 
@@ -447,7 +442,7 @@ class EBSController extends Controller
                 $noti->created_by = auth()->user()->id;
                 $json_noti = json_encode($noti);
 
-                $scheduler = New Scheduler;
+                $scheduler = new Scheduler;
                 $scheduler->id = Uuid::uuid4()->getHex();
                 $scheduler->trigger_datetime =  $ebs->end_date;
                 $scheduler->url_to_call = 'triggeredNotification';
@@ -456,23 +451,21 @@ class EBSController extends Controller
                 $scheduler->is_triggered = 0;
                 $scheduler->created_by = auth()->user()->id;
                 $scheduler->save();
-
-                
             }
 
-            $document = New DocumentLog;
-            $document->id 				= Uuid::uuid4()->getHex();
-            $document->user_type 		= auth()->user()->role->name;
-            $document->id_user			= auth()->user()->id;
-            $document->start_at 		= date('Y-m-d H:i:s');
-            $document->end_at 			= null;
-            $document->document_type 	= "EBS";
-            $document->id_document 		=  $ebs->id;
-            $document->remark 			= 'Equipment Booking for Job Number : '.$ebs->job_number.' has place a new end date to '.date('j F Y, g:i a' , strtotime($ebs->end_date)).' ';
-            $document->status 			= "Booking set a New End Date";
-            $document->id_notification 	= "";
-            $document->created_by 		= auth()->user()->id;
-            $document->updated_by 		= auth()->user()->id;
+            $document = new DocumentLog;
+            $document->id                 = Uuid::uuid4()->getHex();
+            $document->user_type         = auth()->user()->role->name;
+            $document->id_user            = auth()->user()->id;
+            $document->start_at         = date('Y-m-d H:i:s');
+            $document->end_at             = null;
+            $document->document_type     = "EBS";
+            $document->id_document         =  $ebs->id;
+            $document->remark             = 'Equipment Booking for Job Number : ' . $ebs->job_number . ' has place a new end date to ' . date('j F Y, g:i a', strtotime($ebs->end_date)) . ' ';
+            $document->status             = "Booking set a New End Date";
+            $document->id_notification     = "";
+            $document->created_by         = auth()->user()->id;
+            $document->updated_by         = auth()->user()->id;
             $document->save();
 
             return response(['status' => 'OK', 'message' => 'Successfully extend end booking']);
@@ -488,5 +481,17 @@ class EBSController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Get list of booking 
+     *
+     * @param  none
+     * @return \Illuminate\Http\Response
+     */
+
+    public function calendar(Request $request)
+    {
+        return 'test';
     }
 }

@@ -42,7 +42,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function role() {
+    public function role()
+    {
         return $this->hasOne('App\Role', 'id', 'id_role');
     }
 
@@ -52,11 +53,23 @@ class User extends Authenticatable
         return $url;
     }
 
-    public function inquiry() {
+    public function inquiry()
+    {
         return $this->hasOne('App\InquiryType', 'id', 'id_inquiry');
     }
 
-    public function document_log() {
+    public function document_log()
+    {
         return $this->hasMany('App\DocumentLog', 'id_user', 'id');
+    }
+
+    public function ebs()
+    {
+        return $this->belongsToMany('App\EBS', 'ebs_staff_uses', 'id_user', 'id_ebs');
+    }
+
+    public function ebs_booking()
+    {
+        return $this->hasMany('App\EBSStaffUse', 'id_user');
     }
 }

@@ -18,17 +18,17 @@ use Illuminate\Http\Request;
 // });
 
 //Login
-Route::post('/login' , 'Api\AuthController@login');
+Route::post('/login', 'Api\AuthController@login');
 
 
 
 Route::middleware('auth:api')->group(function () {
     //Register
-    Route::post('/register' , 'Api\AuthController@register');
+    Route::post('/register', 'Api\AuthController@register');
     //User
     Route::put('user/updatePassword/{id}', 'Api\UserController@updatePassword');
     Route::resource('user', 'Api\UserController');
-    
+
     //Role
     Route::resource('role', 'Api\RoleController');
 
@@ -59,6 +59,7 @@ Route::middleware('auth:api')->group(function () {
     //DASHBOARD EBS
     Route::get('/ebs/dashDate', 'Api\EBSController@dashDate')->name('ebs.dashDate');
     //EBS
+
     Route::post('/ebs/startBooking/{id}', 'Api\EBSController@startBooking')->name('ebs.startBooking');
     Route::post('/ebs/updateProgress/{id}', 'Api\EBSController@updateProgress')->name('ebs.updateProgress');
     Route::post('/ebs/endBooking/{id}', 'Api\EBSController@endBooking')->name('ebs.endBooking');
@@ -71,7 +72,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/tbs/updateProgress/{id}', 'Api\TBSController@updateProgress')->name('tbs.updateProgress');
     Route::post('/tbs/endBooking/{id}', 'Api\TBSController@endBooking')->name('tbs.endBooking');
     Route::resource('tbs', 'Api\TBSController');
-    
+
     //DASHBOARD MSS
     Route::get('/mss/dashDate', 'Api\MSSController@dashDate')->name('mss.dashDate');
     //MSS
@@ -104,5 +105,10 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/notification/getFailed', 'Api\NotificationController@getFailed')->name('notification.getFailed');
     Route::resource('notification', 'Api\NotificationController');
 
+    // By Ejul
+    Route::namespace('Api')->group(function () {
+        Route::prefix('calendar')->group(function () {
+            Route::get('list-ebs', 'CalendarController@listEBS');
+        });
+    });
 });
-

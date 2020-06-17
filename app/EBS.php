@@ -19,11 +19,33 @@ class EBS extends Model
         return $url;
     }
 
-    public function ebsstaffuse() {
+    public function ebsstaffuse()
+    {
         return $this->hasMany('App\EBSStaffUse', 'id_ebs', 'id');
     }
 
-    public function ebsequipmentuse() {
+    public function ebsequipmentuse()
+    {
         return $this->hasMany('App\EBSEquipmentUse', 'id_ebs', 'id');
+    }
+
+    public function staffs()
+    {
+        return $this->belongsToMany('App\User', 'ebs_staff_uses', 'id_ebs', 'id_user');
+    }
+
+    public function equipments()
+    {
+        return $this->belongsToMany('App\Equipment', 'ebs_equipment_uses', 'id_ebs', 'id_equipment');
+    }
+
+    public function getStartTimeAttribute()
+    {
+        return date('H:i A', strtotime($this->start_date));
+    }
+
+    public function getEndTimeAttribute()
+    {
+        return date('H:i A', strtotime($this->end_date));
     }
 }
