@@ -28,11 +28,11 @@ class Equipment extends Model
         return $this->hasMany('App\EBSEquipmentUse', 'id_equipment');
     }
 
-    public function ebs($date1, $date2)
+    public function ebs($start_date, $end_date)
     {
         return $this->belongsToMany('App\EBS', 'ebs_equipment_uses', 'id_equipment', 'id_ebs')
-            ->wherePivot('created_at', '>=', $date1)
-            ->wherePivot('created_at', '<', $date2)
+            ->wherePivot('created_at', '>=', $start_date)
+            ->wherePivot('created_at', '<', $end_date)
             ->get();
     }
 }
