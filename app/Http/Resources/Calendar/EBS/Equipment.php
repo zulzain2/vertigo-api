@@ -26,7 +26,7 @@ class Equipment extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'image' => url($this->img),
+            'image' => url($this->img_path),
             'tag_number' => $this->tag_number,
             'description' => $this->description,
             'category' => $this->equipmentcategory->name,

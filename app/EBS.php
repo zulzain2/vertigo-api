@@ -41,11 +41,22 @@ class EBS extends Model
 
     public function getStartTimeAttribute()
     {
-        return date('H:i A', strtotime($this->start_date));
+        return date('h:i A', strtotime($this->start_date));
+    }
+
+    public function getStartTime24Attribute()
+    {
+        return date('H:i', strtotime($this->start_date));
     }
 
     public function getEndTimeAttribute()
     {
-        return date('H:i A', strtotime($this->end_date));
+        return date('h:i A', strtotime($this->end_date));
     }
+
+    public function getEndTime24Attribute()
+    {
+        return date('H:i', strtotime($this->end_date));
+    }
+
 }

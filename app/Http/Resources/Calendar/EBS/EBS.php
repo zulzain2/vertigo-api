@@ -18,9 +18,10 @@ class EBS extends JsonResource
     {
         return [
             'id' => $this->id,
-            'date' => $this->start_date,            
             'start_time' => $this->start_time,
+            'start_time_24' => $this->start_time_24,
             'end_time' => $this->end_time,
+            'end_time_24' => $this->end_time_24,
             'tag_number' => $this->tag_number,
             'job_number' => $this->job_number,
             'status' => $this->status,
