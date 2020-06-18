@@ -19,11 +19,18 @@ class EBS extends JsonResource
         return [
             'id' => $this->id,
             'start_time' => $this->start_time,
-            'start_time_24' => $this->start_time_24,
+            'start_time_24' => [
+                'hour' => date('H', strtotime($this->start_date)),
+                'minute' => date('i', strtotime($this->start_date)),
+            ],
             'end_time' => $this->end_time,
-            'end_time_24' => $this->end_time_24,
+            'end_time_24' => [
+                'hour' => date('H', strtotime($this->end_date)),
+                'minute' => date('i', strtotime($this->end_date)),
+            ],
             'tag_number' => $this->tag_number,
             'job_number' => $this->job_number,
+            'job_title' => $this->job_title,
             'status' => $this->status,
             'person_in_charge' => new UserResource(User::find($this->created_by)),
             'person_in_use' => UserResource::collection($this->staffs),
