@@ -20,13 +20,13 @@ class EBS extends JsonResource
             'id' => $this->id,
             'start_time' => $this->start_time,
             'start_time_24' => [
-                'hour' => date('H', strtotime($this->start_date)),
-                'minute' => date('i', strtotime($this->start_date)),
+                'hour' => intval(date('H', strtotime($this->start_date))),
+                'minute' => intval(date('i', strtotime($this->start_date))),
             ],
             'end_time' => $this->end_time,
             'end_time_24' => [
-                'hour' => date('H', strtotime($this->end_date)),
-                'minute' => date('i', strtotime($this->end_date)),
+                'hour' => intval(date('H', strtotime($this->end_date))),
+                'minute' => intval(date('i', strtotime($this->end_date))),
             ],
             'tag_number' => $this->tag_number,
             'job_number' => $this->job_number,
