@@ -132,14 +132,16 @@
 
 {!! Form::close() !!}
 
-<div class="row" style="padding-bottom:20px">
+{{-- <div class="row" style="padding-bottom:20px">
     <div class="col-lg-12 text-right">
 
         <button type="button" class="btn waves-effect waves-light btn-danger" style="border-radius: 10px;"><i class="fas fa-redo-alt"></i> Refresh</button>
         <button type="button" class="btn waves-effect waves-light btn-inverse" style="border-radius: 10px;"><i class="fas fa-cloud-download-alt"></i> Export To Excel</button>
 
     </div>
-</div>
+</div> --}}
+
+<br>
 
 <div class="row">
     <div class="col-lg-8">
