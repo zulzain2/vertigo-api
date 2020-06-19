@@ -71,13 +71,13 @@ class DashboardController extends Controller
             if($request->module == 'sas')
             {
 
-    
+                //1st Box
                 $createdTasks           = SASStaffAssign::where('id_user' , '=' , $request->id_staff)
                                                         ->where('status' , '=' , 'Created')
                                                         ->where('created_at' , '>=' , ''.date("y").'-'.$month.'-01')
                                                         ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
                                                         ->get();
-
+                //2nd Box
                 $completedTasks         = SASStaffAssign::where('id_user' , '=' , $request->id_staff)
                                                         ->where('status' , '=' , 'Task Finish')
                                                         ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
@@ -101,12 +101,12 @@ class DashboardController extends Controller
                                                         ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
                                                         ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
                                                         ->get();
-
+                //3rd Box
                 $totalRegisteredTasks   = SASStaffAssign::where('id_user' , '=' , $request->id_staff)
                                                         ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01 00:00:00')
                                                         ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).' 11:59:59')
                                                         ->get();
-
+                //4rd Box
                 $ongoingTasks           = SASStaffAssign::where('id_user' , '=' , $request->id_staff)
                                                         ->where('status' , '=' , 'Task Start')
                                                         ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
@@ -129,19 +129,97 @@ class DashboardController extends Controller
             }
             elseif($request->module == 'ebs')
             {
-    
+                $event = EBS::whereHas('ebsequipmentuse' , function ($query) use ($request) {
+                    $query->where('id_equipment' , $request->equipment);
+                })->orderBy('start_date' , 'DESC')->get();
+
+
+                //1st Box
+                $createdTasks           = EBS::whereHas('ebsstaffuse' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Booking Confirmed')
+                                            ->where('created_at' , '>=' , ''.date("y").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->get();
+
+                //2nd Box
+                $completedTasks         = EBS::whereHas('ebsstaffuse' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Booking Ended')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->get();
+                
+                $totalAssignedTask      = EBS::whereHas('ebsstaffuse' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Booking Confirmed')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->orWhereHas('ebsstaffuse' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Booking Start')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->orWhereHas('ebsstaffuse' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Booking Ended')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->get();
+
+                //3rd Box
+                $totalRegisteredTasks   = EBS::whereHas('ebsstaffuse' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01 00:00:00')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).' 11:59:59')
+                                            ->get();
+
+                 //4rd Box
+                 $ongoingTasks           = EBS::whereHas('ebsstaffuse' , function ($query) use ($request) {
+                                                    $query->where('id_user' , $request->id_staff);
+                                                })
+                                                ->where('status' , '=' , 'Booking Start')
+                                                ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                                ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                                ->get();
+
+                $totalIncompletes       = EBS::whereHas('ebsstaffuse' , function ($query) use ($request) {
+                                                    $query->where('id_user' , $request->id_staff);
+                                                })
+                                                ->where('status' , '=' , 'Cancellation')
+                                                ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                                ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                                ->orWhereHas('ebsstaffuse' , function ($query) use ($request) {
+                                                    $query->where('id_user' , $request->id_staff);
+                                                })
+                                                ->where('status' , '=' , 'Resistance')
+                                                ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                                ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                                ->get();
+
+                $moduleName = 'Equipment Booking System';
+                
             }
             elseif($request->module == 'tbs')
             {
-                
+
+                $moduleName = 'Transport Booking System';
             }
             elseif($request->module == 'mss')
             {
-                
+
+                $moduleName = 'Maintenance Schedule System';
             }
             elseif($request->module == 'tms')
             {
-                
+
+                $moduleName = 'Tender Management System';
             }
             else
             {
