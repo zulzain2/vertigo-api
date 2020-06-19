@@ -129,9 +129,6 @@ class DashboardController extends Controller
             }
             elseif($request->module == 'ebs')
             {
-                $event = EBS::whereHas('ebsequipmentuse' , function ($query) use ($request) {
-                    $query->where('id_equipment' , $request->equipment);
-                })->orderBy('start_date' , 'DESC')->get();
 
 
                 //1st Box
@@ -209,7 +206,78 @@ class DashboardController extends Controller
             elseif($request->module == 'tbs')
             {
 
+
+                //1st Box
+                $createdTasks           = TBS::whereHas('tbsdriver' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Booking Confirmed')
+                                            ->where('created_at' , '>=' , ''.date("y").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->get();
+
+                //2nd Box
+                $completedTasks         = TBS::whereHas('tbsdriver' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Booking Ended')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->get();
+                
+                $totalAssignedTask      = TBS::whereHas('tbsdriver' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Booking Confirmed')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->orWhereHas('tbsdriver' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Booking Start')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->orWhereHas('tbsdriver' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Booking Ended')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->get();
+
+                //3rd Box
+                $totalRegisteredTasks   = TBS::whereHas('tbsdriver' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01 00:00:00')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).' 11:59:59')
+                                            ->get();
+
+                 //4rd Box
+                 $ongoingTasks           = TBS::whereHas('tbsdriver' , function ($query) use ($request) {
+                                                    $query->where('id_user' , $request->id_staff);
+                                                })
+                                                ->where('status' , '=' , 'Booking Start')
+                                                ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                                ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                                ->get();
+
+                $totalIncompletes       = TBS::whereHas('tbsdriver' , function ($query) use ($request) {
+                                                    $query->where('id_user' , $request->id_staff);
+                                                })
+                                                ->where('status' , '=' , 'Cancellation')
+                                                ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                                ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                                ->orWhereHas('tbsdriver' , function ($query) use ($request) {
+                                                    $query->where('id_user' , $request->id_staff);
+                                                })
+                                                ->where('status' , '=' , 'Resistance')
+                                                ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                                ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                                ->get();
+
                 $moduleName = 'Transport Booking System';
+
             }
             elseif($request->module == 'mss')
             {
