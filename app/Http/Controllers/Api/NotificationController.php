@@ -55,6 +55,13 @@ class NotificationController extends Controller
         return response(['status' => 'OK' , 'notifications' => $notifications]);
     }
 
+    public function getByUser()
+    {
+        $notifications = Notification::where('to_user' , auth()->user()->id)->get();
+
+        return response(['status' => 'OK' , 'notifications' => $notifications]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

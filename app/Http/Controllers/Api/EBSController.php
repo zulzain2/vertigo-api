@@ -483,15 +483,4 @@ class EBSController extends Controller
         //
     }
 
-    /**
-     * Get list of booking 
-     *
-     * @param  none
-     * @return \Illuminate\Http\Response
-     */
-
-    public function calendar(Request $request)
-    {
-        return 'test';
-    }
 }
