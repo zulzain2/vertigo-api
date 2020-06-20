@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -37,41 +38,44 @@ class AuthController extends Controller
         $register->first_name = $request->first_name;
         $register->last_name = $request->last_name;
 
-        // Handle File Upload
-        if($request->hasFile('profile_img')){
-            // Get filename with the extension
-            $filenameWithExt = $request->file('profile_img')->getClientOriginalName();
-            // Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just ext
-            $extension = $request->file('profile_img')->getClientOriginalExtension();
-            // Filename to store
-            $fileNameToStore= $id_user.'_'.time().'.'.$extension;
-            // Upload Image
-            $request->file('profile_img')->storeAs('public'.DIRECTORY_SEPARATOR.'users', $fileNameToStore);
+        // // Handle File Upload
+        // if($request->hasFile('profile_img')){
+        //     // Get filename with the extension
+        //     $filenameWithExt = $request->file('profile_img')->getClientOriginalName();
+        //     // Get just filename
+        //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        //     // Get just ext
+        //     $extension = $request->file('profile_img')->getClientOriginalExtension();
+        //     // Filename to store
+        //     $fileNameToStore= $id_user.'_'.time().'.'.$extension;
+        //     // Upload Image
+        //     $request->file('profile_img')->storeAs('public'.DIRECTORY_SEPARATOR.'users', $fileNameToStore);
             
-            //path
-            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
-            // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+        //     //path
+        //     $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+        //     // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
             
-            $register->img_name = $fileNameToStore;
-            $register->img_path = $path;
+        //     $register->img_name = $fileNameToStore;
+        //     $register->img_path = $path;
             
-        } else {
-            $fileNameToStore = 'noimage_'.$id_user.'_'.time().'.png';
+        // } else {
+        //     $fileNameToStore = 'noimage_'.$id_user.'_'.time().'.png';
             
-            $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.'noimage_'.$id_user.'_'.time().'.png';
-            // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.'noimage_'.$id_user.'_'.time().'.png';
+        //     $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.'noimage_'.$id_user.'_'.time().'.png';
+        //     // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.'noimage_'.$id_user.'_'.time().'.png';
 
-            copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
+        //     copy(public_path().''.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'noimage.png' , $img_path);
 
-            //path
-            $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
-            // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+        //     //path
+        //     $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
+        //     // $path = ''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'users'.DIRECTORY_SEPARATOR.''.$fileNameToStore;
             
-            $register->img_name = $fileNameToStore;
-            $register->img_path = $path;
-        }
+        //     $register->img_name = $fileNameToStore;
+        //     $register->img_path = $path;
+        // }
+        $fileNameToStore =  Str::random(40) . '.png';
+        $register->img = $fileNameToStore;
+        $register->img_path = '/storage/transports/' . $fileNameToStore;
 
         $register->created_by = auth()->user() ? auth()->user()->id : 'public';
         $register->status = 1;
