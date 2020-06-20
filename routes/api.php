@@ -26,6 +26,7 @@ Route::middleware('auth:api')->group(function () {
     //Register
     Route::post('/register', 'Api\AuthController@register');
     //User
+    Route::post('/user/storeUser', 'Api\UserController@storeUser');
     Route::put('user/updatePassword/{id}', 'Api\UserController@updatePassword');
     Route::resource('user', 'Api\UserController');
 
@@ -33,11 +34,13 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('role', 'Api\RoleController');
 
     //Equipment
+    Route::post('/equipment/storeEquipment', 'Api\EquipmentController@storeEquipment');
     Route::get('/equipment/getEquimentCategories', 'Api\EquipmentController@getEquimentCategories')->name('equipment.getEquimentCategories');
     Route::get('/equipment/getAvailableEquipment', 'Api\EquipmentController@getAvailableEquipment')->name('equipment.getAvailableEquipment');
     Route::resource('equipment', 'Api\EquipmentController');
 
     //Transport
+    Route::post('/transport/storeTransport', 'Api\TransportController@storeTransport');
     Route::get('/transport/getTransportCategories', 'Api\TransportController@getTransportCategories')->name('transport.getTransportCategories');
     Route::get('/transport/getAvailableTransport', 'Api\TransportController@getAvailableTransport')->name('transport.getAvailableTransport');
     Route::resource('transport', 'Api\TransportController');

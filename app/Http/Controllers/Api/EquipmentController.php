@@ -9,6 +9,8 @@ use App\EquipmentCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Str;
 
 class EquipmentController extends Controller
 {
@@ -245,5 +247,58 @@ class EquipmentController extends Controller
         $document->save();
 
         return response(['status' => 'OK', 'message' => 'Success delete equipment']);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeEquipment(Request $request)
+    {
+        $request->validate([
+            'name'                  => 'required',
+            'img'                   => 'required',
+            'tag_number'            => 'required',
+            'description'           => 'required',
+            'id_equip_category'     => 'required',
+        ]);
+
+        $equipment = new Equipment;
+        $equipment->id = Uuid::uuid4()->getHex();
+        $equipment->name = $request->name;
+
+        // Handle File Upload
+        $filename = Str::random(40) . '.png';
+        $img = Image::make($request->img);
+        $img->save('storage/equipments/' . $filename, 80, 'png');
+
+        $equipment->img = $filename;
+        $equipment->img_path = 'storage/equipments/' . $filename;
+        $equipment->tag_number = $request->tag_number;
+        $equipment->description = $request->description;
+        $equipment->availability = "available";
+        $equipment->id_equip_category = $request->id_equip_category;
+        $equipment->status = 'enable';
+        $equipment->created_by = auth()->user()->id;
+        $equipment->save();
+
+        $document = new DocumentLog;
+        $document->id                 = Uuid::uuid4()->getHex();
+        $document->user_type         = auth()->user()->role->name;
+        $document->id_user            = auth()->user()->id;
+        $document->start_at         = date('Y-m-d H:i:s');
+        $document->end_at             = null;
+        $document->document_type     = "Equipment";
+        $document->id_document         =  $equipment->id;
+        $document->remark             = 'New Equipment has been registered into system';
+        $document->status             = "Equipment Registered";
+        $document->id_notification     = "";
+        $document->created_by         = auth()->user()->id;
+        $document->updated_by         = auth()->user()->id;
+        $document->save();
+
+        return response(['status' => 'OK', 'message' => 'Successfully create equipment']);
     }
 }
