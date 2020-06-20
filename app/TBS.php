@@ -18,12 +18,19 @@ class TBS extends Model
         $url = URL::to($value);
         return $url;
     }
-    
-    public function tbstransportuse() {
+
+    public function tbstransportuse()
+    {
         return $this->hasMany('App\TBSTransportUse', 'id_tbs', 'id');
     }
 
-    public function tbsdriver() {
+    public function tbsdriver()
+    {
         return $this->hasMany('App\TBSDriver', 'id_tbs', 'id');
+    }
+
+    public function staffs()
+    {
+        return $this->belongsToMany('App\User', 'tbs_drivers', 'id_tbs', 'id_user');
     }
 }

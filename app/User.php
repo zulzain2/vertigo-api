@@ -72,4 +72,13 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\EBSStaffUse', 'id_user');
     }
+
+    public function assigns($start_date, $end_date)
+    {
+        return $this->hasMany('App\SASStaffAssign', 'id_user')
+            ->where('created_at', '>=', $start_date)
+            ->where('created_at', '<', $end_date)
+
+            ->get();
+    }
 }

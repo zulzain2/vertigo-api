@@ -109,6 +109,10 @@ Route::middleware('auth:api')->group(function () {
     Route::namespace('Api')->group(function () {
         Route::prefix('calendar')->group(function () {
             Route::get('list-ebs', 'CalendarController@listEBS');
+            Route::get('list-tbs', 'CalendarController@listTBS');
+            Route::get('list-tms', 'CalendarController@listTMS');
+            Route::get('list-mss', 'CalendarController@listMSS');
+            Route::get('list-sas', 'CalendarController@listSAS');
         });
     });
 });

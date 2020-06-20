@@ -18,7 +18,21 @@ class Transport extends Model
         return $url;
     }
 
-    public function transportcategory() {
+    public function transportcategory()
+    {
         return $this->hasOne('App\TransportCategory', 'id', 'id_trans_category');
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany('App\TBSTransportUse', 'id_transport');
+    }
+
+    public function tbs($start_date, $end_date)
+    {
+        return $this->belongsToMany('App\TBS', 'tbs_transport_uses', 'id_transport', 'id_tbs')
+            ->wherePivot('created_at', '>=', $start_date)
+            ->wherePivot('created_at', '<', $end_date)
+            ->get();
     }
 }

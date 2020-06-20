@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Calendar\EBS;
+namespace App\Http\Resources\Calendar\TBS;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Calendar\User as UserResource;
 use App\User;
 
-class EBS extends JsonResource
+class TBS extends JsonResource
 {
     /**
      * Transform the resource into an array.
