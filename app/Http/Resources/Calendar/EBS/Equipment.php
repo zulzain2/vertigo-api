@@ -29,7 +29,7 @@ class Equipment extends JsonResource
             'image' => url($this->img_path),
             'tag_number' => $this->tag_number,
             'description' => $this->description,
-            'category' => $this->equipmentcategory->name,
+            'category' => $this->equipmentcategory->name ?? 'N/A',
             'bookings' => EBSResource::collection($this->ebs($start_date, $end_date)),
         ];
     }
