@@ -53,7 +53,7 @@ class EquipmentController extends Controller
     {
         $request->validate([
             'name'                  => 'required',
-            'img'                   => 'image|max:1999',
+            // 'img'                   => 'image|max:1999',
             'tag_number'            => 'required',
             'description'           => 'required',
             'id_equip_category'     => 'required',
@@ -63,34 +63,35 @@ class EquipmentController extends Controller
         $equipment->id = Uuid::uuid4()->getHex();
         $equipment->name = $request->name;
 
-        // Handle File Upload
-        if ($request->hasFile('img')) {
-            // Get filename with the extension
-            $filenameWithExt = $request->file('img')->getClientOriginalName();
-            // Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just ext
-            $extension = $request->file('img')->getClientOriginalExtension();
-            // Filename to store
-            $fileNameToStore = $equipment->id . '_' . time() . '.' . $extension;
-            // Upload Image
-            $request->file('img')->storeAs('public' . DIRECTORY_SEPARATOR . 'equipments', $fileNameToStore);
-        } else {
-            $fileNameToStore = 'noimage_' . $equipment->id . '_' . time() . '.png';
+        // // Handle File Upload
+        // if ($request->hasFile('img')) {
+        //     // Get filename with the extension
+        //     $filenameWithExt = $request->file('img')->getClientOriginalName();
+        //     // Get just filename
+        //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        //     // Get just ext
+        //     $extension = $request->file('img')->getClientOriginalExtension();
+        //     // Filename to store
+        //     $fileNameToStore = $equipment->id . '_' . time() . '.' . $extension;
+        //     // Upload Image
+        //     $request->file('img')->storeAs('public' . DIRECTORY_SEPARATOR . 'equipments', $fileNameToStore);
+        // } else {
+        //     $fileNameToStore = 'noimage_' . $equipment->id . '_' . time() . '.png';
 
-            $img_path = public_path() . '' . DIRECTORY_SEPARATOR . '/storage/equipments/noimage_' . $equipment->id . '_' . time() . '.png';
-            // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'equipments'.DIRECTORY_SEPARATOR.'noimage_'.$equipment->id.'_'.time().'.png';
+        //     $img_path = public_path() . '' . DIRECTORY_SEPARATOR . '/storage/equipments/noimage_' . $equipment->id . '_' . time() . '.png';
+        //     // $img_path = public_path().''.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'equipments'.DIRECTORY_SEPARATOR.'noimage_'.$equipment->id.'_'.time().'.png';
 
-            copy(public_path() . '' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'noimage.png', $img_path);
-        }
+        //     copy(public_path() . '' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'noimage.png', $img_path);
+        // }
 
         //path
 
         // $path = '/storage/equipments/'.$fileNameToStore;
-        $path = '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'equipments' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
+        // $path = '' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'equipments' . DIRECTORY_SEPARATOR . '' . $fileNameToStore;
+        $fileNameToStore =  Str::random(40) . '.png';
 
         $equipment->img = $fileNameToStore;
-        $equipment->img_path = $path;
+        $equipment->img_path = '/storage/equipments/' . $fileNameToStore;
         $equipment->tag_number = $request->tag_number;
         $equipment->description = $request->description;
         $equipment->availability = "available";
