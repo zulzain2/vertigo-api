@@ -24,13 +24,19 @@ class CalendarController extends Controller
             $start_date = date('Y-m-d', strtotime(now()));
         }
         $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
-        $equipments = Equipment::latest()
+        $equipments = Equipment::whereHas('bookings', function ($query) use ($start_date) {
+            return $query->whereHas('ebs', function ($query2) use ($start_date) {
+                return $query2->whereDate('start_date', $start_date);
+            });
+        })
+            ->latest()
             ->get();
 
         return response()->json([
             'start' => $start_date,
             'end' => $end_date,
             'data' => EBSResource::collection($equipments),
+            // 'data' => $equipments,
         ]);
     }
 
