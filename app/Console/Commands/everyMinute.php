@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\User;
 use App\Scheduler;
 use App\Notification;
 use Ramsey\Uuid\Uuid;
