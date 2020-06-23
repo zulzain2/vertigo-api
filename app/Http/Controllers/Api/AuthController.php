@@ -74,7 +74,7 @@ class AuthController extends Controller
         //     $register->img_path = $path;
         // }
         $fileNameToStore =  Str::random(40) . '.png';
-        $register->profile_img = $fileNameToStore;
+        $register->img_name = $fileNameToStore;
         $register->img_path = '/storage/transports/' . $fileNameToStore;
 
         $register->created_by = auth()->user() ? auth()->user()->id : 'public';
