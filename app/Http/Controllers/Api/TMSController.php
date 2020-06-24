@@ -6,6 +6,7 @@ use App\TMS;
 use App\Role;
 use App\User;
 use App\TMSPic;
+use App\Scheduler;
 use App\DocumentLog;
 use App\InquiryType;
 use App\Notification;
@@ -159,6 +160,7 @@ class TMSController extends Controller
             $noti->save();
 
             $to_pic = User::find($pic);
+            
             $noti->notificationFCM($to_pic->device_token , $noti->title , $noti->desc , null , null, $noti->id_module , $noti->module);
 
             //NOTIFICATION FCM SCHEDULE

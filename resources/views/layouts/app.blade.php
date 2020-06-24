@@ -241,9 +241,9 @@
                                             @endforeach
                                         </div>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a class="nav-link text-center" style="color:#455a64" href="javascript:void(0);"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                         </li>
