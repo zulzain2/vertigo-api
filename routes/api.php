@@ -117,6 +117,7 @@ Route::middleware('auth:api')->group(function () {
             Route::get('list-tms', 'CalendarController@listTMS');
             Route::get('list-mss', 'CalendarController@listMSS');
             Route::get('list-sas', 'CalendarController@listSAS');
+            Route::get('list-day', 'CalendarController@listDay');
         });
     });
 });

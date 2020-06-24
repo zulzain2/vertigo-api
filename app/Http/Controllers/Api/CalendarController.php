@@ -14,7 +14,7 @@ use App\TMS;
 use App\Transport;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class CalendarController extends Controller
 {
@@ -119,5 +119,27 @@ class CalendarController extends Controller
             'end' => $end_date,
             'data' => SASResource::collection($staffs),
         ]);
+    }
+
+    public function listDay(Request $request)
+    {
+        if ($request->has('month')) {
+            $start = Carbon::createFromDate(date('o'), $request->month, date('d'))->firstOfMonth();
+            $end = Carbon::createFromDate(date('o'), $request->month, date('d'))->lastOfMonth();
+        } else {
+            $start = Carbon::now()->firstOfMonth();
+            $end = Carbon::now()->lastOfMonth();
+        }
+
+        $days = [];
+        while ($start <= $end) {
+            array_push($days, [
+                'label' => $start->format('d M Y'),
+                'value' => $start->format('Y-m-d')
+            ]);
+            $start->addDay();
+        }
+
+        return response()->json($days);
     }
 }
