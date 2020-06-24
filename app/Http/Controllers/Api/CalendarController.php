@@ -65,19 +65,17 @@ class CalendarController extends Controller
     public function listTMS(Request $request)
     {
 
-        if ($request->has('start_date')) {
-            $start_date = date('Y-m-d', strtotime($request->start_date));
+        if ($request->has('month')) {
+            $month = date('m', strtotime($request->month));
         } else {
-            $start_date = date('Y-m-d', strtotime(now()));
+            $month = date('m', strtotime(now()));
         }
-        $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
-        $tenders = TMS::where('sitevisit_start_date', '>=', $start_date)
+        $tenders = TMS::whereMonth('sitevisit_start_date', $month)
             ->groupBy('vtsb_num')
             ->get();
 
         return response()->json([
-            'start' => $start_date,
-            'end' => $end_date,
+            'month' => $month,
             'data' => TMSResource::collection($tenders),
         ]);
     }
