@@ -13,11 +13,18 @@ class TMS extends Model
     public $incrementing = FALSE;
     protected $with = ['pic.user', 'inquiry.user'];
 
-    public function pic() {
+    public function pic()
+    {
         return $this->hasMany('App\TMSPic', 'id_tms', 'id');
     }
 
-    public function inquiry() {
+    public function inquiry()
+    {
         return $this->hasOne('App\InquiryType', 'id', 'id_inquiry');
+    }
+
+    public function getClients($vtsb_num)
+    {
+        return $this->whereVtsbNum($vtsb_num)->get();
     }
 }

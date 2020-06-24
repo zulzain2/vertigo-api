@@ -8,10 +8,13 @@ use App\Http\Resources\Calendar\EBS\Equipment as EBSResource;
 use App\Http\Resources\Calendar\TBS\Transport as TBSResource;
 use App\Http\Resources\Calendar\MSS\MaintenanceTask as MSSResource;
 use App\Http\Resources\Calendar\SAS\User as SASResource;
+use App\Http\Resources\Calendar\TMS\TMS as TMSResource;
 use App\MaintenanceTask;
+use App\TMS;
 use App\Transport;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CalendarController extends Controller
 {
@@ -68,13 +71,14 @@ class CalendarController extends Controller
             $start_date = date('Y-m-d', strtotime(now()));
         }
         $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
-        $transports = Transport::latest()
+        $tenders = TMS::where('sitevisit_start_date', '>=', $start_date)
+            ->groupBy('vtsb_num')
             ->get();
 
         return response()->json([
             'start' => $start_date,
             'end' => $end_date,
-            // 'data' => TBSREesource::collection($transports),
+            'data' => TMSResource::collection($tenders),
         ]);
     }
 
