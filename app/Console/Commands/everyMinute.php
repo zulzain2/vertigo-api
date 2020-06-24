@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\User;
 use App\Scheduler;
 use App\Notification;
 use Ramsey\Uuid\Uuid;
@@ -59,11 +60,13 @@ class everyMinute extends Command
                 $noti->send_status = $params->send_status;
                 $noti->status = $params->send_status;
                 $noti->created_by = $params->created_by;
+                $noti->id_module = $params->id_module;
+                $noti->module = $params->module;
                 $noti->save();
 
                 //FCM Kick In Yo
                 $user = User::find($noti->to_user);
-                $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , $noti->click_url);
+                $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , $noti->click_url , $noti->id_module , $noti->module);
 
                 $scheduler->is_triggered = 1;
                 $scheduler->save();

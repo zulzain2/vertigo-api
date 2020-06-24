@@ -111,7 +111,7 @@ class Notification extends Model
 
     }
 
-    public static function notificationFCM($token , $title, $body, $icon , $data)
+    public static function notificationFCM($token , $title, $body, $icon , $click_url, $id_module = null , $module = null)
     {
         $data = json_encode([
             "to" => $token ,
@@ -121,7 +121,9 @@ class Notification extends Model
                 "icon" => $icon
             ],
             "data" => [
-                "click_action"  => $data
+                "click_action"  => $click_url,
+                "id_module"  => $id_module,
+                "module"  => $module,
             ] 
         ]);
 

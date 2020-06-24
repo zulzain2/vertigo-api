@@ -99,6 +99,8 @@ class TBSController extends Controller
             $noti->click_url = '';
             $noti->send_status = 'P';
             $noti->status = '';
+            $noti->module = 'tbs';
+            $noti->id_module = $add->id;
             $noti->created_by = auth()->user()->id;
             $json_noti = json_encode($noti);
 
@@ -184,6 +186,8 @@ class TBSController extends Controller
                 $noti->click_url = '';
                 $noti->send_status = 'P';
                 $noti->status = '';
+                $noti->module = 'tbs';
+                $noti->id_module = $tbs->id;
                 $noti->created_by = auth()->user()->id;
                 $json_noti = json_encode($noti);
 
@@ -242,6 +246,8 @@ class TBSController extends Controller
                 $noti->click_url = '';
                 $noti->send_status = 'P';
                 $noti->status = '';
+                $noti->module = 'tbs';
+                $noti->id_module = $tbs->id;
                 $noti->created_by = auth()->user()->id;
                 $json_noti = json_encode($noti);
 
@@ -442,6 +448,8 @@ class TBSController extends Controller
                 $noti->click_url = '';
                 $noti->send_status = 'P';
                 $noti->status = '';
+                $noti->module = 'tbs';
+                $noti->id_module = $tbs->id;
                 $noti->created_by = auth()->user()->id;
                 $json_noti = json_encode($noti);
 
