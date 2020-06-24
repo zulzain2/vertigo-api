@@ -282,12 +282,190 @@ class DashboardController extends Controller
             elseif($request->module == 'mss')
             {
 
+                 //1st Box
+                 $createdTasks          = MSS::whereHas('msspic' , function ($query) use ($request) {
+                                            $query->where('id_user' , $request->id_staff);
+                                        })
+                                        ->where('status' , '=' , 'Created')
+                                        ->where('created_at' , '>=' , ''.date("y").'-'.$month.'-01')
+                                        ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                        ->get();
+
+                //2nd Box
+                $completedTasks         = MSS::whereHas('msspic' , function ($query) use ($request) {
+                                            $query->where('id_user' , $request->id_staff);
+                                        })
+                                        ->where('status' , '=' , 'Finish')
+                                        ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                        ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                        ->orWhereHas('msspic' , function ($query) use ($request) {
+                                            $query->where('id_user' , $request->id_staff);
+                                        })
+                                        ->where('status' , '=' , 'Early Completion')
+                                        ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                        ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                        ->get();
+                                        
+
+                $totalAssignedTask      = MSS::whereHas('msspic' , function ($query) use ($request) {
+                                            $query->where('id_user' , $request->id_staff);
+                                        })
+                                        ->where('status' , '=' , 'Created')
+                                        ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                        ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                        ->orWhereHas('msspic' , function ($query) use ($request) {
+                                            $query->where('id_user' , $request->id_staff);
+                                        })
+                                        ->where('status' , '=' , 'acknowledge')
+                                        ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                        ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                        ->orWhereHas('msspic' , function ($query) use ($request) {
+                                            $query->where('id_user' , $request->id_staff);
+                                        })
+                                        ->where('status' , '=' , 'Task Start')
+                                        ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                        ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                        ->orWhereHas('msspic' , function ($query) use ($request) {
+                                            $query->where('id_user' , $request->id_staff);
+                                        })
+                                        ->where('status' , '=' , 'Early Completion')
+                                        ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                        ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                        ->get();
+
+                //3rd Box
+                $totalRegisteredTasks   = MSS::whereHas('msspic' , function ($query) use ($request) {
+                                            $query->where('id_user' , $request->id_staff);
+                                        })
+                                        ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01 00:00:00')
+                                        ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).' 11:59:59')
+                                        ->get();
+
+                //4rd Box
+                $ongoingTasks           = MSS::whereHas('msspic' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Task Start')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->get();
+
+                $totalIncompletes       = MSS::whereHas('msspic' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Cancellation')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->orWhereHas('msspic' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Resistance')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->get();
+                    
                 $moduleName = 'Maintenance Schedule System';
+
             }
             elseif($request->module == 'tms')
             {
 
+                //1st Box
+                $createdTasks          = TMS::whereHas('pic' , function ($query) use ($request) {
+                                            $query->where('id_user' , $request->id_staff);
+                                        })
+                                        ->where('status' , '=' , 'Inquiry Created')
+                                        ->where('created_at' , '>=' , ''.date("y").'-'.$month.'-01')
+                                        ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                        ->get();
+
+                //2nd Box
+                $completedTasks         = TMS::whereHas('pic' , function ($query) use ($request) {
+                                            $query->where('id_user' , $request->id_staff);
+                                        })
+                                        ->where('status' , '=' , 'Finish & Sent for Verification')
+                                        ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                        ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                        ->orwhereHas('pic' , function ($query) use ($request) {
+                                            $query->where('id_user' , $request->id_staff);
+                                        })
+                                        ->where('clerk_verify_status' , '=' , 'Verified')
+                                        ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                        ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                        ->orwhereHas('pic' , function ($query) use ($request) {
+                                            $query->where('id_user' , $request->id_staff);
+                                        })
+                                        ->where('manager_verify_status' , '=' , 'Verified')
+                                        ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                        ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                        ->get();
+                                
+
+                $totalAssignedTask      = TMS::whereHas('pic' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Session Set')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->orWhereHas('pic' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Acknowledge')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->orWhereHas('pic' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Task Start')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->orWhereHas('pic' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Finish & Sent for Verification')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->orWhereHas('pic' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('clerk_verify_status' , '=' , 'Verified')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->orWhereHas('pic' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('manager_verify_status' , '=' , 'Verified')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->get();
+
+                //3rd Box
+                $totalRegisteredTasks   = TMS::whereHas('pic' , function ($query) use ($request) {
+                                            $query->where('id_user' , $request->id_staff);
+                                        })
+                                        ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01 00:00:00')
+                                        ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).' 11:59:59')
+                                        ->get();
+
+                //4rd Box
+                $ongoingTasks           = TMS::whereHas('pic' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('status' , '=' , 'Task Start')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->get();
+
+                $totalIncompletes       = TMS::whereHas('pic' , function ($query) use ($request) {
+                                                $query->where('id_user' , $request->id_staff);
+                                            })
+                                            ->where('finish_task' , '=' , 'No')
+                                            ->where('created_at' , '>=' , ''.date("yy").'-'.$month.'-01')
+                                            ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
+                                            ->get();
+
                 $moduleName = 'Tender Management System';
+
             }
             else
             {
