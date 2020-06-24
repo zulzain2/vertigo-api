@@ -132,10 +132,12 @@ class SASController extends Controller
                     $noti->click_url = '';
                     $noti->send_status = 'P';
                     $noti->status = '';
+                    $noti->module = 'sas';
+                    $noti->id_module = $add->id;
                     $noti->created_by = auth()->user()->id;
                     $noti->save();
 
-                    $noti->notificationFCM($manager->device_token , $noti->title , $noti->desc , null , null);
+                    $noti->notificationFCM($manager->device_token , $noti->title , $noti->desc , null , null , $noti->id_module , $noti->module);
                 }
 
 
@@ -320,10 +322,12 @@ class SASController extends Controller
             $noti->click_url = '';
             $noti->send_status = 'P';
             $noti->status = '';
+            $noti->module = 'sas';
+            $noti->id_module = $sas->id;
             $noti->created_by = auth()->user()->id;
             $noti->save();
 
-            $noti->notificationFCM($sasstaffassign->user->device_token , $noti->title , $noti->desc , null , null);
+            $noti->notificationFCM($sasstaffassign->user->device_token , $noti->title , $noti->desc , null , null, $noti->id_module , $noti->module);
          
             //NOTIFICATION FCM SCHEDULE
             $noti = new Notification;
@@ -335,6 +339,8 @@ class SASController extends Controller
             $noti->click_url = '';
             $noti->send_status = 'P';
             $noti->status = '';
+            $noti->module = 'sas';
+            $noti->id_module = $sas->id;
             $noti->created_by = auth()->user()->id;
             $json_noti = json_encode($noti);
 
@@ -493,6 +499,8 @@ class SASController extends Controller
             $noti->click_url = '';
             $noti->send_status = 'P';
             $noti->status = '';
+            $noti->module = 'sas';
+            $noti->id_module = $sasassignstaff->sas->id;
             $noti->created_by = auth()->user()->id;
             $json_noti = json_encode($noti);
 
@@ -661,6 +669,8 @@ class SASController extends Controller
             $noti->click_url = '';
             $noti->send_status = 'P';
             $noti->status = '';
+            $noti->module = 'sas';
+            $noti->id_module = $sasassignstaff->sas->id;
             $noti->created_by = auth()->user()->id;
             $json_noti = json_encode($noti);
 
@@ -733,10 +743,12 @@ class SASController extends Controller
         $noti->click_url = '';
         $noti->send_status = 'P';
         $noti->status = '';
+        $noti->module = 'sas';
+        $noti->id_module = $sasstaffassign->sas->id;
         $noti->created_by = auth()->user()->id;
         $noti->save();
         
-        $noti->notificationFCM($sasstaffassign->user->device_token , $noti->title , $noti->desc , null , null);
+        $noti->notificationFCM($sasstaffassign->user->device_token , $noti->title , $noti->desc , null , null , $noti->id_module , $noti->module);
         
         return response(['status' => 'OK' , 'message' => 'Successfully comment on task']);
     }

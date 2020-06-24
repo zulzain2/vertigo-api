@@ -132,11 +132,13 @@ class MSSController extends Controller
                 $noti->click_url = '';
                 $noti->send_status = 'P';
                 $noti->status = '';
+                $noti->module = 'mss';
+                $noti->id_module = $add->id;
                 $noti->created_by = auth()->user()->id;
                 $noti->save();
     
                 $user = User::find($pic);
-                $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , null);
+                $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , null , $noti->id_module , $noti->module);
 
 
                 //NOTIFICATION FCM SCHEDULE
@@ -149,6 +151,8 @@ class MSSController extends Controller
                 $noti->click_url = '';
                 $noti->send_status = 'P';
                 $noti->status = '';
+                $noti->module = 'mss';
+                $noti->id_module = $add->id;
                 $noti->created_by = auth()->user()->id;
                 $json_noti = json_encode($noti);
 
@@ -162,8 +166,6 @@ class MSSController extends Controller
                 $scheduler->created_by = auth()->user()->id;
                 $scheduler->save();
 
-                
-                
             }
 
             $document = New DocumentLog;
@@ -357,6 +359,8 @@ class MSSController extends Controller
                 $noti->click_url = '';
                 $noti->send_status = 'P';
                 $noti->status = '';
+                $noti->module = 'mss';
+                $noti->id_module = $mss->id;
                 $noti->created_by = auth()->user()->id;
                 $json_noti = json_encode($noti);
 
@@ -481,6 +485,8 @@ class MSSController extends Controller
                 $noti->click_url = '';
                 $noti->send_status = 'P';
                 $noti->status = '';
+                $noti->module = 'mss';
+                $noti->id_module = $mss->id;
                 $noti->created_by = auth()->user()->id;
                 $json_noti = json_encode($noti);
 

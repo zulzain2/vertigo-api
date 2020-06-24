@@ -86,12 +86,14 @@ class TMSController extends Controller
             $noti->click_url = '';
             $noti->send_status = 'P';
             $noti->status = '';
+            $noti->module = 'tms';
+            $noti->id_module = $add->id;
             $noti->created_by = auth()->user()->id;
             $noti->save();
 
             $to_staff = User::find($user->id);
 
-            $noti->notificationFCM($to_staff->device_token , $noti->title , $noti->desc , null , null);
+            $noti->notificationFCM($to_staff->device_token , $noti->title , $noti->desc , null , null, $noti->id_module , $noti->module, $noti->id_module , $noti->module);
 
             
         }
@@ -151,11 +153,13 @@ class TMSController extends Controller
             $noti->click_url = '';
             $noti->send_status = 'P';
             $noti->status = '';
+            $noti->module = 'tms';
+            $noti->id_module = $update->id;
             $noti->created_by = auth()->user()->id;
             $noti->save();
 
             $to_pic = User::find($pic);
-            $noti->notificationFCM($to_pic->device_token , $noti->title , $noti->desc , null , null);
+            $noti->notificationFCM($to_pic->device_token , $noti->title , $noti->desc , null , null, $noti->id_module , $noti->module);
 
             //NOTIFICATION FCM SCHEDULE
             $noti = new Notification;
@@ -167,6 +171,8 @@ class TMSController extends Controller
             $noti->click_url = '';
             $noti->send_status = 'P';
             $noti->status = '';
+            $noti->module = 'tms';
+            $noti->id_module = $update->id;
             $noti->created_by = auth()->user()->id;
             $json_noti = json_encode($noti);
 
@@ -377,11 +383,13 @@ class TMSController extends Controller
                     $noti->click_url = '';
                     $noti->send_status = 'P';
                     $noti->status = '';
+                    $noti->module = 'tms';
+                    $noti->id_module = $tms->id;
                     $noti->created_by = auth()->user()->id;
                     $noti->save();
     
                     $to_clerk = User::find($clerk->id);
-                    $noti->notificationFCM($to_clerk->device_token , $noti->title , $noti->desc , null , null);
+                    $noti->notificationFCM($to_clerk->device_token , $noti->title , $noti->desc , null , null, $noti->id_module , $noti->module);
                     
                 }
             }
@@ -405,11 +413,13 @@ class TMSController extends Controller
                 $noti->click_url = '';
                 $noti->send_status = 'P';
                 $noti->status = '';
+                $noti->module = 'tms';
+                $noti->id_module = $tms->id;
                 $noti->created_by = auth()->user()->id;
                 $noti->save();
 
                 $to_manager = User::find($manager->id);
-                $noti->notificationFCM($to_manager->device_token , $noti->title , $noti->desc , null , null);
+                $noti->notificationFCM($to_manager->device_token , $noti->title , $noti->desc , null , null, $noti->id_module , $noti->module);
                 
             }
                
@@ -455,6 +465,8 @@ class TMSController extends Controller
                     $noti->click_url = '';
                     $noti->send_status = 'P';
                     $noti->status = '';
+                    $noti->module = 'tms';
+                    $noti->id_module = $tms->id;
                     $noti->created_by = auth()->user()->id;
                     $json_noti = json_encode($noti);
 
