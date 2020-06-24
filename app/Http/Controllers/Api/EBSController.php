@@ -106,6 +106,8 @@ class EBSController extends Controller
             $noti->click_url = '/ebs/notification/start';
             $noti->send_status = 'P';
             $noti->status = '';
+            $noti->module = 'ebs';
+            $noti->id_module = $add->id;
             $noti->created_by = auth()->user()->id;
             $json_noti = json_encode($noti);
 
@@ -190,6 +192,8 @@ class EBSController extends Controller
                 $noti->click_url = '/ebs/notification/end';
                 $noti->send_status = 'P';
                 $noti->status = '';
+                $noti->module = 'ebs';
+                $noti->id_module = $ebs->id;
                 $noti->created_by = auth()->user()->id;
                 $json_noti = json_encode($noti);
 
@@ -248,6 +252,8 @@ class EBSController extends Controller
                 $noti->click_url = '/ebs/notification/start';
                 $noti->send_status = 'P';
                 $noti->status = '';
+                $noti->module = 'ebs';
+                $noti->id_module = $ebs->id;
                 $noti->created_by = auth()->user()->id;
                 $json_noti = json_encode($noti);
 
@@ -440,6 +446,8 @@ class EBSController extends Controller
                 $noti->click_url = '/ebs/notification/end';
                 $noti->send_status = 'P';
                 $noti->status = '';
+                $noti->module = 'ebs';
+                $noti->id_module = $ebs->id;
                 $noti->created_by = auth()->user()->id;
                 $json_noti = json_encode($noti);
 
