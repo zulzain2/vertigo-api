@@ -16,14 +16,8 @@ class Client extends JsonResource
     {
         return [
             'name' => $this->client_name,
-            'start' => [
-                'hour' => intval(date('H', strtotime($this->sitevisit_start_date))),
-                'minute' => intval(date('i', strtotime($this->sitevisit_start_date))),
-            ],
-            'end' => [
-                'hour' => intval(date('H', strtotime($this->sitevisit_end_date))),
-                'minute' => intval(date('i', strtotime($this->sitevisit_end_date))),
-            ],
+            'start_date' => date('Y-m-d', strtotime($this->sitevisit_start_date)),
+            'end_date' => date('Y-m-d', strtotime($this->sitevisit_end_date)),
         ];
     }
 }
