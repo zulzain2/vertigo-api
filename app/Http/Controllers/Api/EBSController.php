@@ -103,7 +103,7 @@ class EBSController extends Controller
             $noti->title = 'Vertigo [Equipment Booking System]';
             $noti->desc = 'Have you utilize the equipment?';
             $noti->type = 'I';
-            $noti->click_url = '/ebs/notification/start';
+            $noti->click_url = 'ebs-start';
             $noti->send_status = 'P';
             $noti->status = '';
             $noti->module = 'ebs';
@@ -189,7 +189,7 @@ class EBSController extends Controller
                 $noti->title = 'Vertigo [Equipment Booking System]';
                 $noti->desc = 'Have you completed the booking?';
                 $noti->type = 'I';
-                $noti->click_url = '/ebs/notification/end';
+                $noti->click_url = 'ebs-end';
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->module = 'ebs';
@@ -249,7 +249,7 @@ class EBSController extends Controller
                 $noti->title = 'Vertigo [Equipment Booking System]';
                 $noti->desc = 'Have you utilize the equipment?';
                 $noti->type = 'I';
-                $noti->click_url = '/ebs/notification/start';
+                $noti->click_url = 'ebs-start';
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->module = 'ebs';
@@ -443,7 +443,7 @@ class EBSController extends Controller
                 $noti->title = 'Vertigo [Equipment Booking System]';
                 $noti->desc =  'Have you completed the booking?';
                 $noti->type = 'I';
-                $noti->click_url = '/ebs/notification/end';
+                $noti->click_url = 'ebs-end';
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->module = 'ebs';

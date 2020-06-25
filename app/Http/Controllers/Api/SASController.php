@@ -129,7 +129,7 @@ class SASController extends Controller
                     $noti->title = 'Vertigo [Staff Assignment Management]';
                     $noti->desc = 'A new created task needs your approval';
                     $noti->type = 'A';
-                    $noti->click_url = '';
+                    $noti->click_url = 'sas-approve';
                     $noti->send_status = 'P';
                     $noti->status = '';
                     $noti->module = 'sas';
@@ -319,7 +319,7 @@ class SASController extends Controller
             $noti->title = 'Vertigo [Staff Assignment Management]';
             $noti->desc = 'You have been assigned to a new task';
             $noti->type = 'I';
-            $noti->click_url = '';
+            $noti->click_url = 'sas-acknowledge';
             $noti->send_status = 'P';
             $noti->status = '';
             $noti->module = 'sas';
@@ -336,7 +336,7 @@ class SASController extends Controller
             $noti->title = 'Vertigo [Staff Assignment Management]';
             $noti->desc =  'Have you started the assigned task?';
             $noti->type = 'I';
-            $noti->click_url = '';
+            $noti->click_url = 'sas-start';
             $noti->send_status = 'P';
             $noti->status = '';
             $noti->module = 'sas';
@@ -496,7 +496,7 @@ class SASController extends Controller
             $noti->title = 'Vertigo [Staff Assignment Management]';
             $noti->desc =  'Have you started the assigned task?';
             $noti->type = 'I';
-            $noti->click_url = '';
+            $noti->click_url = 'sas-start';
             $noti->send_status = 'P';
             $noti->status = '';
             $noti->module = 'sas';
@@ -666,7 +666,7 @@ class SASController extends Controller
             $noti->title = 'Vertigo [Staff Assignment Management]';
             $noti->desc =  'Have you finished the assigned task?';
             $noti->type = 'I';
-            $noti->click_url = '';
+            $noti->click_url = 'sas-end';
             $noti->send_status = 'P';
             $noti->status = '';
             $noti->module = 'sas';

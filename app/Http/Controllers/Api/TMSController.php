@@ -84,7 +84,7 @@ class TMSController extends Controller
             $noti->title = 'Vertigo [Tender Management System]';
             $noti->desc = 'A new inquiry has been registered';
             $noti->type = 'I';
-            $noti->click_url = '';
+            $noti->click_url = 'tms-new';
             $noti->send_status = 'P';
             $noti->status = '';
             $noti->module = 'tms';
@@ -151,7 +151,7 @@ class TMSController extends Controller
             $noti->title = 'Vertigo [Tender Management System]';
             $noti->desc = 'You have been assigned to a new task';
             $noti->type = 'I';
-            $noti->click_url = '';
+            $noti->click_url = 'tms-acknowledge';
             $noti->send_status = 'P';
             $noti->status = '';
             $noti->module = 'tms';
@@ -170,7 +170,7 @@ class TMSController extends Controller
             $noti->title = 'Vertigo [Tender Management System]';
             $noti->desc = 'Have you visited the site?';
             $noti->type = 'I';
-            $noti->click_url = '';
+            $noti->click_url = 'tms-update';
             $noti->send_status = 'P';
             $noti->status = '';
             $noti->module = 'tms';
@@ -382,7 +382,7 @@ class TMSController extends Controller
                     $noti->title = 'Vertigo [Tender Management System]';
                     $noti->desc = 'A task has been completed';
                     $noti->type = 'R';
-                    $noti->click_url = '';
+                    $noti->click_url = 'tms-complete';
                     $noti->send_status = 'P';
                     $noti->status = '';
                     $noti->module = 'tms';
@@ -412,7 +412,7 @@ class TMSController extends Controller
                 $noti->title = 'Vertigo [Tender Management System]';
                 $noti->desc = 'A task has been completed';
                 $noti->type = 'R';
-                $noti->click_url = '';
+                $noti->click_url = 'tms-complete';
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->module = 'tms';
@@ -464,7 +464,7 @@ class TMSController extends Controller
                     $noti->title = 'Vertigo [Tender Management System]';
                     $noti->desc = 'Have you completed the assigned task?';
                     $noti->type = 'I';
-                    $noti->click_url = '';
+                    $noti->click_url = 'tms-update';
                     $noti->send_status = 'P';
                     $noti->status = '';
                     $noti->module = 'tms';

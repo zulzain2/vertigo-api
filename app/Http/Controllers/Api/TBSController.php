@@ -96,7 +96,7 @@ class TBSController extends Controller
             $noti->title = 'Vertigo [Transport Booking System]';
             $noti->desc = 'Have you utilize the transport?';
             $noti->type = 'I';
-            $noti->click_url = '';
+            $noti->click_url = 'tbs-start';
             $noti->send_status = 'P';
             $noti->status = '';
             $noti->module = 'tbs';
@@ -183,7 +183,7 @@ class TBSController extends Controller
                 $noti->title = 'Vertigo [Transport Booking System]';
                 $noti->desc = 'Have you completed the booking?';
                 $noti->type = 'I';
-                $noti->click_url = '';
+                $noti->click_url = 'tbs-end';
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->module = 'tbs';
@@ -243,7 +243,7 @@ class TBSController extends Controller
                 $noti->title = 'Vertigo [Transport Booking System]';
                 $noti->desc = 'Have you utilize the transport?';
                 $noti->type = 'I';
-                $noti->click_url = '';
+                $noti->click_url = 'tbs-start';
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->module = 'tbs';
@@ -445,7 +445,7 @@ class TBSController extends Controller
                 $noti->title = 'Vertigo [Transport Booking System]';
                 $noti->desc = 'Have you completed the booking?';
                 $noti->type = 'I';
-                $noti->click_url = '';
+                $noti->click_url = 'tbs-end';
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->module = 'tbs';

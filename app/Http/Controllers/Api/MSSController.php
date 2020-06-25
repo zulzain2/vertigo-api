@@ -148,7 +148,7 @@ class MSSController extends Controller
                 $noti->title = 'Vertigo [Maintenance Schedule System]';
                 $noti->desc =  'Have you started the maintenance?';
                 $noti->type = 'I';
-                $noti->click_url = '';
+                $noti->click_url = 'mss-start';
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->module = 'mss';
@@ -356,7 +356,7 @@ class MSSController extends Controller
                 $noti->title = 'Vertigo [Maintenance Schedule System]';
                 $noti->desc =  'Have you started the maintenance?';
                 $noti->type = 'I';
-                $noti->click_url = '';
+                $noti->click_url = 'mss-start';
                 $noti->send_status = 'P';
                 $noti->status = '';
                 $noti->module = 'mss';
@@ -484,7 +484,7 @@ class MSSController extends Controller
                 $noti->type = 'I';
                 $noti->click_url = '';
                 $noti->send_status = 'P';
-                $noti->status = '';
+                $noti->status = 'mss-end';
                 $noti->module = 'mss';
                 $noti->id_module = $mss->id;
                 $noti->created_by = auth()->user()->id;
