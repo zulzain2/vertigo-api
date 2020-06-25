@@ -15,7 +15,7 @@ class SAS extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            'id' => $this->sas->id,
             'start_time' => [
                 'hour' => intval(date('H', strtotime($this->start_date))),
                 'minute' => intval(date('i', strtotime($this->start_date))),
