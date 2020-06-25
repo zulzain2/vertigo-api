@@ -106,6 +106,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/notification/getReceived', 'Api\NotificationController@getReceived')->name('notification.getReceived');
     Route::get('/notification/getRead', 'Api\NotificationController@getRead')->name('notification.getRead');
     Route::get('/notification/getFailed', 'Api\NotificationController@getFailed')->name('notification.getFailed');
+    // Route::get('/notification/getByUser', 'Api\NotificationController@getByUser')->name('notification.getByUser');
     Route::get('/notification/getByUser', 'Api\NotificationController@getByUser')->name('notification.getByUser');
     Route::resource('notification', 'Api\NotificationController');
 
