@@ -55,9 +55,16 @@ class NotificationController extends Controller
         return response(['status' => 'OK' , 'notifications' => $notifications]);
     }
 
-    public function getByUser()
+    // public function getByUser()
+    // {
+    //     $notifications = Notification::where('to_user' , auth()->user()->id)->get();
+
+    //     return response(['status' => 'OK' , 'notifications' => $notifications]);
+    // }
+
+    public function getByUser($id_user)
     {
-        $notifications = Notification::where('to_user' , auth()->user()->id)->get();
+        $notifications = Notification::where('to_user' , $id_user)->get();
 
         return response(['status' => 'OK' , 'notifications' => $notifications]);
     }
