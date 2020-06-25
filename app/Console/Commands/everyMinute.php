@@ -58,7 +58,7 @@ class everyMinute extends Command
                 $noti->type = $params->type;
                 $noti->click_url = $params->click_url;
                 $noti->send_status = $params->send_status;
-                $noti->status = $params->send_status;
+                $noti->status = '';
                 $noti->created_by = $params->created_by;
                 $noti->id_module = $params->id_module;
                 $noti->module = $params->module;
