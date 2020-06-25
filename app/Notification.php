@@ -121,7 +121,7 @@ class Notification extends Model
                 "icon" => $icon
             ],
             "data" => [
-                "click_url"  => 'FLUTTER_NOTIFICATION_CLICK',
+                "click_action"  => 'FLUTTER_NOTIFICATION_CLICK',
                 "id_module"  => $id_module,
                 "module"  => $module,
                 "route" => $click_url,
