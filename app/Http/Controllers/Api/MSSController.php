@@ -131,7 +131,7 @@ class MSSController extends Controller
                 $noti->type = 'I';
                 $noti->click_url = '';
                 $noti->send_status = 'P';
-                $noti->status = '';
+                $noti->status = 'mss-acknowledge';
                 $noti->module = 'mss';
                 $noti->id_module = $add->id;
                 $noti->created_by = auth()->user()->id;
