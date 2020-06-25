@@ -140,6 +140,6 @@ class CalendarController extends Controller
             $start->addDay();
         }
 
-        return response()->json($days);
+        return response()->json(['data' => $days]);
     }
 }
