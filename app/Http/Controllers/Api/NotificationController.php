@@ -17,49 +17,51 @@ class NotificationController extends Controller
     {
         $notifications = Notification::all();
 
-        return response(['status' => 'OK' , 'notifications' => $notifications]);
+        return response(['status' => 'OK', 'notifications' => $notifications]);
     }
 
     public function getPending()
     {
-        $notifications = Notification::where('send_status' , 'P')->get();
+        $notifications = Notification::where('send_status', 'P')->get();
 
-        return response(['status' => 'OK' , 'notifications' => $notifications]);
+        return response(['status' => 'OK', 'notifications' => $notifications]);
     }
-    
+
     public function getSend()
     {
-        $notifications = Notification::where('send_status' , 'S')->get();
+        $notifications = Notification::where('send_status', 'S')->get();
 
-        return response(['status' => 'OK' , 'notifications' => $notifications]);
+        return response(['status' => 'OK', 'notifications' => $notifications]);
     }
 
     public function getReceived()
     {
-        $notifications = Notification::where('send_status' , 'R')->get();
+        $notifications = Notification::where('send_status', 'R')->get();
 
-        return response(['status' => 'OK' , 'notifications' => $notifications]);
+        return response(['status' => 'OK', 'notifications' => $notifications]);
     }
 
     public function getRead()
     {
-        $notifications = Notification::where('send_status' , 'D')->get();
+        $notifications = Notification::where('send_status', 'D')->get();
 
-        return response(['status' => 'OK' , 'notifications' => $notifications]);
+        return response(['status' => 'OK', 'notifications' => $notifications]);
     }
 
     public function getFailed()
     {
-        $notifications = Notification::where('send_status' , 'F')->get();
+        $notifications = Notification::where('send_status', 'F')->get();
 
-        return response(['status' => 'OK' , 'notifications' => $notifications]);
+        return response(['status' => 'OK', 'notifications' => $notifications]);
     }
 
     public function getByUser()
     {
-        $notifications = Notification::where('to_user' , auth()->user()->id)->get();
+        $notifications = Notification::where('to_user', auth()->user()->id)
+            ->latest()
+            ->get();
 
-        return response(['status' => 'OK' , 'notifications' => $notifications]);
+        return response(['status' => 'OK', 'notifications' => $notifications]);
     }
 
     /**
