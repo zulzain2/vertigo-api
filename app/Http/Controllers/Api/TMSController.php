@@ -230,7 +230,68 @@ class TMSController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'client_name'               => 'required',
+            'vtsb_num'                  => 'required',
+            'sitevisit_start_date'      => 'required', 
+            'sitevisit_end_date'        => 'required', 
+            'sitevisit_start_time'      => 'required', 
+            'sitevisit_end_time'        => 'required', 
+            'id_inquiry'                => 'required',
+        ]);
+
+        $add = TMS::find($id);
+        $add->client_name = $request->client_name;
+        $add->vtsb_num = $request->vtsb_num;
+        $add->sitevisit_start_date = ''.date("Y-m-d", strtotime($request->sitevisit_start_date)).' '.date("H:i:s", strtotime($request->sitevisit_start_time)).'';
+        $add->sitevisit_end_date = ''.date("Y-m-d", strtotime($request->sitevisit_end_date)).' '.date("H:i:s", strtotime($request->sitevisit_end_time)).'';
+        $add->id_inquiry = $request->id_inquiry;
+        // $add->status = "Inquiry Created";
+        $add->updated_by = auth()->user()->id;
+        $add->save();
+
+        $inquiry = InquiryType::find($request->id_inquiry);
+
+        foreach ($inquiry->user as $key => $user) {
+            //NOTIFICATION FCM OTS
+            $noti = New Notification;
+            $noti->id = Uuid::uuid4()->getHex();
+            $noti->to_user = $user->id;
+            $noti->tiny_img_url = '';
+            $noti->title = 'Vertigo [Tender Management System]';
+            $noti->desc = 'A new inquiry has been registered';
+            $noti->type = 'I';
+            $noti->click_url = 'tms-new';
+            $noti->send_status = 'P';
+            $noti->status = '';
+            $noti->module = 'tms';
+            $noti->id_module = $add->id;
+            $noti->created_by = auth()->user()->id;
+            $noti->save();
+
+            $to_staff = User::find($user->id);
+
+            $noti->notificationFCM($to_staff->device_token , $noti->title , $noti->desc , null , null, $noti->id_module , $noti->module, $noti->id_module , $noti->module);
+
+            
+        }
+       
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "TMS";
+            $document->id_document 		=  $add->id;
+            $document->remark 			= "Edit Submission in Tender Management System";
+            $document->status 			= $add->status;
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
+        return response(['status' => 'OK' , 'message' => 'Successfully edit inquiry']);
     }
 
     public function acknowledge($id_tms)

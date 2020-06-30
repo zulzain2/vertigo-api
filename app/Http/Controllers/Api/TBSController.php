@@ -156,7 +156,103 @@ class TBSController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $request->validate([
+            'start_date'            => 'required',
+            'start_time'            => 'required',
+            'end_date'              => 'required', 
+            'end_time'              => 'required', 
+            'job_number'            => 'required',
+            'job_title'             => 'required', 
+            'drivers.*'             => 'required',
+            'transport_uses.*'      => 'required',
+        ]);
+
+        $add = TBS::find($id);
+        $add->start_date = ''.date("Y-m-d", strtotime($request->start_date)).' '.date("H:i:s", strtotime($request->start_time)).'';
+        $add->end_date = ''.date("Y-m-d", strtotime($request->end_date)).' '.date("H:i:s", strtotime($request->end_time)).'';
+        $add->job_number = $request->job_number;
+        $add->job_title = $request->job_title;
+        // $add->status = 'Booking Confirmed';
+        $add->updated_by = auth()->user()->id;
+        $add->save();
+
+        foreach ($add->tbstransportuse as $key => $data) {
+
+            $transport = Transport::find($data->id_transport);
+            $transport->availability = "available";
+            $transport->save();
+
+            $data->delete();
+        }
+
+        foreach ($add->tbsdriver as $key => $data2) {
+            $data2->delete();
+        }
+
+        foreach ($request->transport_uses as $key => $transport_use) {
+            $add3 = New TBSTransportUse;
+            $add3->id = Uuid::uuid4()->getHex();
+            $add3->id_transport = $transport_use;
+            $add3->id_tbs = $add->id;
+            $add3->created_by = auth()->user()->id;
+            $add3->save(); 
+
+            $transport = Transport::find($transport_use);
+            $transport->availability = "unavailable";
+            $transport->save();
+        }
+
+        foreach ($request->drivers as $key => $driver) {
+            $add2 = New TBSDriver;
+            $add2->id = Uuid::uuid4()->getHex();
+            $add2->id_user = $driver;
+            $add2->id_tbs = $add->id;
+            $add2->created_by = auth()->user()->id;
+            $add2->save(); 
+
+            //NOTIFICATION FCM SCHEDULE
+            $noti = new Notification;
+            $noti->to_user =  $driver;
+            $noti->tiny_img_url = '';
+            $noti->title = 'Vertigo [Transport Booking System]';
+            $noti->desc = 'Have you utilize the transport?';
+            $noti->type = 'I';
+            $noti->click_url = 'tbs-start';
+            $noti->send_status = 'P';
+            $noti->status = '';
+            $noti->module = 'tbs';
+            $noti->id_module = $add->id;
+            $noti->created_by = auth()->user()->id;
+            $json_noti = json_encode($noti);
+
+            $scheduler = New Scheduler;
+            $scheduler->id = Uuid::uuid4()->getHex();
+            $scheduler->trigger_datetime = $add->start_date;
+            $scheduler->url_to_call = 'triggeredNotification';
+            $scheduler->secret_key = '';
+            $scheduler->params = $json_noti;
+            $scheduler->is_triggered = 0;
+            $scheduler->created_by = auth()->user()->id;
+            $scheduler->save();
+
+        }
+
+        $document = New DocumentLog;
+        $document->id 				= Uuid::uuid4()->getHex();
+        $document->user_type 		= auth()->user()->role->name;
+        $document->id_user			= auth()->user()->id;
+        $document->start_at 		= date('Y-m-d H:i:s');
+        $document->end_at 			= null;
+        $document->document_type 	= "TBS";
+        $document->id_document 		=  $add->id;
+        $document->remark 			= "Edit Booking for Transport Booking System";
+        $document->status 			= "Booking Confirm";
+        $document->id_notification 	= "";
+        $document->created_by 		= auth()->user()->id;
+        $document->updated_by 		= auth()->user()->id;
+        $document->save();
+
+        return response(['status' => 'OK' , 'message' => 'Successfully edit booked transport']);
     }
 
     public function startBooking(Request $request , $id_tbs)

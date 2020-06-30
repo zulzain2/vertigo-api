@@ -62,7 +62,6 @@ Route::middleware('auth:api')->group(function () {
     //DASHBOARD EBS
     Route::get('/ebs/dashDate', 'Api\EBSController@dashDate')->name('ebs.dashDate');
     //EBS
-
     Route::post('/ebs/startBooking/{id}', 'Api\EBSController@startBooking')->name('ebs.startBooking');
     Route::post('/ebs/updateProgress/{id}', 'Api\EBSController@updateProgress')->name('ebs.updateProgress');
     Route::post('/ebs/endBooking/{id}', 'Api\EBSController@endBooking')->name('ebs.endBooking');

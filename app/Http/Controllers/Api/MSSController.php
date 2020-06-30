@@ -208,7 +208,145 @@ class MSSController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'start_date'                    => 'required',
+            'start_time'                    => 'required',
+            'end_date'                      => 'required', 
+            'end_time'                      => 'required', 
+            'equipment.*'                   => 'required', 
+            'transport.*'                   => 'required', 
+            'pic.*'                         => 'required',
+            'task.*'                        => 'required',
+        ]);
+
+            $add = MSS::find($id);
+            // $add->status = 'Created';
+            $add->description = $request->description;
+            $add->start_date = ''.date("Y-m-d", strtotime($request->start_date)).' '.date("H:i:s", strtotime($request->start_time)).'';
+            $add->end_date = ''.date("Y-m-d", strtotime($request->end_date)).' '.date("H:i:s", strtotime($request->end_time)).'';
+            $add->updated_by = auth()->user()->id;
+            $add->save();
+
+            foreach ($add->mssequipment as $key => $data) {
+                $data->delete();
+            }
+
+            foreach ($add->msstransport as $key => $data2) {
+                $data2->delete();
+            }
+
+            foreach ($add->msspic as $key => $data3) {
+                $data3->delete();
+            }
+
+            foreach ($add->msstask as $key => $data4) {
+                $data4->delete();
+            }
+
+
+            foreach ($request->equipment as $key => $equipment) {
+                $add2 = New MSSEquipment;
+                $add2->id = Uuid::uuid4()->getHex();
+                $add2->id_equipment = $equipment;
+                $add2->id_mss = $add->id;
+                $add2->status = '';
+                $add2->created_by = auth()->user()->id;
+                $add2->save();
+            }
+
+            foreach ($request->transport as $key => $transport) {
+                $add3 = New MSSTransport;
+                $add3->id = Uuid::uuid4()->getHex();
+                $add3->id_transport = $transport;
+                $add3->id_mss = $add->id;
+                $add3->status = '';
+                $add3->created_by = auth()->user()->id;
+                $add3->save();
+            }
+
+            foreach ($request->task as $key => $task) {
+                $add3 = New MSSTask;
+                $add3->id = Uuid::uuid4()->getHex();
+                $add3->id_task = $task;
+                $add3->id_mss = $add->id;
+                $add3->status = '';
+                $add3->created_by = auth()->user()->id;
+                $add3->save();
+            }
+
+            foreach ($request->pic as $key => $pic) {
+                
+                $add4 = New MSSPic;
+                $add4->id = Uuid::uuid4()->getHex();
+                $add4->id_user = $pic;
+                $add4->id_mss = $add->id;
+                $add4->status = '';
+                $add4->created_by = auth()->user()->id;
+                $add4->save();
+
+                //NOTIFICATION FCM OTS
+                $noti = New Notification;
+                $noti->id = Uuid::uuid4()->getHex();
+                $noti->to_user = $pic;
+                $noti->tiny_img_url = '';
+                $noti->title = 'Vertigo [Maintenance Schedule System]';
+                $noti->desc = 'You have been assigned to a new task';
+                $noti->type = 'I';
+                $noti->click_url = '';
+                $noti->send_status = 'P';
+                $noti->status = 'mss-acknowledge';
+                $noti->module = 'mss';
+                $noti->id_module = $add->id;
+                $noti->created_by = auth()->user()->id;
+                $noti->save();
+    
+                $user = User::find($pic);
+                $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , null , $noti->id_module , $noti->module);
+
+
+                //NOTIFICATION FCM SCHEDULE
+                $noti = new Notification;
+                $noti->to_user =  $user->id;
+                $noti->tiny_img_url = '';
+                $noti->title = 'Vertigo [Maintenance Schedule System]';
+                $noti->desc =  'Have you started the maintenance?';
+                $noti->type = 'I';
+                $noti->click_url = 'mss-start';
+                $noti->send_status = 'P';
+                $noti->status = '';
+                $noti->module = 'mss';
+                $noti->id_module = $add->id;
+                $noti->created_by = auth()->user()->id;
+                $json_noti = json_encode($noti);
+
+                $scheduler = New Scheduler;
+                $scheduler->id = Uuid::uuid4()->getHex();
+                $scheduler->trigger_datetime =   $add->start_date;
+                $scheduler->url_to_call = 'triggeredNotification';
+                $scheduler->secret_key = '';
+                $scheduler->params = $json_noti;
+                $scheduler->is_triggered = 0;
+                $scheduler->created_by = auth()->user()->id;
+                $scheduler->save();
+
+            }
+
+            $document = New DocumentLog;
+            $document->id 				= Uuid::uuid4()->getHex();
+            $document->user_type 		= auth()->user()->role->name;
+            $document->id_user			= auth()->user()->id;
+            $document->start_at 		= date('Y-m-d H:i:s');
+            $document->end_at 			= null;
+            $document->document_type 	= "MSS";
+            $document->id_document 		=  $add->id;
+            $document->remark 			= "Edit Maintenance Schedule";
+            $document->status 			= "Created";
+            $document->id_notification 	= "";
+            $document->created_by 		= auth()->user()->id;
+            $document->updated_by 		= auth()->user()->id;
+            $document->save();
+
+            return response(['status' => 'OK' , 'message' => 'Successfully edit maintenance']);
     }
 
     public function getAvailableStaff($datefrom, $dateto)
