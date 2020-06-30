@@ -15,31 +15,25 @@ use App\Transport;
 use App\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CalendarController extends Controller
 {
     public function listEBS(Request $request)
     {
-
         if ($request->has('start_date')) {
             $start_date = date('Y-m-d', strtotime($request->start_date));
         } else {
             $start_date = date('Y-m-d', strtotime(now()));
         }
         $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
-        $equipments = Equipment::whereHas('bookings', function ($query) use ($start_date) {
-            return $query->whereHas('ebs', function ($query2) use ($start_date) {
-                return $query2->whereDate('start_date', $start_date);
-            });
-        })
-            ->latest()
-            ->get();
+        $equipments = Equipment::orderBy('name')
+        ->get();
 
         return response()->json([
             'start' => $start_date,
             'end' => $end_date,
             'data' => EBSResource::collection($equipments),
-            // 'data' => $equipments,
         ]);
     }
 

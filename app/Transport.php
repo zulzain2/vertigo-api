@@ -31,8 +31,7 @@ class Transport extends Model
     public function tbs($start_date, $end_date)
     {
         return $this->belongsToMany('App\TBS', 'tbs_transport_uses', 'id_transport', 'id_tbs')
-            ->wherePivot('created_at', '>=', $start_date)
-            ->wherePivot('created_at', '<', $end_date)
+            ->whereRaw('tbs.start_date between ? and ?', [$start_date, $end_date])
             ->get();
     }
 }
