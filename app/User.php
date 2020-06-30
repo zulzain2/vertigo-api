@@ -14,6 +14,7 @@ class User extends Authenticatable
     use Notifiable, HasApiTokens;
     protected $table = 'users';
     public $incrementing = FALSE;
+    protected $with = ['role', 'inquiry' , 'document_log'];
 
     /**
      * The attributes that are mass assignable.
