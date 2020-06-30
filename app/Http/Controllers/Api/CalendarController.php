@@ -19,10 +19,16 @@ use Illuminate\Support\Facades\DB;
 
 class CalendarController extends Controller
 {
-    public function listEBS()
+    public function listEBS(Request $request)
     {
-        $equipments = Equipment::orderBy('name')
-            ->get();
+        if ($request->has('category_id')) {
+            $equipments = Equipment::orderBy('name')
+                ->whereIdEquipCategory($request->category_id)
+                ->get();
+        } else {
+            $equipments = Equipment::orderBy('name')
+                ->get();
+        }
 
         return response()->json([
             'data' => EBSResource::collection($equipments),
