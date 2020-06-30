@@ -19,20 +19,12 @@ use Illuminate\Support\Facades\DB;
 
 class CalendarController extends Controller
 {
-    public function listEBS(Request $request)
+    public function listEBS()
     {
-        if ($request->has('start_date')) {
-            $start_date = date('Y-m-d', strtotime($request->start_date));
-        } else {
-            $start_date = date('Y-m-d', strtotime(now()));
-        }
-        $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
         $equipments = Equipment::orderBy('name')
-        ->get();
+            ->get();
 
         return response()->json([
-            'start' => $start_date,
-            'end' => $end_date,
             'data' => EBSResource::collection($equipments),
         ]);
     }
@@ -40,18 +32,10 @@ class CalendarController extends Controller
     public function listTBS(Request $request)
     {
 
-        if ($request->has('start_date')) {
-            $start_date = date('Y-m-d', strtotime($request->start_date));
-        } else {
-            $start_date = date('Y-m-d', strtotime(now()));
-        }
-        $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
         $transports = Transport::latest()
             ->get();
 
         return response()->json([
-            'start' => $start_date,
-            'end' => $end_date,
             'data' => TBSResource::collection($transports),
         ]);
     }

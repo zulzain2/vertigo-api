@@ -15,12 +15,19 @@ class Transport extends JsonResource
      */
     public function toArray($request)
     {
-        if ($request->has('start_date')) {
-            $start_date = date('Y-m-d', strtotime($request->start_date));
+        if ($request->has('type')) {
+            $month = date('m', strtotime($request->start_date));
+            $bookings =  TBSResource::collection($this->tbsMonthly($month));
         } else {
-            $start_date = date('Y-m-d', strtotime(now()));
+
+            if ($request->has('start_date')) {
+                $start_date = date('Y-m-d', strtotime($request->start_date));
+            } else {
+                $start_date = date('Y-m-d', strtotime(now()));
+            }
+            $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
+            $bookings = TBSResource::collection($this->tbsDaily($start_date, $end_date));
         }
-        $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -28,7 +35,7 @@ class Transport extends JsonResource
             'plate_number' => $this->plate_number,
             'description' => $this->description,
             'category' => $this->transportcategory->name,
-            'bookings' => TBSResource::collection($this->tbs($start_date, $end_date)),
+            'bookings' => $bookings,
         ];
     }
 }

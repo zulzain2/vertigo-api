@@ -28,7 +28,7 @@ class Transport extends JsonResource
             'plate_number' => $this->plate_number,
             'description' => $this->description,
             'category' => $this->transportcategory->name ?? 'N/A',
-            'bookings' => TBSResource::collection($this->tbs($start_date, $end_date)),
+            'bookings' => TBSResource::collection($this->tbsDaily($start_date, $end_date)),
         ];
     }
 }

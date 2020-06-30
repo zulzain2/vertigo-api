@@ -28,10 +28,17 @@ class Transport extends Model
         return $this->hasMany('App\TBSTransportUse', 'id_transport');
     }
 
-    public function tbs($start_date, $end_date)
+    public function tbsDaily($start_date, $end_date)
     {
         return $this->belongsToMany('App\TBS', 'tbs_transport_uses', 'id_transport', 'id_tbs')
             ->whereRaw('tbs.start_date between ? and ?', [$start_date, $end_date])
+            ->get();
+    }
+
+    public function tbsMonthly($month)
+    {
+        return $this->belongsToMany('App\TBS', 'tbs_transport_uses', 'id_transport', 'id_tbs')
+            ->whereMonth('tbs.start_date', $month)
             ->get();
     }
 }
