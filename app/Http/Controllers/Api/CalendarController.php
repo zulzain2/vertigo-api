@@ -76,13 +76,6 @@ class CalendarController extends Controller
 
     public function listSAS(Request $request)
     {
-
-        if ($request->has('start_date')) {
-            $start_date = date('Y-m-d', strtotime($request->start_date));
-        } else {
-            $start_date = date('Y-m-d', strtotime(now()));
-        }
-        $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
         $staffs = User::whereHas('role', function ($query) {
             return $query->whereIn('level', [2, 3, 4, 5, 6]);
         })
@@ -90,8 +83,6 @@ class CalendarController extends Controller
             ->get();
 
         return response()->json([
-            'start' => $start_date,
-            'end' => $end_date,
             'data' => SASResource::collection($staffs),
         ]);
     }

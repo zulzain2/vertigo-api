@@ -31,8 +31,8 @@ class MSS extends JsonResource
             ],
             'description' => $this->description,
             'status' => $this->status,
-            'person_in_charge' => UserResource::collection($this->msspic),
-            'vehicles' => TransportResource::collection($this->msstransport),
+            'person_in_charge' => $this->msspic->count() > 0 ? UserResource::collection($this->msspic) : [],
+            'vehicles' => $this->msstransport->count() > 0 ? TransportResource::collection($this->msstransport) : [],
             'equipments' => EquipResource::collection($this->mssequipment),
         ];
     }

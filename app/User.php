@@ -14,7 +14,7 @@ class User extends Authenticatable
     use Notifiable, HasApiTokens;
     protected $table = 'users';
     public $incrementing = FALSE;
-    protected $with = ['role', 'inquiry' , 'document_log'];
+    protected $with = ['role', 'inquiry', 'document_log'];
 
     /**
      * The attributes that are mass assignable.
@@ -74,11 +74,17 @@ class User extends Authenticatable
         return $this->hasMany('App\EBSStaffUse', 'id_user');
     }
 
-    public function assigns($start_date, $end_date)
+    public function assignDaily($start_date, $end_date)
     {
         return $this->hasMany('App\SASStaffAssign', 'id_user')
-            ->where('created_at', '>=', $start_date)
-            ->where('created_at', '<', $end_date)
+            ->whereRaw('sas_staff_assigns.start_date between ? and ?', [$start_date, $end_date])
+            ->get();
+    }
+
+    public function assignMonthly($month)
+    {
+        return $this->hasMany('App\SASStaffAssign', 'id_user')
+            ->whereMonth('ebs.start_date', $month)
             ->get();
     }
 }
