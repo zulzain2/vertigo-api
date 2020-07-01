@@ -15,7 +15,6 @@ use App\Transport;
 use App\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class CalendarController extends Controller
 {
