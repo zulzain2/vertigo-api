@@ -24,6 +24,7 @@ class Transport extends JsonResource
             $bookings = TBSResource::collection($this->tbsDaily($start_date, $end_date));
         }
         return [
+            'test' => $request->type,
             'id' => $this->id,
             'name' => $this->name,
             'image' => url($this->img_path),
