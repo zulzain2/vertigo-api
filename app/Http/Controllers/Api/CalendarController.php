@@ -30,9 +30,7 @@ class CalendarController extends Controller
                 ->get();
         }
 
-        return response()->json([
-            'data' => EBSResource::collection($equipments),
-        ]);
+        return response(EBSResource::collection($equipments));
     }
 
     public function listTBS(Request $request)
