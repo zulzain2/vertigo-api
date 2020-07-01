@@ -66,19 +66,10 @@ class CalendarController extends Controller
 
     public function listMSS(Request $request)
     {
-
-        if ($request->has('start_date')) {
-            $start_date = date('Y-m-d', strtotime($request->start_date));
-        } else {
-            $start_date = date('Y-m-d', strtotime(now()));
-        }
-        $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
-        $tasks = MaintenanceTask::latest()
+        $tasks = MaintenanceTask::orderBy('name')
             ->get();
 
         return response()->json([
-            'start' => $start_date,
-            'end' => $end_date,
             'data' => MSSResource::collection($tasks),
         ]);
     }

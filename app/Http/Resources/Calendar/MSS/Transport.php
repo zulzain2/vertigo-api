@@ -4,7 +4,7 @@ namespace App\Http\Resources\Calendar\MSS;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Equipment extends JsonResource
+class Transport extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +15,8 @@ class Equipment extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->equipment->id,
-            'name' => $this->equipment->name,
+            'id' => $this->transport->id,
+            'name' => $this->transport->name,
         ];
     }
 }
