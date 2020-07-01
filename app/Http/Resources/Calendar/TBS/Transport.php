@@ -15,7 +15,7 @@ class Transport extends JsonResource
      */
     public function toArray($request)
     {
-        if ($request->has('type')) {
+        if ($request->type == 'monthly') {
             $month = date('m', strtotime($request->start_date));
             $bookings =  TBSResource::collection($this->tbsMonthly($month));
         } else {
