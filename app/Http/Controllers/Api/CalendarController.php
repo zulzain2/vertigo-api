@@ -88,13 +88,8 @@ class CalendarController extends Controller
 
     public function listDay(Request $request)
     {
-        if ($request->has('month')) {
-            $start = Carbon::createFromDate(date('o'), $request->month, date('d'))->firstOfMonth();
-            $end = Carbon::createFromDate(date('o'), $request->month, date('d'))->lastOfMonth();
-        } else {
-            $start = Carbon::now()->firstOfMonth();
-            $end = Carbon::now()->lastOfMonth();
-        }
+        $start = Carbon::createFromDate(date('o'), $request->month, date('d'))->firstOfMonth();
+        $end = Carbon::createFromDate(date('o'), $request->month, date('d'))->lastOfMonth();
 
         $days = [];
         while ($start <= $end) {
