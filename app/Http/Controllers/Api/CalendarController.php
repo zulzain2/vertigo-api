@@ -47,18 +47,11 @@ class CalendarController extends Controller
 
     public function listTMS(Request $request)
     {
-
-        if ($request->has('month')) {
-            $month = date('m', strtotime($request->month));
-        } else {
-            $month = date('m', strtotime(now()));
-        }
-        $tenders = TMS::whereMonth('sitevisit_start_date', $month)
+        $tenders = TMS::whereMonth('sitevisit_start_date', $request->month)
             ->groupBy('vtsb_num')
             ->get();
 
         return response()->json([
-            'month' => $month,
             'data' => TMSResource::collection($tenders),
         ]);
     }
