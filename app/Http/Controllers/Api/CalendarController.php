@@ -21,7 +21,7 @@ class CalendarController extends Controller
 {
     public function listEBS(Request $request)
     {
-        if ($request->has('category_id')) {
+        if ($request->category_id != 'none') {
             $equipments = Equipment::orderBy('name')
                 ->whereIdEquipCategory($request->category_id)
                 ->get();
