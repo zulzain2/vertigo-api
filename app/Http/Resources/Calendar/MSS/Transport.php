@@ -15,8 +15,8 @@ class Transport extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->transport->id,
-            'name' => $this->transport->name,
+            'id' => $this->transport == null ? '' : $this->transport->id,
+            'name' => $this->transport == null ? '' : $this->transport->name,
         ];
     }
 }
