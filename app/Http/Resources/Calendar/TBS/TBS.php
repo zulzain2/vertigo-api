@@ -18,8 +18,8 @@ class TBS extends JsonResource
     {
         return [
             'id' => $this->id,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
+            'start_date' => date('Y-m-d', strtotime($this->start_date)),
+            'end_date' => date('Y-m-d', strtotime($this->end_date)),
             'start_time' => [
                 'hour' => intval(date('H', strtotime($this->start_date))),
                 'minute' => intval(date('i', strtotime($this->start_date))),

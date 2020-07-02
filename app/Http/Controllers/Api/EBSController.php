@@ -175,7 +175,6 @@ class EBSController extends Controller
         ]);
 
         $add = EBS::find($id);
-        return response($add);
         $add->start_date = '' . date("Y-m-d", strtotime($request->start_date)) . ' ' . date("H:i:s", strtotime($request->start_time)) . '';
         $add->end_date = '' . date("Y-m-d", strtotime($request->end_date)) . ' ' . date("H:i:s", strtotime($request->end_time)) . '';
         $add->tag_number = $request->tag_number;

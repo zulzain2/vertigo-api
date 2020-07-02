@@ -11,11 +11,17 @@ class MaintenanceTask extends Model
     protected $table = 'maintenance_tasks';
     public $incrementing = FALSE;
 
-    public function mss($start_date, $end_date)
+    public function mssDaily($start_date, $end_date)
     {
         return $this->belongsToMany('App\MSS', 'mss_tasks', 'id_task', 'id_mss')
-            ->wherePivot('created_at', '>=', $start_date)
-            ->wherePivot('created_at', '<', $end_date)
-            ->get();
+        ->whereRaw('mss.start_date between ? and ?', [$start_date, $end_date])
+        ->get();
+    }
+
+    public function mssMonthly($month)
+    {
+        return $this->belongsToMany('App\MSS', 'mss_tasks', 'id_task', 'id_mss')
+        ->whereMonth('mss.start_date', $month)
+        ->get();
     }
 }

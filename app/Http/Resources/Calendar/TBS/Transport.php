@@ -15,16 +15,11 @@ class Transport extends JsonResource
      */
     public function toArray($request)
     {
-        if ($request->has('type')) {
+        if ($request->type == 'monthly') {
             $month = date('m', strtotime($request->start_date));
             $bookings =  TBSResource::collection($this->tbsMonthly($month));
         } else {
-
-            if ($request->has('start_date')) {
-                $start_date = date('Y-m-d', strtotime($request->start_date));
-            } else {
-                $start_date = date('Y-m-d', strtotime(now()));
-            }
+            $start_date = date('Y-m-d', strtotime($request->start_date));
             $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
             $bookings = TBSResource::collection($this->tbsDaily($start_date, $end_date));
         }

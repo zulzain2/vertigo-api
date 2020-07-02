@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Calendar\SAS;
+namespace App\Http\Resources\Calendar\MSS;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SASStaffAssign extends JsonResource
+class User extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,6 +14,9 @@ class SASStaffAssign extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->user->id,
+            'name' => $this->user->name,
+        ];
     }
 }

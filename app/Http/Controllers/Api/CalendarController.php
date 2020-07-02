@@ -15,13 +15,12 @@ use App\Transport;
 use App\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class CalendarController extends Controller
 {
     public function listEBS(Request $request)
     {
-        if ($request->has('category_id')) {
+        if ($request->category_id != 'none') {
             $equipments = Equipment::orderBy('name')
                 ->whereIdEquipCategory($request->category_id)
                 ->get();
@@ -48,50 +47,27 @@ class CalendarController extends Controller
 
     public function listTMS(Request $request)
     {
-
-        if ($request->has('month')) {
-            $month = date('m', strtotime($request->month));
-        } else {
-            $month = date('m', strtotime(now()));
-        }
-        $tenders = TMS::whereMonth('sitevisit_start_date', $month)
+        $tenders = TMS::whereMonth('sitevisit_start_date', $request->month)
             ->groupBy('vtsb_num')
             ->get();
 
         return response()->json([
-            'month' => $month,
             'data' => TMSResource::collection($tenders),
         ]);
     }
 
     public function listMSS(Request $request)
     {
-
-        if ($request->has('start_date')) {
-            $start_date = date('Y-m-d', strtotime($request->start_date));
-        } else {
-            $start_date = date('Y-m-d', strtotime(now()));
-        }
-        $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
-        $tasks = MaintenanceTask::latest()
+        $tasks = MaintenanceTask::orderBy('name')
             ->get();
 
         return response()->json([
-            'start' => $start_date,
-            'end' => $end_date,
             'data' => MSSResource::collection($tasks),
         ]);
     }
 
     public function listSAS(Request $request)
     {
-
-        if ($request->has('start_date')) {
-            $start_date = date('Y-m-d', strtotime($request->start_date));
-        } else {
-            $start_date = date('Y-m-d', strtotime(now()));
-        }
-        $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
         $staffs = User::whereHas('role', function ($query) {
             return $query->whereIn('level', [2, 3, 4, 5, 6]);
         })
@@ -99,21 +75,14 @@ class CalendarController extends Controller
             ->get();
 
         return response()->json([
-            'start' => $start_date,
-            'end' => $end_date,
             'data' => SASResource::collection($staffs),
         ]);
     }
 
     public function listDay(Request $request)
     {
-        if ($request->has('month')) {
-            $start = Carbon::createFromDate(date('o'), $request->month, date('d'))->firstOfMonth();
-            $end = Carbon::createFromDate(date('o'), $request->month, date('d'))->lastOfMonth();
-        } else {
-            $start = Carbon::now()->firstOfMonth();
-            $end = Carbon::now()->lastOfMonth();
-        }
+        $start = Carbon::createFromDate(date('o'), $request->month, date('d'))->firstOfMonth();
+        $end = Carbon::createFromDate(date('o'), $request->month, date('d'))->lastOfMonth();
 
         $days = [];
         while ($start <= $end) {
