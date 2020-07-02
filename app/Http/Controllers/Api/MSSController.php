@@ -66,8 +66,8 @@ class MSSController extends Controller
             'start_time'                    => 'required',
             'end_date'                      => 'required', 
             'end_time'                      => 'required', 
-            'equipment.*'                   => 'required', 
-            'transport.*'                   => 'required', 
+            // 'equipment.*'                   => 'required', 
+            // 'transport.*'                   => 'required', 
             'pic.*'                         => 'required',
             'task.*'                        => 'required',
         ]);
@@ -213,8 +213,8 @@ class MSSController extends Controller
             'start_time'                    => 'required',
             'end_date'                      => 'required', 
             'end_time'                      => 'required', 
-            'equipment.*'                   => 'required', 
-            'transport.*'                   => 'required', 
+            // 'equipment.*'                   => 'required', 
+            // 'transport.*'                   => 'required', 
             'pic.*'                         => 'required',
             'task.*'                        => 'required',
         ]);
