@@ -22,35 +22,45 @@ class NotificationController extends Controller
 
     public function getPending()
     {
-        $notifications = Notification::where('send_status', 'P')->get();
+        $notifications = Notification::where('send_status', 'P')->where('to_user', auth()->user()->id)
+        ->latest()
+        ->get();
 
         return response(['status' => 'OK', 'notifications' => $notifications]);
     }
 
     public function getSend()
     {
-        $notifications = Notification::where('send_status', 'S')->get();
+        $notifications = Notification::where('send_status', 'S')->where('to_user', auth()->user()->id)
+        ->latest()
+        ->get();
 
         return response(['status' => 'OK', 'notifications' => $notifications]);
     }
 
     public function getReceived()
     {
-        $notifications = Notification::where('send_status', 'R')->get();
+        $notifications = Notification::where('send_status', 'R')->where('to_user', auth()->user()->id)
+        ->latest()
+        ->get();
 
         return response(['status' => 'OK', 'notifications' => $notifications]);
     }
 
     public function getRead()
     {
-        $notifications = Notification::where('send_status', 'D')->get();
+        $notifications = Notification::where('send_status', 'D')->where('to_user', auth()->user()->id)
+        ->latest()
+        ->get();
 
         return response(['status' => 'OK', 'notifications' => $notifications]);
     }
 
     public function getFailed()
     {
-        $notifications = Notification::where('send_status', 'F')->get();
+        $notifications = Notification::where('send_status', 'F')->where('to_user', auth()->user()->id)
+        ->latest()
+        ->get();
 
         return response(['status' => 'OK', 'notifications' => $notifications]);
     }
@@ -62,6 +72,16 @@ class NotificationController extends Controller
             ->get();
 
         return response(['status' => 'OK', 'notifications' => $notifications]);
+    }
+
+    public function changeToRead($id)
+    {
+        $notification = Notification::find($id);
+
+        $notification->send_status = "D";
+        $notification->save();
+
+        return response(['status' => 'OK', 'message' => "Success update notification send_status"]);
     }
 
     /**
