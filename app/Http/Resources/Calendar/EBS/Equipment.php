@@ -33,6 +33,7 @@ class Equipment extends JsonResource
             'description' => $this->description,
             'category' => $this->equipmentcategory->name ?? 'N/A',
             'bookings' => $bookings,
+            // 'sql' => $this->ebsDaily($start_date, $end_date),
         ];
     }
 }
