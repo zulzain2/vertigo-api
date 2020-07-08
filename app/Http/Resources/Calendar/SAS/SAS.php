@@ -26,6 +26,7 @@ class SAS extends JsonResource
             'job_number' => $this->sas->job_number,
             'job_title' => $this->sas->job_title,
             'status' => $this->status,
+            'test' => $this->sas->sasstaffassign,
             'person_in_use' => UserResource::collection($this->sas->personInUse),
         ];
     }
