@@ -16,8 +16,8 @@ class SAS extends Model
         return $this->hasMany('App\SASStaffAssign', 'id_sas', 'id');
     }
 
-    public function personInUse() {
-        return $this->belongsToMany('App\EBS', 'ebs_equipment_uses', 'id_equipment', 'id_ebs')        
-    }
+    // public function personInUse() {
+    //     return $this->belongsToMany('App\EBS', 'ebs_equipment_uses', 'id_equipment', 'id_ebs')        
+    // }
 
 }
