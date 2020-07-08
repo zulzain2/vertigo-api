@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Calendar\SAS;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Calendar\SAS\PersonInUse as UserResource;
 
 class SAS extends JsonResource
 {
@@ -27,7 +27,7 @@ class SAS extends JsonResource
             'job_title' => $this->sas->job_title,
             'status' => $this->status,
             'test' => $this->sas->sasstaffassign,
-            'person_in_use' => UserResource::collection($this->sas->personInUse),
+            'person_in_use' => UserResource::collection($this->sas->sasstaffassign),
         ];
     }
 }
