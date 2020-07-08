@@ -12,12 +12,14 @@ class SAS extends Model
     public $incrementing = FALSE;
     protected $with = ['sasstaffassign.sascomment', 'sasstaffassign.user'];
 
-    public function sasstaffassign() {
+    public function sasstaffassign()
+    {
         return $this->hasMany('App\SASStaffAssign', 'id_sas', 'id');
     }
 
-    public function personInUse() {
-        return $this->belongsToMany('App\User', 'sas_staff_assigns', 'id_user', 'id_sas');        
+    public function personInUse()
+    {
+        return $this->belongsToMany('App\User', 'sas_staff_assigns', 'id_user', 'id_sas')
+            ->get();
     }
-
 }
