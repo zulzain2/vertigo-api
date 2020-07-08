@@ -14,10 +14,12 @@ class PersonInUse extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->user->id,
-            'name' => $this->user->name,
-            'image' => url($this->user->img_path),
-        ];
+        if ($this->user->id != $this->created_by) {
+            return [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'image' => url($this->user->img_path),
+            ];
+        }
     }
 }
