@@ -84,7 +84,7 @@ class User extends Authenticatable
     public function assignMonthly($month)
     {
         return $this->hasMany('App\SASStaffAssign', 'id_user')
-            ->whereMonth('ebs.start_date', $month)
+            ->whereMonth('sas_staff_assigns.start_date', $month)
             ->get();
     }
 }
