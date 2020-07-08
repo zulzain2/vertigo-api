@@ -14,16 +14,12 @@ class SAS extends JsonResource
      */
     public function toArray($request)
     {
+        $time = getStartEndTime($request->start_date, $this->start_date, $this->end_date);
+
         return [
             'id' => $this->sas->id,
-            'start_time' => [
-                'hour' => intval(date('H', strtotime($this->start_date))),
-                'minute' => intval(date('i', strtotime($this->start_date))),
-            ],
-            'end_time' => [
-                'hour' => intval(date('H', strtotime($this->end_date))),
-                'minute' => intval(date('i', strtotime($this->end_date))),
-            ],
+            'start_time' => $time['start_time'],
+            'end_time' => $time['end_time'],
             'job_number' => $this->sas->job_number,
             'job_title' => $this->sas->job_title,
             'status' => $this->status,

@@ -74,10 +74,10 @@ class User extends Authenticatable
         return $this->hasMany('App\EBSStaffUse', 'id_user');
     }
 
-    public function assignDaily($start_date, $end_date)
+    public function assignDaily($date)
     {
         return $this->hasMany('App\SASStaffAssign', 'id_user')
-            ->whereRaw('sas_staff_assigns.start_date between ? and ?', [$start_date, $end_date])
+            ->whereRaw('? between date(sas_staff_assigns.start_date) and sas_staff_assigns.end_date', [$date])
             ->get();
     }
 

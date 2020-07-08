@@ -17,18 +17,14 @@ class MSS extends JsonResource
      */
     public function toArray($request)
     {
+        $time = getStartEndTime($request->start_date, $this->start_date, $this->end_date);
+
         return [
             'id' => $this->id,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
-            'start_time' => [
-                'hour' => intval(date('H', strtotime($this->start_date))),
-                'minute' => intval(date('i', strtotime($this->start_date))),
-            ],
-            'end_time' => [
-                'hour' => intval(date('H', strtotime($this->end_date))),
-                'minute' => intval(date('i', strtotime($this->end_date))),
-            ],
+            'start_time' => $time['start_time'],
+            'end_time' => $time['end_time'],
             'description' => $this->description,
             'status' => $this->status,
             'person_in_charge' => $this->msspic->count() > 0 ? UserResource::collection($this->msspic) : [],
