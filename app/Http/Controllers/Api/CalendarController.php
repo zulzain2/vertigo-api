@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\EBS;
 use App\Equipment;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Calendar\EBS\Equipment as EBSResource;

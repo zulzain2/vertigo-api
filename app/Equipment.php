@@ -28,10 +28,10 @@ class Equipment extends Model
         return $this->hasMany('App\EBSEquipmentUse', 'id_equipment');
     }
 
-    public function ebsDaily($start_date, $end_date)
+    public function ebsDaily($date)
     {
         return $this->belongsToMany('App\EBS', 'ebs_equipment_uses', 'id_equipment', 'id_ebs')
-            ->whereRaw('ebs.start_date between ? and ?', [$start_date, $end_date])
+            ->whereRaw('? between date(ebs.start_date) and ebs.end_date', [$date])
             ->get();
     }
 

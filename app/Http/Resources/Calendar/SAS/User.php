@@ -19,9 +19,8 @@ class User extends JsonResource
             $month = date('m', strtotime($request->start_date));
             $bookings =  SASResource::collection($this->assignMonthly($month));
         } else {
-            $start_date = date('Y-m-d', strtotime($request->start_date));
-            $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
-            $bookings = SASResource::collection($this->assignDaily($start_date, $end_date));
+            $date = date('Y-m-d', strtotime($request->start_date));
+            $bookings = SASResource::collection($this->assignDaily($date));
         }
 
         return [

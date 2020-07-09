@@ -16,18 +16,14 @@ class TBS extends JsonResource
      */
     public function toArray($request)
     {
+        $time = getStartEndTime($request->start_date, $this->start_date, $this->end_date);
+
         return [
             'id' => $this->id,
             'start_date' => date('Y-m-d', strtotime($this->start_date)),
             'end_date' => date('Y-m-d', strtotime($this->end_date)),
-            'start_time' => [
-                'hour' => intval(date('H', strtotime($this->start_date))),
-                'minute' => intval(date('i', strtotime($this->start_date))),
-            ],
-            'end_time' => [
-                'hour' => intval(date('H', strtotime($this->end_date))),
-                'minute' => intval(date('i', strtotime($this->end_date))),
-            ],
+            'start_time' => $time['start_time'],
+            'end_time' => $time['end_time'],
             'tag_number' => $this->tag_number,
             'job_number' => $this->job_number,
             'job_title' => $this->job_title,

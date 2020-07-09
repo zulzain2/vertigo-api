@@ -20,9 +20,8 @@ class Equipment extends JsonResource
             $month = date('m', strtotime($request->start_date));
             $bookings =  EBSResource::collection($this->ebsMonthly($month));
         } else {
-            $start_date = date('Y-m-d', strtotime($request->start_date));
-            $end_date = date('Y-m-d', strtotime($start_date . ' +1 day'));
-            $bookings = EBSResource::collection($this->ebsDaily($start_date, $end_date));
+            $date = date('Y-m-d', strtotime($request->start_date . ' 00:00:00'));
+            $bookings = EBSResource::collection($this->ebsDaily($date));
         }
 
         return [
@@ -33,7 +32,6 @@ class Equipment extends JsonResource
             'description' => $this->description,
             'category' => $this->equipmentcategory->name ?? 'N/A',
             'bookings' => $bookings,
-            // 'sql' => $this->ebsDaily($start_date, $end_date),
         ];
     }
 }

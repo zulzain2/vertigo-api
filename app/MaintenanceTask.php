@@ -11,10 +11,10 @@ class MaintenanceTask extends Model
     protected $table = 'maintenance_tasks';
     public $incrementing = FALSE;
 
-    public function mssDaily($start_date, $end_date)
+    public function mssDaily($date)
     {
         return $this->belongsToMany('App\MSS', 'mss_tasks', 'id_task', 'id_mss')
-        ->whereRaw('mss.start_date between ? and ?', [$start_date, $end_date])
+        ->whereRaw('? between date(mss.start_date) and mss.end_date', [$date])
         ->get();
     }
 
