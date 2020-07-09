@@ -753,5 +753,16 @@ class SASController extends Controller
         return response(['status' => 'OK' , 'message' => 'Successfully comment on task']);
     }
 
+    public function commentShowBySas($id_sas)
+    {
+
+    }
+
+    public function commentShowBySassa($id_sassa)
+    {
+        $sassa = SASStaffAssign::find($id_sassa);
+        
+        return response(['status' => 'OK' , 'message' => $sassa->sascomment]); 
+    }
     
 }
