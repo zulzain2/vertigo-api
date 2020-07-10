@@ -727,29 +727,29 @@ class SASController extends Controller
     }
     public function commentShowBySas($id_sas)
     {
-        $sas = SAS::find($id_sas);
+        // $sas = SAS::find($id_sas);
         
-        $buttons = array();
+        // $buttons = array();
 
-        foreach ($sas->sasstaffassign as $key => $sassa) {
-            foreach ($variable as $key => $value) {
+        // foreach ($sas->sasstaffassign as $key => $sassa) {
+        //     foreach ($variable as $key => $value) {
                 
-            }
-            $buttons[] = [
-                'id' => $sassa->id,
-                'id_sas_staff_assign' => "file-medical",
-                'id_user_comment' => 'title="Add Certificate"',
-                'comment' => ,
-                'status' => ,
-                'created_by' => ,
-                'updated_by' => ,
-                'created_at' => ,
-                'updated_at' => ,
-            ];
-        }
+        //     }
+        //     $buttons[] = [
+        //         'id' => $sassa->id,
+        //         'id_sas_staff_assign' => "file-medical",
+        //         'id_user_comment' => 'title="Add Certificate"',
+        //         'comment' => ,
+        //         'status' => ,
+        //         'created_by' => ,
+        //         'updated_by' => ,
+        //         'created_at' => ,
+        //         'updated_at' => ,
+        //     ];
+        // }
         
 
-        return response(['status' => 'OK' , 'message' => $sas]); 
+        // return response(['status' => 'OK' , 'message' => $sas]); 
     }
 
     public function commentShowBySassa($id_sassa)
