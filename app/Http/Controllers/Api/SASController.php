@@ -755,8 +755,20 @@ class SASController extends Controller
     public function commentShowBySassa($id_sassa)
     {
         $sassa = SASStaffAssign::find($id_sassa);
-        
-        return response(['status' => 'OK' , 'message' => $sassa->sascomment]); 
+
+        return response(['status' => 'OK', 'message' => $sassa->sascomment]);
     }
-    
+
+    public function getIdStaffAssign(Request $request)
+    {
+        $sas = SASStaffAssign::whereIdUser($request->user_id)
+            ->whereIdSas($request->sas_id)
+            ->first();
+
+        return response([
+            'status' => 'OK',
+            'message' => 'Successfully comment on task',
+            'data' => $sas->id,
+        ]);
+    }
 }
