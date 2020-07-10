@@ -71,7 +71,7 @@ class MSSController extends Controller
             'pic.*'                         => 'required',
             'task.*'                        => 'required',
         ]);
-
+   
             $add = New MSS;
             $add->id = Uuid::uuid4()->getHex();
             $add->status = 'Created';
@@ -81,26 +81,32 @@ class MSSController extends Controller
             $add->created_by = auth()->user()->id;
             $add->save();
 
-            foreach ($request->equipment as $key => $equipment) {
-                $add2 = New MSSEquipment;
-                $add2->id = Uuid::uuid4()->getHex();
-                $add2->id_equipment = $equipment;
-                $add2->id_mss = $add->id;
-                $add2->status = '';
-                $add2->created_by = auth()->user()->id;
-                $add2->save();
+            if($request->equipment)
+            {
+                foreach ($request->equipment as $key => $equipment) {
+                    $add2 = New MSSEquipment;
+                    $add2->id = Uuid::uuid4()->getHex();
+                    $add2->id_equipment = $equipment;
+                    $add2->id_mss = $add->id;
+                    $add2->status = '';
+                    $add2->created_by = auth()->user()->id;
+                    $add2->save();
+                }
+            }
+            if($request->transport)
+            {
+                foreach ($request->transport as $key => $transport) {
+                    $add3 = New MSSTransport;
+                    $add3->id = Uuid::uuid4()->getHex();
+                    $add3->id_transport = $transport;
+                    $add3->id_mss = $add->id;
+                    $add3->status = '';
+                    $add3->created_by = auth()->user()->id;
+                    $add3->save();
+                }
             }
 
-            foreach ($request->transport as $key => $transport) {
-                $add3 = New MSSTransport;
-                $add3->id = Uuid::uuid4()->getHex();
-                $add3->id_transport = $transport;
-                $add3->id_mss = $add->id;
-                $add3->status = '';
-                $add3->created_by = auth()->user()->id;
-                $add3->save();
-            }
-
+            
             foreach ($request->task as $key => $task) {
                 $add3 = New MSSTask;
                 $add3->id = Uuid::uuid4()->getHex();
@@ -244,25 +250,32 @@ class MSSController extends Controller
             }
 
 
-            foreach ($request->equipment as $key => $equipment) {
-                $add2 = New MSSEquipment;
-                $add2->id = Uuid::uuid4()->getHex();
-                $add2->id_equipment = $equipment;
-                $add2->id_mss = $add->id;
-                $add2->status = '';
-                $add2->created_by = auth()->user()->id;
-                $add2->save();
+            if($request->equipment)
+            {
+                foreach ($request->equipment as $key => $equipment) {
+                    $add2 = New MSSEquipment;
+                    $add2->id = Uuid::uuid4()->getHex();
+                    $add2->id_equipment = $equipment;
+                    $add2->id_mss = $add->id;
+                    $add2->status = '';
+                    $add2->created_by = auth()->user()->id;
+                    $add2->save();
+                }
             }
 
-            foreach ($request->transport as $key => $transport) {
-                $add3 = New MSSTransport;
-                $add3->id = Uuid::uuid4()->getHex();
-                $add3->id_transport = $transport;
-                $add3->id_mss = $add->id;
-                $add3->status = '';
-                $add3->created_by = auth()->user()->id;
-                $add3->save();
+            if($request->transport)
+            {
+                foreach ($request->transport as $key => $transport) {
+                    $add3 = New MSSTransport;
+                    $add3->id = Uuid::uuid4()->getHex();
+                    $add3->id_transport = $transport;
+                    $add3->id_mss = $add->id;
+                    $add3->status = '';
+                    $add3->created_by = auth()->user()->id;
+                    $add3->save();
+                } 
             }
+            
 
             foreach ($request->task as $key => $task) {
                 $add3 = New MSSTask;
