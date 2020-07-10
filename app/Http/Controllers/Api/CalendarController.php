@@ -49,6 +49,7 @@ class CalendarController extends Controller
     public function listTMS(Request $request)
     {
         $tenders = TMS::whereMonth('sitevisit_start_date', $request->month)
+            ->whereState('Approve')
             ->groupBy('vtsb_num')
             ->get();
 
