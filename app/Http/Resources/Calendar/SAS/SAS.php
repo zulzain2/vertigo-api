@@ -23,6 +23,7 @@ class SAS extends JsonResource
             'id' => $this->sas->id,
             'start_date' => date('Y-m-d', strtotime($this->start_date)),
             'end_date' => date('Y-m-d', strtotime($this->end_date)),
+            'duration' => $time['duration'],
             'start_time' => $time['start_time'],
             'end_time' => $time['end_time'],
             'job_number' => $this->sas->job_number,
