@@ -17,7 +17,7 @@ class Comment extends JsonResource
         return [
             'name' => $this->usercomment->name,
             'comment' => $this->comment,
-            'date' => $this->created_at,
+            'date' => date('Y-m-d H:i:s',  strtotime($this->created_at)),
         ];
     }
 }
