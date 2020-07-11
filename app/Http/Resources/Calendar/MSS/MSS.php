@@ -27,6 +27,7 @@ class MSS extends JsonResource
             'end_time' => $time['end_time'],
             'description' => $this->description,
             'status' => $this->status,
+            'created_by' => new UserResource($this->created_by),
             'person_in_charge' => $this->msspic->count() > 0 ? UserResource::collection($this->msspic) : [],
             'vehicles' => $this->msstransport->count() > 0 ? TransportResource::collection($this->msstransport) : [],
             'equipments' => EquipResource::collection($this->mssequipment),
