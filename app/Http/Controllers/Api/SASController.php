@@ -13,6 +13,7 @@ use Ramsey\Uuid\Uuid;
 use App\SASStaffAssign;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Comment as CommentResource;
 
 class SASController extends Controller
 {
@@ -756,7 +757,7 @@ class SASController extends Controller
     {
         $sassa = SASStaffAssign::find($id_sassa);
 
-        return response(['status' => 'OK', 'message' => $sassa->sascomment]);
+        return response(['status' => 'OK', 'message' => CommentResource::collection($sassa->sascomment)]);
     }
 
     public function getIdStaffAssign(Request $request)
