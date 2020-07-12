@@ -126,7 +126,7 @@ class MSSController extends Controller
                 $add4->status = '';
                 $add4->created_by = auth()->user()->id;
                 $add4->save();
-
+               
                 //NOTIFICATION FCM OTS
                 $noti = New Notification;
                 $noti->id = Uuid::uuid4()->getHex();
@@ -468,6 +468,35 @@ class MSSController extends Controller
             $mss->updated_by = auth()->user()->id;
             $mss->save();
 
+            foreach ($mss->msspic as $key => $pic) {
+
+               //NOTIFICATION FCM SCHEDULE
+                $noti = new Notification;
+                $noti->to_user =  $pic->id_user;
+                $noti->tiny_img_url = '';
+                $noti->title = 'Vertigo [Maintenance Schedule System]';
+                $noti->desc =  'Have you finish the maintenance?';
+                $noti->type = 'I';
+                $noti->click_url = 'mss-end';
+                $noti->send_status = 'P';
+                $noti->status = '';
+                $noti->module = 'mss';
+                $noti->id_module = $mss->id;
+                $noti->created_by = auth()->user()->id;
+                $json_noti = json_encode($noti);
+
+                $scheduler = New Scheduler;
+                $scheduler->id = Uuid::uuid4()->getHex();
+                $scheduler->trigger_datetime =   $mss->start_date;
+                $scheduler->url_to_call = 'triggeredNotification';
+                $scheduler->secret_key = '';
+                $scheduler->params = $json_noti;
+                $scheduler->is_triggered = 0;
+                $scheduler->created_by = auth()->user()->id;
+                $scheduler->save();
+            }
+            
+
             $document = New DocumentLog;
             $document->id 				= Uuid::uuid4()->getHex();
             $document->user_type 		= auth()->user()->role->name;
@@ -633,9 +662,9 @@ class MSSController extends Controller
                 $noti->title = 'Vertigo [Maintenance Schedule System]';
                 $noti->desc =  'Have you finish the maintenance?';
                 $noti->type = 'I';
-                $noti->click_url = '';
+                $noti->click_url = 'mss-end';
                 $noti->send_status = 'P';
-                $noti->status = 'mss-end';
+                $noti->status = '';
                 $noti->module = 'mss';
                 $noti->id_module = $mss->id;
                 $noti->created_by = auth()->user()->id;
