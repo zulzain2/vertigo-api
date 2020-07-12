@@ -305,9 +305,9 @@ class MSSController extends Controller
                 $noti->title = 'Vertigo [Maintenance Schedule System]';
                 $noti->desc = 'You have been assigned to a new task';
                 $noti->type = 'I';
-                $noti->click_url = '';
+                $noti->click_url = 'mss-acknowledge';
                 $noti->send_status = 'P';
-                $noti->status = 'mss-acknowledge';
+                $noti->status = '';
                 $noti->module = 'mss';
                 $noti->id_module = $add->id;
                 $noti->created_by = auth()->user()->id;
