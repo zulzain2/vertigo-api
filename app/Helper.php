@@ -34,7 +34,7 @@ if (!function_exists('getStartEndTime')) {
             'hour' => intval(date('H', strtotime($end_date))),
             'minute' => intval(date('i', strtotime($end_date))),
         ];
-        if ($hour < $hour2) {
+        if ($hour <= $hour2) {
             if ($duration <= 24) {
                 $start_time = $start_ori;
                 $end_time = $end_ori;
