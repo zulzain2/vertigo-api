@@ -36,13 +36,13 @@ Route::middleware('auth:api')->group(function () {
     //Equipment
     Route::post('/equipment/storeEquipment', 'Api\EquipmentController@storeEquipment');
     Route::get('/equipment/getEquimentCategories', 'Api\EquipmentController@getEquimentCategories')->name('equipment.getEquimentCategories');
-    Route::get('/equipment/getAvailableEquipment', 'Api\EquipmentController@getAvailableEquipment')->name('equipment.getAvailableEquipment');
+    Route::get('/equipment/getAvailableEquipment/{date_start}/{date_end}', 'Api\EquipmentController@getAvailableEquipment')->name('equipment.getAvailableEquipment');
     Route::resource('equipment', 'Api\EquipmentController');
 
     //Transport
     Route::post('/transport/storeTransport', 'Api\TransportController@storeTransport');
     Route::get('/transport/getTransportCategories', 'Api\TransportController@getTransportCategories')->name('transport.getTransportCategories');
-    Route::get('/transport/getAvailableTransport', 'Api\TransportController@getAvailableTransport')->name('transport.getAvailableTransport');
+    Route::get('/transport/getAvailableTransport/{date_start}/{date_end}', 'Api\TransportController@getAvailableTransport')->name('transport.getAvailableTransport');
     Route::resource('transport', 'Api\TransportController');
 
     //DASHBOARD SAS

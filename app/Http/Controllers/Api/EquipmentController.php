@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\EBS;
 use App\Equipment;
 use App\DocumentLog;
 use Ramsey\Uuid\Uuid;
 use App\EquipmentCategory;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
-use Illuminate\Support\Str;
 
 class EquipmentController extends Controller
 {
@@ -27,12 +28,75 @@ class EquipmentController extends Controller
         return response(['status' => 'OK', 'equipments' => $equipments]);
     }
 
-    public function getAvailableEquipment()
+    public function getAvailableEquipment($datefrom , $dateto)
     {
-        $equipments = Equipment::where('availability', '=', 'available')->with('equipmentcategory')->get();
 
+        $unavailableEquipments = EBS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
+            ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
+            ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
+            ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
+            ->get();
 
-        return response(['status' => 'OK', 'equipments' => $equipments]);
+        $availableEquipments = array();
+        $availableEquipmentsFinal = array();
+
+        $equipments = Equipment::all();
+
+        if (count($unavailableEquipments) == 0) {
+            $i = 1;
+            foreach ($equipments as $key => $equipment) {
+                $availableEquipmentsFinal[$i][0] = $equipment->id;
+                $availableEquipmentsFinal[$i][1] = $equipment->name;
+
+                $i++;
+            }
+           
+        } else {
+
+            $i = 1;
+            foreach ($equipments as $key => $equipment) {
+                $availableEquipments[$i][0] = $equipment->id;
+                $availableEquipments[$i][1] = $equipment->name;
+                $i++;
+            }
+
+            $i = 1;
+            foreach ($availableEquipments as $x => $availableEquipment) {
+                foreach ($unavailableEquipments as $y => $unavailableEquip) {
+                    foreach ($unavailableEquip->ebsequipmentuse as $key => $unavailableEquipment) {
+                        if ($unavailableEquipment->id_equipment == $availableEquipments[$x][0]) {
+                            $availableEquipments[$x][0] = '';
+                            $availableEquipments[$x][1] = '';
+                        } else {
+                        }
+                    }
+                }
+                $i++;
+            }
+
+            
+            $i = 1;
+          
+            foreach ($availableEquipments as $key => $availableEquipment) {
+            
+                if ($availableEquipments[$key][0] == '') {
+                    
+                }
+                else
+                {
+                    $availableEquipmentsFinal[$i][0] = $availableEquipments[$key][0];
+                    $availableEquipmentsFinal[$i][1] = $availableEquipments[$key][1];
+                    $i++;
+                }
+                
+            }
+
+            
+        }
+        $availableEquipments = array_values($availableEquipmentsFinal);
+     
+        
+        return response(['status' => 'OK', 'equipments' => $availableEquipments]);
     }
 
     public function getEquimentCategories()

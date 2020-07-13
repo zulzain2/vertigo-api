@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\TBS;
 use App\Transport;
 use App\DocumentLog;
 use Ramsey\Uuid\Uuid;
 use App\TransportCategory;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
-use Illuminate\Support\Str;
 
 class TransportController extends Controller
 {
@@ -27,10 +28,60 @@ class TransportController extends Controller
         return response(['status' => 'OK', 'transports' => $transports]);
     }
 
-    public function getAvailableTransport()
+    public function getAvailableTransport($datefrom , $dateto)
     {
         $transports = Transport::where('availability', '=', 'available')->with('transportcategory')->get();
 
+        $unavailableTransports = TBS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
+            ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
+            ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
+            ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
+            ->get();
+
+        $availableTransports = array();
+        $transports = Transport::all();
+
+        if (count($unavailableTransports) == 0) {
+            $i = 1;
+            foreach ($transports as $key => $transport) {
+                $availableTransports[$i][0] = $transport->id;
+                $availableTransports[$i][1] = $transport->name;
+                $i++;
+            }
+        } else {
+
+
+            $i = 1;
+            foreach ($transports as $key => $transport) {
+                $availableTransports[$i][0] = $transport->id;
+                $availableTransports[$i][1] = $transport->name;
+                $i++;
+            }
+
+            $i = 1;
+            foreach ($availableTransports as $x => $availableUser) {
+                foreach ($unavailableTransports as $y => $unavailableStaff) {
+
+                    if ($unavailableStaff->id_user == $availableTransports[$x][0]) {
+                        $availableTransports[$x][0] = '';
+                        $availableTransports[$x][1] = '';
+                    } else {
+                    }
+                }
+                $i++;
+            }
+
+            foreach ($availableTransports as $key => $availableUser) {
+                if ($availableTransports[$key][0] == '') {
+                    unset($availableTransports[$key]);
+                }
+            }
+
+            
+        }
+
+        $availableTransports = array_values($availableTransports);
+        
 
         return response(['status' => 'OK', 'transports' => $transports]);
     }

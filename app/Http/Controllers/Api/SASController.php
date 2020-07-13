@@ -279,9 +279,11 @@ class SASController extends Controller
                 }
             }
 
-            $availableUsers = array_values($availableUsers);
+            
         }
 
+        $availableUsers = array_values($availableUsers);
+        
         return response(['status' => 'OK', 'users' => $availableUsers]);
     }
 
