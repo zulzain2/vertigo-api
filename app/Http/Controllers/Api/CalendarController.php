@@ -54,6 +54,7 @@ class CalendarController extends Controller
             ->get();
 
         return response()->json([
+            'sql' => $tenders->toSql(),
             'data' => TMSResource::collection($tenders),
         ]);
     }
