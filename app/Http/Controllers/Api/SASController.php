@@ -234,57 +234,121 @@ class SASController extends Controller
     public function getAvailableStaff($datefrom, $dateto)
     {
 
-        $unavailableStaffs = SASStaffAssign::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
-            ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
-            ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
-            ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
-            ->get();
 
-        $availableUsers = array();
-        $users = User::all();
+        $unavailableStaffs = SASStaffAssign::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
+        ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
+        ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
+        ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
+        ->get();
+
+        
+        $availableStaffs = array();
+        $staffs = User::all();
 
         if (count($unavailableStaffs) == 0) {
             $i = 1;
-            foreach ($users as $key => $user) {
-                $availableUsers[$i][0] = $user->id;
-                $availableUsers[$i][1] = $user->name;
+            foreach ($staffs as $key => $staff) {
+
+                $availableStaffs[] = [
+
+                    "id"                    => $staff->id,
+                    "name"                  => $staff->name,
+                    "email"                 => $staff->email,
+                    "email_verified_at"     => $staff->email_verified_at,
+                    "created_at"            => $staff->created_at,
+                    "updated_at"            => $staff->updated_at,
+                    "status"                => $staff->status,
+                    "availability"          => $staff->availability,
+                    "id_role"               => $staff->id_role,
+                    "id_position"           => $staff->id_position,
+                    "id_department"         => $staff->id_department,
+                    "id_access_role"        => $staff->id_access_role,
+                    "id_access_position"    => $staff->id_access_position,
+                    "last_log_web"          => $staff->last_log_web,
+                    "last_log_mobile"       => $staff->last_log_mobile,
+                    "created_by"            => $staff->created_by,
+                    "updated_by"            => $staff->updated_by,
+                    "device_token"          => $staff->device_token,
+                    "img_name"              => $staff->img_name,
+                    "img_path"              => $staff->img_path,
+                    "staff_id"              => $staff->staff_id,
+                    "first_name"            => $staff->first_name,
+                    "last_name"             => $staff->last_name,
+                    "id_inquiry"            => $staff->id_inquiry,
+
+
+                ];
+
+            
                 $i++;
             }
         } else {
 
 
             $i = 1;
-            foreach ($users as $key => $user) {
-                $availableUsers[$i][0] = $user->id;
-                $availableUsers[$i][1] = $user->name;
+            foreach ($staffs as $key => $staff) {
+
+                $availableStaffs[] = [
+                    "id"                    => $staff->id,
+                    "name"                  => $staff->name,
+                    "email"                 => $staff->email,
+                    "email_verified_at"     => $staff->email_verified_at,
+                    "created_at"            => $staff->created_at,
+                    "updated_at"            => $staff->updated_at,
+                    "status"                => $staff->status,
+                    "availability"          => $staff->availability,
+                    "id_role"               => $staff->id_role,
+                    "id_position"           => $staff->id_position,
+                    "id_department"         => $staff->id_department,
+                    "id_access_role"        => $staff->id_access_role,
+                    "id_access_position"    => $staff->id_access_position,
+                    "last_log_web"          => $staff->last_log_web,
+                    "last_log_mobile"       => $staff->last_log_mobile,
+                    "created_by"            => $staff->created_by,
+                    "updated_by"            => $staff->updated_by,
+                    "device_token"          => $staff->device_token,
+                    "img_name"              => $staff->img_name,
+                    "img_path"              => $staff->img_path,
+                    "staff_id"              => $staff->staff_id,
+                    "first_name"            => $staff->first_name,
+                    "last_name"             => $staff->last_name,
+                    "id_inquiry"            => $staff->id_inquiry,
+                ];
+
                 $i++;
             }
 
             $i = 1;
-            foreach ($availableUsers as $x => $availableUser) {
+        
+            foreach ($availableStaffs as $x => $availableStaff) {
                 foreach ($unavailableStaffs as $y => $unavailableStaff) {
+                    
+                        if ($unavailableStaff->id_user == $availableStaffs[$x]['id']) {
+                            $availableStaffs[$x]['id'] = '';
+                        } else {
 
-                    if ($unavailableStaff->id_user == $availableUsers[$x][0]) {
-                        $availableUsers[$x][0] = '';
-                        $availableUsers[$x][1] = '';
-                    } else {
-                    }
+                        }
+                     
                 }
+
                 $i++;
             }
 
-            foreach ($availableUsers as $key => $availableUser) {
-                if ($availableUsers[$key][0] == '') {
-                    unset($availableUsers[$key]);
+            foreach ($availableStaffs as $key => $availableStaff) {
+                if ($availableStaffs[$key]['id'] == '') {
+                    unset($availableStaffs[$key]);
                 }
             }
 
             
         }
 
-        $availableUsers = array_values($availableUsers);
+        $availableStaffs = array_values($availableStaffs);
         
-        return response(['status' => 'OK', 'users' => $availableUsers]);
+        
+
+        return response(['status' => 'OK', 'staffs' => $availableStaffs]);
+
     }
 
     public function approve($id_sas)
