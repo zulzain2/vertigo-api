@@ -30,7 +30,6 @@ class TransportController extends Controller
 
     public function getAvailableTransport($datefrom , $dateto)
     {
-        $transports = Transport::where('availability', '=', 'available')->with('transportcategory')->get();
 
         $unavailableTransports = TBS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
             ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
@@ -38,14 +37,33 @@ class TransportController extends Controller
             ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
             ->get();
 
+            
+
+            
         $availableTransports = array();
         $transports = Transport::all();
 
         if (count($unavailableTransports) == 0) {
             $i = 1;
             foreach ($transports as $key => $transport) {
-                $availableTransports[$i][0] = $transport->id;
-                $availableTransports[$i][1] = $transport->name;
+
+                $availableTransports[] = [
+                    "id"                    => $transport->id,
+                    "name"                  => $transport->name,
+                    "img"                   => $transport->img,
+                    "img_path"              => $transport->img_path,
+                    "plate_number"          => $transport->plate_number,
+                    "description"           => $transport->description,
+                    "id_trans_category"     => $transport->id_trans_category,
+                    "status"                => $transport->status,
+                    "created_by"            => $transport->created_by,
+                    "updated_by"            => $transport->updated_by,
+                    "created_at"            => $transport->created_at,
+                    "updated_at"            => $transport->updated_at,
+                    "availability"          => $transport->availability,
+                ];
+
+            
                 $i++;
             }
         } else {
@@ -53,26 +71,44 @@ class TransportController extends Controller
 
             $i = 1;
             foreach ($transports as $key => $transport) {
-                $availableTransports[$i][0] = $transport->id;
-                $availableTransports[$i][1] = $transport->name;
+
+                $availableTransports[] = [
+                    "id"                    => $transport->id,
+                    "name"                  => $transport->name,
+                    "img"                   => $transport->img,
+                    "img_path"              => $transport->img_path,
+                    "plate_number"          => $transport->plate_number,
+                    "description"           => $transport->description,
+                    "id_trans_category"     => $transport->id_trans_category,
+                    "status"                => $transport->status,
+                    "created_by"            => $transport->created_by,
+                    "updated_by"            => $transport->updated_by,
+                    "created_at"            => $transport->created_at,
+                    "updated_at"            => $transport->updated_at,
+                    "availability"          => $transport->availability,
+                ];
+
                 $i++;
             }
 
             $i = 1;
-            foreach ($availableTransports as $x => $availableUser) {
-                foreach ($unavailableTransports as $y => $unavailableStaff) {
-
-                    if ($unavailableStaff->id_user == $availableTransports[$x][0]) {
-                        $availableTransports[$x][0] = '';
-                        $availableTransports[$x][1] = '';
-                    } else {
-                    }
+         
+            foreach ($availableTransports as $x => $availableTransport) {
+                foreach ($unavailableTransports as $y => $unavailableTrans) {
+                    foreach ($unavailableTrans->tbstransportuse as $key => $unavailableTransport) {
+                        if ($unavailableTransport->id_transport == $availableTransports[$x]['id']) {
+                            $availableTransports[$x]['id'] = '';
+                        } else {
+    
+                        }
+                    } 
                 }
+
                 $i++;
             }
 
-            foreach ($availableTransports as $key => $availableUser) {
-                if ($availableTransports[$key][0] == '') {
+            foreach ($availableTransports as $key => $availableTransport) {
+                if ($availableTransports[$key]['id'] == '') {
                     unset($availableTransports[$key]);
                 }
             }
@@ -82,8 +118,9 @@ class TransportController extends Controller
 
         $availableTransports = array_values($availableTransports);
         
+        
 
-        return response(['status' => 'OK', 'transports' => $transports]);
+        return response(['status' => 'OK', 'transports' => $availableTransports]);
     }
 
     public function getTransportCategories()

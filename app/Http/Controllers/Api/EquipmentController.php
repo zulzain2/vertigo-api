@@ -37,64 +37,88 @@ class EquipmentController extends Controller
             ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
             ->get();
 
-        $availableEquipments = array();
-        $availableEquipmentsFinal = array();
+            
 
+            
+        $availableEquipments = array();
         $equipments = Equipment::all();
 
         if (count($unavailableEquipments) == 0) {
             $i = 1;
             foreach ($equipments as $key => $equipment) {
-                $availableEquipmentsFinal[$i][0] = $equipment->id;
-                $availableEquipmentsFinal[$i][1] = $equipment->name;
 
+                $availableEquipments[] = [
+                    "id"                    => $equipment->id,
+                    "name"                  => $equipment->name,
+                    "img"                   => $equipment->img,
+                    "img_path"              => $equipment->img_path,
+                    "plate_number"          => $equipment->plate_number,
+                    "description"           => $equipment->description,
+                    "id_trans_category"     => $equipment->id_trans_category,
+                    "status"                => $equipment->status,
+                    "created_by"            => $equipment->created_by,
+                    "updated_by"            => $equipment->updated_by,
+                    "created_at"            => $equipment->created_at,
+                    "updated_at"            => $equipment->updated_at,
+                    "availability"          => $equipment->availability,
+                ];
+
+            
                 $i++;
             }
-           
         } else {
+
 
             $i = 1;
             foreach ($equipments as $key => $equipment) {
-                $availableEquipments[$i][0] = $equipment->id;
-                $availableEquipments[$i][1] = $equipment->name;
+
+                $availableEquipments[] = [
+                    "id"                    => $equipment->id,
+                    "name"                  => $equipment->name,
+                    "img"                   => $equipment->img,
+                    "img_path"              => $equipment->img_path,
+                    "tag_number"            => $equipment->tag_number,
+                    "description"           => $equipment->description,
+                    "id_equip_category"     => $equipment->id_equip_category,
+                    "status"                => $equipment->status,
+                    "created_by"            => $equipment->created_by,
+                    "updated_by"            => $equipment->updated_by,
+                    "created_at"            => $equipment->created_at,
+                    "updated_at"            => $equipment->updated_at,
+                    "availability"          => $equipment->availability,
+                ];
+
                 $i++;
             }
 
             $i = 1;
+         
             foreach ($availableEquipments as $x => $availableEquipment) {
-                foreach ($unavailableEquipments as $y => $unavailableEquip) {
-                    foreach ($unavailableEquip->ebsequipmentuse as $key => $unavailableEquipment) {
-                        if ($unavailableEquipment->id_equipment == $availableEquipments[$x][0]) {
-                            $availableEquipments[$x][0] = '';
-                            $availableEquipments[$x][1] = '';
+                foreach ($unavailableEquipments as $y => $unavailableEquips) {
+                    foreach ($unavailableEquips->ebsequipmentuse as $key => $unavailableEquipment) {
+                        if ($unavailableEquipment->id_equipment == $availableEquipments[$x]['id']) {
+                            $availableEquipments[$x]['id'] = '';
                         } else {
+    
                         }
-                    }
+                    } 
                 }
+
                 $i++;
             }
 
-            
-            $i = 1;
-          
             foreach ($availableEquipments as $key => $availableEquipment) {
-            
-                if ($availableEquipments[$key][0] == '') {
-                    
+                if ($availableEquipments[$key]['id'] == '') {
+                    unset($availableEquipments[$key]);
                 }
-                else
-                {
-                    $availableEquipmentsFinal[$i][0] = $availableEquipments[$key][0];
-                    $availableEquipmentsFinal[$i][1] = $availableEquipments[$key][1];
-                    $i++;
-                }
-                
             }
 
             
         }
-        $availableEquipments = array_values($availableEquipmentsFinal);
-     
+
+        $availableEquipments = array_values($availableEquipments);
+        
+
         
         return response(['status' => 'OK', 'equipments' => $availableEquipments]);
     }
