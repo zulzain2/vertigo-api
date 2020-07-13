@@ -440,6 +440,33 @@ class SASController extends Controller
             $sasassignstaff->updated_by = auth()->user()->id;
             $sasassignstaff->save();
 
+            
+            //NOTIFICATION FCM SCHEDULE
+            $noti = new Notification;
+            $noti->to_user = $sasassignstaff->id_user;
+            $noti->tiny_img_url = '';
+            $noti->title = 'Vertigo [Staff Assignment Management]';
+            $noti->desc =  'Have you finished the assigned task?';
+            $noti->type = 'I';
+            $noti->click_url = 'sas-end';
+            $noti->send_status = 'P';
+            $noti->status = '';
+            $noti->module = 'sas';
+            $noti->id_module = $sasassignstaff->sas->id;
+            $noti->created_by = auth()->user()->id;
+            $json_noti = json_encode($noti);
+
+            $scheduler = new Scheduler;
+            $scheduler->id = Uuid::uuid4()->getHex();
+            $scheduler->trigger_datetime = $sasassignstaff->end_date;
+            $scheduler->url_to_call = 'triggeredNotification';
+            $scheduler->secret_key = '';
+            $scheduler->params = $json_noti;
+            $scheduler->is_triggered = 0;
+            $scheduler->created_by = auth()->user()->id;
+            $scheduler->save();
+
+
             $document = new DocumentLog;
             $document->id                 = Uuid::uuid4()->getHex();
             $document->user_type         = auth()->user()->role->name;
@@ -494,6 +521,7 @@ class SASController extends Controller
             $scheduler->is_triggered = 0;
             $scheduler->created_by = auth()->user()->id;
             $scheduler->save();
+
 
 
             $document = new DocumentLog;
