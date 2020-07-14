@@ -49,7 +49,7 @@ class TransportController extends Controller
         $availableTransports = array();
         $transports = Transport::all();
 
-        if (count($unavailableTransports) == 0) {
+        if (count($unavailableTransports) == 0 && count($unavailableTransportsMSS) == 0) {
             $i = 1;
             foreach ($transports as $key => $transport) {
 

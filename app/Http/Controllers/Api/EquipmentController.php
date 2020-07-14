@@ -50,7 +50,7 @@ class EquipmentController extends Controller
         $availableEquipments = array();
         $equipments = Equipment::all();
 
-        if (count($unavailableEquipments) == 0) {
+        if (count($unavailableEquipments) == 0 && count($unavailableEquipmentsMSS) == 0) {
             $i = 1;
             foreach ($equipments as $key => $equipment) {
 
