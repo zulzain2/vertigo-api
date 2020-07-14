@@ -26,6 +26,7 @@ Route::middleware('auth:api')->group(function () {
     //Register
     Route::post('/register', 'Api\AuthController@register');
     //User
+    Route::get('/user/getAvailableStaff/{date_start}/{date_end}', 'Api\UserController@getAvailableStaff')->name('user.getAvailableStaff');
     Route::post('/user/storeUser', 'Api\UserController@storeUser');
     Route::put('user/updatePassword/{id}', 'Api\UserController@updatePassword');
     Route::resource('user', 'Api\UserController');
