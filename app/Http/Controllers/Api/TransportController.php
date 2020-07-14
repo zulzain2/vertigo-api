@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\MSS;
 use App\TBS;
 use App\Transport;
 use App\DocumentLog;
