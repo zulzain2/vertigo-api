@@ -93,6 +93,7 @@ Route::middleware('auth:api')->group(function () {
     //DASHBOARD TMS
     Route::get('/tms/dashDate', 'Api\TMSController@dashDate')->name('tms.dashDate');
     //TMS
+    Route::get('/tms/getAvailableStaff/{date_start}/{date_end}', 'Api\TMSController@getAvailableStaff')->name('tms.getAvailableStaff');
     Route::get('/tms/taskVerifyManager/{id_tms}', 'Api\TMSController@taskVerifyManager')->name('tms.taskVerifyManager');
     Route::get('/tms/taskVerifyClerk/{id_tms}', 'Api\TMSController@taskVerifyClerk')->name('tms.taskVerifyClerk');
     Route::post('/tms/taskCompletion/{id_tms}', 'Api\TMSController@taskCompletion')->name('tms.taskCompletion');

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\MSS;
 use App\SAS;
+use App\TMS;
 use App\Role;
 use App\User;
 use App\Scheduler;
@@ -241,6 +243,18 @@ class SASController extends Controller
         ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
         ->get();
 
+        $unavailableStaffsMSS = MSS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
+        ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
+        ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
+        ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
+        ->get();
+
+        $unavailableStaffsTMS = TMS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
+        ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
+        ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
+        ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
+        ->get();
+
         
         $availableStaffs = array();
         $staffs = User::all();
@@ -329,6 +343,38 @@ class SASController extends Controller
 
                         }
                      
+                }
+
+                $i++;
+            }
+
+            $i = 1;
+
+            foreach ($availableStaffs as $x => $availableStaff) {
+                foreach ($unavailableStaffsMSS as $y => $unavailableSMSS) {
+                    foreach ($unavailableSMSS->msspic as $y => $unavailableStaffMSS) {
+                        if ($unavailableStaffMSS->id_user == $availableStaffs[$x]['id']) {
+                            $availableStaffs[$x]['id'] = '';
+                        } else {
+
+                        }
+                    }   
+                }
+
+                $i++;
+            }
+
+            $i = 1;
+            
+            foreach ($availableStaffs as $x => $availableStaff) {
+                foreach ($unavailableStaffsTMS as $y => $unavailableSTMS) {
+                    foreach ($unavailableSTMS->pic as $y => $unavailableStaffTMS) {
+                        if ($unavailableStaffTMS->id_user == $availableStaffs[$x]['id']) {
+                            $availableStaffs[$x]['id'] = '';
+                        } else {
+
+                        }
+                    }   
                 }
 
                 $i++;

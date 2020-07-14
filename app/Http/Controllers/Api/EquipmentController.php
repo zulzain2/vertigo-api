@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\EBS;
+use App\MSS;
 use App\Equipment;
 use App\DocumentLog;
 use Ramsey\Uuid\Uuid;
@@ -32,6 +33,12 @@ class EquipmentController extends Controller
     {
 
         $unavailableEquipments = EBS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
+            ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
+            ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
+            ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
+            ->get();
+
+        $unavailableEquipmentsMSS = MSS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
             ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
             ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
             ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
@@ -97,6 +104,22 @@ class EquipmentController extends Controller
                 foreach ($unavailableEquipments as $y => $unavailableEquips) {
                     foreach ($unavailableEquips->ebsequipmentuse as $key => $unavailableEquipment) {
                         if ($unavailableEquipment->id_equipment == $availableEquipments[$x]['id']) {
+                            $availableEquipments[$x]['id'] = '';
+                        } else {
+    
+                        }
+                    } 
+                }
+
+                $i++;
+            }
+
+            $i = 1;
+         
+            foreach ($availableEquipments as $x => $availableEquipment) {
+                foreach ($unavailableEquipmentsMSS as $y => $unavailableEquipsMSS) {
+                    foreach ($unavailableEquipsMSS->mssequipment as $key => $unavailableEquipmentMSS) {
+                        if ($unavailableEquipmentMSS->id_equipment == $availableEquipments[$x]['id']) {
                             $availableEquipments[$x]['id'] = '';
                         } else {
     

@@ -37,7 +37,12 @@ class TransportController extends Controller
             ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
             ->get();
 
-            
+
+        $unavailableTransportsMSS = MSS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
+            ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
+            ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
+            ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
+            ->get();
 
             
         $availableTransports = array();
@@ -97,6 +102,22 @@ class TransportController extends Controller
                 foreach ($unavailableTransports as $y => $unavailableTrans) {
                     foreach ($unavailableTrans->tbstransportuse as $key => $unavailableTransport) {
                         if ($unavailableTransport->id_transport == $availableTransports[$x]['id']) {
+                            $availableTransports[$x]['id'] = '';
+                        } else {
+    
+                        }
+                    } 
+                }
+
+                $i++;
+            }
+
+            $i = 1;
+         
+            foreach ($availableTransports as $x => $availableTransport) {
+                foreach ($unavailableTransportsMSS as $y => $unavailableTransMSS) {
+                    foreach ($unavailableTransMSS->msstransport as $key => $unavailableTransportMSS) {
+                        if ($unavailableTransportMSS->id_transport == $availableTransports[$x]['id']) {
                             $availableTransports[$x]['id'] = '';
                         } else {
     
