@@ -249,10 +249,10 @@ class SASController extends Controller
         ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
         ->get();
 
-        $unavailableStaffsTMS = TMS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
-        ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
-        ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
-        ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
+        $unavailableStaffsTMS = TMS::where('sitevisit_start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
+        ->where('sitevisit_end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
+        ->orWhere('sitevisit_start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
+        ->where('sitevisit_end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
         ->get();
 
         
