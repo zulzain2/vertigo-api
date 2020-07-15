@@ -14,6 +14,13 @@ class Transport extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'image' => $this->img_path,
+            'plate_number' => $this->plate_number,
+            'description' => $this->description,
+            'category' => $this->transportcategory->name,
+        ];
     }
 }
