@@ -74,7 +74,7 @@ class UserController extends Controller
         $availableStaffs = array();
         $staffs = User::all();
 
-        if (count($unavailableStaffs) == 0 && count($unavailableStaffsEBS) == 0 && count($unavailableStaffsTBS) == 0 && count($unavailableStaffsSAS) == 0 && count($unavailableStaffsTMS) == 0) {
+        if (count($unavailableStaffs) == 0 && count($unavailableStaffsSAS) == 0 && count($unavailableStaffsTMS) == 0) {
             $i = 1;
             foreach ($staffs as $key => $staff) {
 
