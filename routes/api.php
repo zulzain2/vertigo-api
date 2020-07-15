@@ -38,6 +38,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/equipment/storeEquipment', 'Api\EquipmentController@storeEquipment');
     Route::get('/equipment/getEquimentCategories', 'Api\EquipmentController@getEquimentCategories')->name('equipment.getEquimentCategories');
     Route::get('/equipment/getAvailableEquipment/{date_start}/{date_end}', 'Api\EquipmentController@getAvailableEquipment')->name('equipment.getAvailableEquipment');
+    Route::get('/equipment/simple', 'Api\EquipmentController@simple');
     Route::resource('equipment', 'Api\EquipmentController');
 
     //Transport
