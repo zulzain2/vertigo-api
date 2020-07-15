@@ -47,17 +47,17 @@ class UserController extends Controller
         ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
         ->get();
 
-        $unavailableStaffsEBS = EBS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
-        ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
-        ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
-        ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
-        ->get();
+        // $unavailableStaffsEBS = EBS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
+        // ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
+        // ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
+        // ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
+        // ->get();
 
-        $unavailableStaffsTBS = TBS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
-        ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
-        ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
-        ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
-        ->get();
+        // $unavailableStaffsTBS = TBS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
+        // ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
+        // ->orWhere('start_date', '<=', date('Y-m-d H:i:s', strtotime($dateto)))
+        // ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
+        // ->get();
 
         $unavailableStaffsSAS = SASStaffAssign::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
         ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($dateto)))
@@ -165,42 +165,42 @@ class UserController extends Controller
                 $i++;
             }
 
-            $i = 1;
+            // $i = 1;
         
-            foreach ($availableStaffs as $x => $availableStaff) {
-                foreach ($unavailableStaffsEBS as $y => $unavailableSEBS) {
-                    foreach ($unavailableSEBS->ebsstaffuse as $key => $unavailableStaffEBS) {
-                        if ($unavailableStaffEBS->id_user == $availableStaffs[$x]['id']) {
-                            $availableStaffs[$x]['id'] = '';
-                        } else {
+            // foreach ($availableStaffs as $x => $availableStaff) {
+            //     foreach ($unavailableStaffsEBS as $y => $unavailableSEBS) {
+            //         foreach ($unavailableSEBS->ebsstaffuse as $key => $unavailableStaffEBS) {
+            //             if ($unavailableStaffEBS->id_user == $availableStaffs[$x]['id']) {
+            //                 $availableStaffs[$x]['id'] = '';
+            //             } else {
 
-                        }
-                    }
+            //             }
+            //         }
                         
                      
-                }
+            //     }
 
-                $i++;
-            }
+            //     $i++;
+            // }
 
 
-            $i = 1;
+            // $i = 1;
         
-            foreach ($availableStaffs as $x => $availableStaff) {
-                foreach ($unavailableStaffsTBS as $y => $unavailableSTBS) {
-                    foreach ($unavailableSTBS->tbsdriver as $key => $unavailableStaffTBS) {
-                        if ($unavailableStaffTBS->id_user == $availableStaffs[$x]['id']) {
-                            $availableStaffs[$x]['id'] = '';
-                        } else {
+            // foreach ($availableStaffs as $x => $availableStaff) {
+            //     foreach ($unavailableStaffsTBS as $y => $unavailableSTBS) {
+            //         foreach ($unavailableSTBS->tbsdriver as $key => $unavailableStaffTBS) {
+            //             if ($unavailableStaffTBS->id_user == $availableStaffs[$x]['id']) {
+            //                 $availableStaffs[$x]['id'] = '';
+            //             } else {
 
-                        }
-                    }
+            //             }
+            //         }
                         
                      
-                }
+            //     }
 
-                $i++;
-            }
+            //     $i++;
+            // }
 
 
             $i = 1;
