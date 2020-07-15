@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
+use App\Http\Resources\Item\Transport as TransportResource;
 
 class TransportController extends Controller
 {
@@ -29,7 +30,7 @@ class TransportController extends Controller
         return response(['status' => 'OK', 'transports' => $transports]);
     }
 
-    public function getAvailableTransport($datefrom , $dateto)
+    public function getAvailableTransport($datefrom, $dateto)
     {
 
         $unavailableTransports = TBS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
@@ -45,7 +46,7 @@ class TransportController extends Controller
             ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
             ->get();
 
-            
+
         $availableTransports = array();
         $transports = Transport::all();
 
@@ -69,7 +70,7 @@ class TransportController extends Controller
                     "availability"          => $transport->availability,
                 ];
 
-            
+
                 $i++;
             }
         } else {
@@ -98,32 +99,30 @@ class TransportController extends Controller
             }
 
             $i = 1;
-         
+
             foreach ($availableTransports as $x => $availableTransport) {
                 foreach ($unavailableTransports as $y => $unavailableTrans) {
                     foreach ($unavailableTrans->tbstransportuse as $key => $unavailableTransport) {
                         if ($unavailableTransport->id_transport == $availableTransports[$x]['id']) {
                             $availableTransports[$x]['id'] = '';
                         } else {
-    
                         }
-                    } 
+                    }
                 }
 
                 $i++;
             }
 
             $i = 1;
-         
+
             foreach ($availableTransports as $x => $availableTransport) {
                 foreach ($unavailableTransportsMSS as $y => $unavailableTransMSS) {
                     foreach ($unavailableTransMSS->msstransport as $key => $unavailableTransportMSS) {
                         if ($unavailableTransportMSS->id_transport == $availableTransports[$x]['id']) {
                             $availableTransports[$x]['id'] = '';
                         } else {
-    
                         }
-                    } 
+                    }
                 }
 
                 $i++;
@@ -134,13 +133,11 @@ class TransportController extends Controller
                     unset($availableTransports[$key]);
                 }
             }
-
-            
         }
 
         $availableTransports = array_values($availableTransports);
-        
-        
+
+
 
         return response(['status' => 'OK', 'transports' => $availableTransports]);
     }
@@ -412,5 +409,10 @@ class TransportController extends Controller
         $document->save();
 
         return response(['status' => 'OK', 'message' => 'Successfully create transport']);
+    }
+
+    public function simple($id)
+    {
+        return response(['status' => 'OK', 'message' => new TransportResource(Transport::find($id))]);
     }
 }

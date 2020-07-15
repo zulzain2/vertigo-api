@@ -45,6 +45,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/transport/storeTransport', 'Api\TransportController@storeTransport');
     Route::get('/transport/getTransportCategories', 'Api\TransportController@getTransportCategories')->name('transport.getTransportCategories');
     Route::get('/transport/getAvailableTransport/{date_start}/{date_end}', 'Api\TransportController@getAvailableTransport')->name('transport.getAvailableTransport');
+    Route::get('/transport/simple/{id}', 'Api\TransportController@simple');
     Route::resource('transport', 'Api\TransportController');
 
     //DASHBOARD SAS
