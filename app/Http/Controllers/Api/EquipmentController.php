@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManagerStatic as Image;
+use App\Http\Resources\Item\Equipment as EquipmentResource;
 
 class EquipmentController extends Controller
 {
@@ -29,7 +29,7 @@ class EquipmentController extends Controller
         return response(['status' => 'OK', 'equipments' => $equipments]);
     }
 
-    public function getAvailableEquipment($datefrom , $dateto)
+    public function getAvailableEquipment($datefrom, $dateto)
     {
 
         $unavailableEquipments = EBS::where('start_date', '<=', date('Y-m-d H:i:s', strtotime($datefrom)))
@@ -44,9 +44,9 @@ class EquipmentController extends Controller
             ->where('end_date', '>=', date('Y-m-d H:i:s', strtotime($datefrom)))
             ->get();
 
-            
 
-            
+
+
         $availableEquipments = array();
         $equipments = Equipment::all();
 
@@ -70,7 +70,7 @@ class EquipmentController extends Controller
                     "availability"          => $equipment->availability,
                 ];
 
-            
+
                 $i++;
             }
         } else {
@@ -99,32 +99,30 @@ class EquipmentController extends Controller
             }
 
             $i = 1;
-         
+
             foreach ($availableEquipments as $x => $availableEquipment) {
                 foreach ($unavailableEquipments as $y => $unavailableEquips) {
                     foreach ($unavailableEquips->ebsequipmentuse as $key => $unavailableEquipment) {
                         if ($unavailableEquipment->id_equipment == $availableEquipments[$x]['id']) {
                             $availableEquipments[$x]['id'] = '';
                         } else {
-    
                         }
-                    } 
+                    }
                 }
 
                 $i++;
             }
 
             $i = 1;
-         
+
             foreach ($availableEquipments as $x => $availableEquipment) {
                 foreach ($unavailableEquipmentsMSS as $y => $unavailableEquipsMSS) {
                     foreach ($unavailableEquipsMSS->mssequipment as $key => $unavailableEquipmentMSS) {
                         if ($unavailableEquipmentMSS->id_equipment == $availableEquipments[$x]['id']) {
                             $availableEquipments[$x]['id'] = '';
                         } else {
-    
                         }
-                    } 
+                    }
                 }
 
                 $i++;
@@ -135,14 +133,12 @@ class EquipmentController extends Controller
                     unset($availableEquipments[$key]);
                 }
             }
-
-            
         }
 
         $availableEquipments = array_values($availableEquipments);
-        
 
-        
+
+
         return response(['status' => 'OK', 'equipments' => $availableEquipments]);
     }
 
@@ -412,5 +408,10 @@ class EquipmentController extends Controller
         $document->save();
 
         return response(['status' => 'OK', 'message' => 'Successfully create equipment']);
+    }
+
+    public function simple($id)
+    {
+        return response(['status' => 'OK', 'message' => new EquipmentResource(Equipment::find($id))]);
     }
 }
