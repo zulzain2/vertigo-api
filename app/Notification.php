@@ -118,7 +118,7 @@ class Notification extends Model
             "notification" => [
                 "title" => $title,
                 "body" => $body,
-                "icon" => $icon
+                "icon" => 'http://178.128.223.158/img/logoMain2.png'
             ],
             "data" => [
                 "click_action"  => 'FLUTTER_NOTIFICATION_CLICK',
