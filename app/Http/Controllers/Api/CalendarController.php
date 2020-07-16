@@ -70,11 +70,7 @@ class CalendarController extends Controller
 
     public function listSAS(Request $request)
     {
-        $staffs = User::whereHas('role', function ($query) {
-            return $query->whereIn('level', [2, 3, 4, 5, 6]);
-        })
-            ->latest()
-            ->get();
+        $staffs = User::orderBy('name')->get();
 
         return response()->json([
             'data' => SASResource::collection($staffs),
