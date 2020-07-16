@@ -87,11 +87,11 @@
                         <div class="activity-item" style="margin-bottom: 30px;">
                           <table width="100%">
                             <tr>
-                              <td><div class="round m-r-20"><img src="{{$sascomment->usercomment->img_path}}" alt="user" width="50"></div></td>
+                              <td><div class="round m-r-20"><img src="{{$sascomment->usercomment ? $sascomment->usercomment->img_path : ''}}" alt="user" width="50"></div></td>
                               <td>
                                   <div class="m-t-10">
-                                    <h5 class="m-b-5 font-medium"><b>{{$sascomment->usercomment->name}}</b><span class="text-muted font-14 m-l-10">| &nbsp; {{ Carbon\Carbon::parse($sascomment->created_at)->diffForHumans()}}</span></h5>
-                                    <h6 class="text-muted">Commented on <strong>{{$sascomment->sasstaffassign->user->name}} Task</strong></h6>
+                                    <h5 class="m-b-5 font-medium"><b>{{$sascomment->usercomment ? $sascomment->usercomment->name : ''}}</b><span class="text-muted font-14 m-l-10">| &nbsp; {{ Carbon\Carbon::parse($sascomment->created_at)->diffForHumans()}}</span></h5>
+                                    <h6 class="text-muted">Commented on <strong>{{$sascomment->sasstaffassign->user ? $sascomment->sasstaffassign->user->name}} Task</strong></h6>
                                     <p class="m-b-0">{{$sascomment->comment}}</p>
                                 </div>
                               </td>
