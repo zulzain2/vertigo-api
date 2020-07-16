@@ -405,6 +405,10 @@ class SASController extends Controller
         {
             return response(['status' => 'OK', 'message' => 'SAS already approved.']);
         }
+        elseif($sas->approval_status == 'Rejected')
+        {
+            return response(['status' => 'OK', 'message' => 'SAS already rejected.']);
+        }
         
 
         $sas->approval_status = 'Approved';
@@ -487,26 +491,15 @@ class SASController extends Controller
     {
         $sas = SAS::find($id_sas);
 
-        if($sas->status == 'Approved')
+        if($sas->approval_status == 'Rejected')
         {
-            return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
+            return response(['status' => 'OK', 'message' => 'SAS already rejected.']);
         }
-        elseif($sas->status == 'Rejected')
+        elseif($sas->approval_status == 'Approved')
         {
-            return response(['status' => 'OK', 'message' => 'SAS has been rejected by other manager.']);
+            return response(['status' => 'OK', 'message' => 'SAS already approved.']);
         }
-        elseif($sas->status == 'Acknowledge')
-        {
-            return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
-        }
-        elseif($sas->status == 'Task Start')
-        {
-            return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
-        }
-        elseif($sas->status == 'Task Finish')
-        {
-            return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
-        }
+       
 
         $sas->approval_status = 'Rejected';
         $sas->rejected_by = auth()->user()->id;
@@ -544,18 +537,18 @@ class SASController extends Controller
     {
         $sasassignstaff = SASStaffAssign::find($id_sas_assign_staff);
 
-        if($sasassignstaff->status == 'Acknowledge')
-        {
-            return response(['status' => 'OK', 'message' => 'SAS Task already acknowledge.']);
-        }
-        elseif($sasassignstaff->status == 'Task Start')
-        {
-            return response(['status' => 'OK', 'message' => 'SAS Task already acknowledge.']);
-        }
-        elseif($sasassignstaff->status == 'Task Finish')
-        {
-            return response(['status' => 'OK', 'message' => 'SAS Task already acknowledge.']);
-        }
+        // if($sasassignstaff->status == 'Acknowledge')
+        // {
+        //     return response(['status' => 'OK', 'message' => 'SAS Task already acknowledge.']);
+        // }
+        // elseif($sasassignstaff->status == 'Task Start')
+        // {
+        //     return response(['status' => 'OK', 'message' => 'SAS Task already acknowledge.']);
+        // }
+        // elseif($sasassignstaff->status == 'Task Finish')
+        // {
+        //     return response(['status' => 'OK', 'message' => 'SAS Task already acknowledge.']);
+        // }
 
         $sasassignstaff->status = "Acknowledge";
         $sasassignstaff->acknowledge_status = '1';
@@ -590,10 +583,10 @@ class SASController extends Controller
 
         if ($request->start_task == 'Yes') {
 
-            if($sasassignstaff->start_task == 'Yes')
-            {
-                return response(['status' => 'OK', 'message' => 'SAS Task already start.']);
-            }
+            // if($sasassignstaff->start_task == 'Yes')
+            // {
+            //     return response(['status' => 'OK', 'message' => 'SAS Task already start.']);
+            // }
            
 
             $sasassignstaff->status = "Task Start";
@@ -716,10 +709,10 @@ class SASController extends Controller
 
         $sasassignstaff = SASStaffAssign::find($id_sas_assign_staff);
 
-        if($sasassignstaff->task_progress != '' || $sasassignstaff->task_progress != null)
-        {
-            return response(['status' => 'OK', 'message' => 'SAS Task Update have been choose']);
-        }
+        // if($sasassignstaff->task_progress != '' || $sasassignstaff->task_progress != null)
+        // {
+        //     return response(['status' => 'OK', 'message' => 'SAS Task Update have been choose']);
+        // }
            
 
         $sasassignstaff->task_progress = $request->task_progress;
@@ -777,10 +770,10 @@ class SASController extends Controller
     {
         $sasassignstaff = SASStaffAssign::find($id_sas_assign_staff);
 
-        if($sasassignstaff->status == 'Task Finish')
-        {
-            return response(['status' => 'OK', 'message' => 'Task already finish']);
-        }
+        // if($sasassignstaff->status == 'Task Finish')
+        // {
+        //     return response(['status' => 'OK', 'message' => 'Task already finish']);
+        // }
 
         $request->validate([
             'finish_task'        => 'required',
