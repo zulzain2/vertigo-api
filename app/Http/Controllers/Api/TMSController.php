@@ -313,7 +313,7 @@ class TMSController extends Controller
             $noti->title = 'Vertigo [Tender Management System]';
             $noti->desc = 'Have you visited the site?';
             $noti->type = 'I';
-            $noti->click_url = 'tms-update';
+            $noti->click_url = 'tms-site-visit';
             $noti->send_status = 'P';
             $noti->status = '';
             $noti->module = 'tms';
