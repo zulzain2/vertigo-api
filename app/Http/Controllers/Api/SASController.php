@@ -401,23 +401,23 @@ class SASController extends Controller
     {
         $sas = SAS::find($id_sas);
 
-        if($sas->status = 'Approved')
+        if($sas->status == 'Approved')
         {
             return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
         }
-        elseif($sas->status = 'Rejected')
+        elseif($sas->status == 'Rejected')
         {
             return response(['status' => 'OK', 'message' => 'SAS has been rejected by other manager.']);
         }
-        elseif($sas->status = 'Acknowledge')
+        elseif($sas->status == 'Acknowledge')
         {
             return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
         }
-        elseif($sas->status = 'Task Start')
+        elseif($sas->status == 'Task Start')
         {
             return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
         }
-        elseif($sas->status = 'Task Finish')
+        elseif($sas->status == 'Task Finish')
         {
             return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
         }
@@ -502,23 +502,23 @@ class SASController extends Controller
     {
         $sas = SAS::find($id_sas);
 
-        if($sas->status = 'Approved')
+        if($sas->status == 'Approved')
         {
             return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
         }
-        elseif($sas->status = 'Rejected')
+        elseif($sas->status == 'Rejected')
         {
             return response(['status' => 'OK', 'message' => 'SAS has been rejected by other manager.']);
         }
-        elseif($sas->status = 'Acknowledge')
+        elseif($sas->status == 'Acknowledge')
         {
             return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
         }
-        elseif($sas->status = 'Task Start')
+        elseif($sas->status == 'Task Start')
         {
             return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
         }
-        elseif($sas->status = 'Task Finish')
+        elseif($sas->status == 'Task Finish')
         {
             return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
         }
@@ -559,15 +559,15 @@ class SASController extends Controller
     {
         $sasassignstaff = SASStaffAssign::find($id_sas_assign_staff);
 
-        if($sasassignstaff->status = 'Acknowledge')
+        if($sasassignstaff->status == 'Acknowledge')
         {
             return response(['status' => 'OK', 'message' => 'SAS Task already acknowledge.']);
         }
-        elseif($sasassignstaff->status = 'Task Start')
+        elseif($sasassignstaff->status == 'Task Start')
         {
             return response(['status' => 'OK', 'message' => 'SAS Task already acknowledge.']);
         }
-        elseif($sasassignstaff->status = 'Task Finish')
+        elseif($sasassignstaff->status == 'Task Finish')
         {
             return response(['status' => 'OK', 'message' => 'SAS Task already acknowledge.']);
         }
@@ -605,7 +605,7 @@ class SASController extends Controller
 
         if ($request->start_task == 'Yes') {
 
-            if($sasassignstaff->start_task = 'Yes')
+            if($sasassignstaff->start_task == 'Yes')
             {
                 return response(['status' => 'OK', 'message' => 'SAS Task already start.']);
             }
@@ -792,7 +792,7 @@ class SASController extends Controller
     {
         $sasassignstaff = SASStaffAssign::find($id_sas_assign_staff);
 
-        if($sasassignstaff->status = 'Task Finish')
+        if($sasassignstaff->status == 'Task Finish')
         {
             return response(['status' => 'OK', 'message' => 'Task already finish']);
         }
