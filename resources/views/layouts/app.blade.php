@@ -231,7 +231,7 @@
                                             @endphp
                                             @foreach ($notis as $noti)
                                             <a href="#">
-                                                <div class="user-img"> <img src="{{URL::to($noti->createduser->img_path)}}" alt="user" class="img-circle"> </div>
+                                                <div class="user-img"> <img src="{{URL::to($noti->createduser ? $noti->createduser->img_path : '')}}" alt="user" class="img-circle"> </div>
                                                 <div class="mail-contnet">
                                                     <h5>{{$noti->title}}</h5> 
                                                     <span class="mail-desc">{{$noti->desc}}</span> 
