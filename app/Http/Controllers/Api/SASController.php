@@ -401,6 +401,27 @@ class SASController extends Controller
     {
         $sas = SAS::find($id_sas);
 
+        if($sas->approval_status = 'Approved')
+        {
+            return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
+        }
+        elseif($sas->approval_status = 'Rejected')
+        {
+            return response(['status' => 'OK', 'message' => 'SAS has been rejected by other manager.']);
+        }
+        elseif($sas->approval_status = 'Acknowledge')
+        {
+            return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
+        }
+        elseif($sas->approval_status = 'Task Start')
+        {
+            return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
+        }
+        elseif($sas->approval_status = 'Task Finish')
+        {
+            return response(['status' => 'OK', 'message' => 'SAS already approved by other manager.']);
+        }
+
         $sas->approval_status = 'Approved';
         $sas->approved_by = auth()->user()->id;
         $sas->updated_by = auth()->user()->id;
