@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-lg-4 text-center">
-        <img src="{{URL::to(''.$sasas->user->img_path.'')}}" class="img-circle" width="100">
+        <img src="{{URL::to(''.$sasas->user ? $staff->user->img_path : ''.'')}}" class="img-circle" width="100">
         <br>
         <strong style="font-weight:bold">{{$sasas->user->name}}</strong>
         <br>
-        <small>{{$sasas->user->staff_id}}</small>
+        <small>{{$sasas->user ? $sasas->user->staff_id : ''}}</small>
         <br>
-        <small>{{$sasas->user->role->name}}</small>
+        <small>{{$sasas->user ? $sasas->user->role->name : ''}}</small>
     </div>
     <div class="col-lg-8">
         <span class="label label-info">{{$sasas->sas->job_number}}</span>
@@ -56,19 +56,23 @@
                     $count = 0;
                 @endphp
                 @foreach ($sasas->sas->sasstaffassign as $staff)
+                @if ($sasas->user)
                     @if ($sasas->user->id == $staff->user->id)
-                      
+                        
                     @else
                         @php
                             $count++;
                         @endphp
-                       <div class="col-lg-3">
+                    <div class="col-lg-3">
                         <img src="{{URL::to(''.$staff->user ? $staff->user->img_path : ''.'')}}" class="img-circle" style="width:48px;height:48px">
                         <br>
-
                         <small>{{$staff->user->first_name}}</small>
                         </div>
                     @endif
+                @else
+                    
+                @endif
+                    
                     
                 @endforeach
                 @if ($count == 0)
