@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-lg-4 text-center">
-        <img src="{{URL::to(''.$sasas->user ? $staff->user->img_path : ''.'')}}" class="img-circle" width="100">
+        <img src="{{URL::to(''.$sasas->user ? $sasas->user->img_path : ''.'')}}" class="img-circle" width="100">
         <br>
-        <strong style="font-weight:bold">{{$sasas->user->name}}</strong>
+        <strong style="font-weight:bold">{{$sasas->user ? $sasas->user->name : ''}}</strong>
         <br>
         <small>{{$sasas->user ? $sasas->user->staff_id : ''}}</small>
         <br>
