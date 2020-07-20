@@ -66,7 +66,7 @@
                     <div class="col-lg-3">
                         <img src="{{URL::to(''.$staff->user ? $staff->user->img_path : ''.'')}}" class="img-circle" style="width:48px;height:48px">
                         <br>
-                        <small>{{$staff->user->first_name}}</small>
+                        <small>{{$staff->user ? $staff->user->first_name : ''}}</small>
                         </div>
                     @endif
                 @else
