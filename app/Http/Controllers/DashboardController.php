@@ -73,7 +73,7 @@ class DashboardController extends Controller
 
                 //1st Box
                 $createdTasks           = SASStaffAssign::where('id_user' , '=' , $request->id_staff)
-                                                        ->where('status' , '=' , 'Created')
+                                                        // ->where('status' , '=' , 'Created')
                                                         ->where('created_at' , '>=' , ''.date("y").'-'.$month.'-01')
                                                         ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
                                                         ->get();
@@ -135,7 +135,7 @@ class DashboardController extends Controller
                 $createdTasks           = EBS::whereHas('ebsstaffuse' , function ($query) use ($request) {
                                                 $query->where('id_user' , $request->id_staff);
                                             })
-                                            ->where('status' , '=' , 'Booking Confirmed')
+                                            // ->where('status' , '=' , 'Booking Confirmed')
                                             ->where('created_at' , '>=' , ''.date("y").'-'.$month.'-01')
                                             ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
                                             ->get();
@@ -211,7 +211,7 @@ class DashboardController extends Controller
                 $createdTasks           = TBS::whereHas('tbsdriver' , function ($query) use ($request) {
                                                 $query->where('id_user' , $request->id_staff);
                                             })
-                                            ->where('status' , '=' , 'Booking Confirmed')
+                                            // ->where('status' , '=' , 'Booking Confirmed')
                                             ->where('created_at' , '>=' , ''.date("y").'-'.$month.'-01')
                                             ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
                                             ->get();
@@ -286,7 +286,7 @@ class DashboardController extends Controller
                  $createdTasks          = MSS::whereHas('msspic' , function ($query) use ($request) {
                                             $query->where('id_user' , $request->id_staff);
                                         })
-                                        ->where('status' , '=' , 'Created')
+                                        // ->where('status' , '=' , 'Created')
                                         ->where('created_at' , '>=' , ''.date("y").'-'.$month.'-01')
                                         ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
                                         ->get();
@@ -374,7 +374,7 @@ class DashboardController extends Controller
                 $createdTasks          = TMS::whereHas('pic' , function ($query) use ($request) {
                                             $query->where('id_user' , $request->id_staff);
                                         })
-                                        ->where('status' , '=' , 'Inquiry Created')
+                                        // ->where('status' , '=' , 'Inquiry Created')
                                         ->where('created_at' , '>=' , ''.date("y").'-'.$month.'-01')
                                         ->where('created_at' , '<=' , ''.date("yy").'-'.$month.'-'.date("t" , strtotime(''.$year.'-'.$month.'-15')).'')
                                         ->get();
