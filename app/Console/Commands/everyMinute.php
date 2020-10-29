@@ -66,7 +66,10 @@ class everyMinute extends Command
 
                 //FCM Kick In Yo
                 $user = User::find($noti->to_user);
-                $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , $noti->click_url , $noti->id_module , $noti->module);
+                if($user)
+                {
+                    $noti->notificationFCM($user->device_token , $noti->title , $noti->desc , null , $noti->click_url , $noti->id_module , $noti->module);
+                }
 
                 $scheduler->is_triggered = 1;
                 $scheduler->save();
