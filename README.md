@@ -35,7 +35,7 @@ Just make sure that your Laragon run with below Environment
 
 ### DATABASE WITH SAMPLE DATA
 
-**1) Import and Run vertigo_sample.sql**  (optionnal)
+**1) Import and Run vertigo_sample.sql**  (optional)
 
 ## API DOCUMENTATION
 
