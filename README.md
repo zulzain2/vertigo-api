@@ -31,9 +31,11 @@ Just make sure that your Laragon run with below Environment
 
 **7) run - `php artisan migrate`**
 
+**8) run - php artisan db:seed --class=UserSeeder**
+
 ### DATABASE WITH SAMPLE DATA
 
-**1) Import and Run vertigo_sample.sql** 
+**1) Import and Run vertigo_sample.sql**  (optionnal)
 
 ## API DOCUMENTATION
 
