@@ -258,7 +258,7 @@
                                                 <h4>{{auth()->user()->first_name}}&nbsp;{{auth()->user()->last_name}}</h4>
                                                 <p class="text-muted">{{auth()->user()->staff_id}}</p>
                                                 <p class="text-muted">{{auth()->user()->email}}</p>
-                                                <p class="text-muted">{{auth()->user()->role->name}}</p>
+                                                <p class="text-muted">{{auth()->user()->role ? auth()->user()->role->name : 'Unknown'}}</p>
                                             </div>
                                         </div>
                                     </li>
