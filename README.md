@@ -4,6 +4,10 @@
 <a href="https://gitlab.com/ImranShamm/hse-magicx/-/pipelines"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
 </p>
 
+<p align="center">
+Link: <a href="https://vertigo.zulzayn.com" target="_blank">vertigo.zulzayn.com</a>
+</p>
+
 ## REQUIREMENT
 This installation is intended to be used with laragon that comes with preinstall tools needed for the project for local development environment. For other ways the requirement is still the same but you need to configure them yourself.
 
